@@ -1,0 +1,25 @@
+.cus-panel-heading
+{
+    color: #ffff !important;
+    background-color: #cb5f3f !important;
+    border-color: #a24023;
+    text-align: center;
+    background-image: linear-gradient(to bottom, #902c0f 0%, #d16343 37%, #852a0f 100%);
+
+}
+.cus-rad-grp{
+	border-style:dashed;
+	border-width:thin;
+	margin-top: 10px;
+	padding: 5px;
+}
+.cus-input{
+	width:26%;
+}
+.stat-scroll{
+	align-self: center;
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 90%;
+}

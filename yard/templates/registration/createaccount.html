@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+{%load i18n%}
+{% load static %}
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  {% comment %} <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'yard/css/bootstrap4.min.css'%}">
+
+  <link rel="stylesheet" href="css/style.css">
+  {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'yard/css/all.min.css'%}">
+  <title>
+    {% translate 'Create Account' %}</title>
+</head>
+
+<body class="login">
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-12 mx-auto">
+              <div class="row border border_123 mt-5 bg-white p-5">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 text-center border-right">
+                    <h2 class="text-primary mt-5 mb-4 font-weight-bold">{% translate 'Welcome Back' %}!</h2>
+                    <p class="mb-4">{% translate 'To Keep connected with us please login with your parsonal info' %}</p>
+                     <a type="button" class="btn btn-outline-primary mt-3" href="{% url 'sign_in' %}">Sign In</a>
+                     </div> 
+                     <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 text-center mt-3">
+                      <h2 class="text-primary">{% translate 'Create Account' %}</h2>  
+                        <a href="#">
+                          <i class="fab fa-facebook fa-lg p-2 "></i>
+                        </a>
+                        <a href="#">
+                          <i class="fab fa-google-plus-g fa-lg p-2 ml-4"></i>
+                        </a>
+                        <a href="#">
+                          <i class="fab fa-invision ml-3  fa-lg mb-4 p-2"></i> 
+                        </a>
+                        <p>{% translate 'or use email for registration' %}:</p>
+                        <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 mx-auto">
+                     <form class="form-group" method="POST" enctype="multipart/form-data" id="signupform">
+                        {% csrf_token %} 
+                        <input type="hidden" name="id" id="id">
+                            <div class="input-group mb-2">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-user"></i></div>
+                              </div>
+                              {{form.name}}
+                              <!-- <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Name"> -->
+                            </div>
+                            <div class="input-group mb-2 text-danger">
+                              {{form.name.errors}}
+                            </div>
+                            <div class="input-group mb-2">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-envelope"></i></div>
+                              </div>
+                              {{form.email}}
+                              <!-- <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Email"> -->
+                            </div>
+                            <div class="input-group mb-2 text-danger">
+                              {{form.email.errors}}
+                            </div>
+                            <div class="input-group mb-2">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                              </div>
+                              {{form.password1}}
+                              <!-- <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Password"> -->
+                            </div>
+                            <div class="input-group mb-2 text-danger">
+                              {{form.password1.errors}}
+                            </div>
+                            <div class="input-group mb-2">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-chevron-circle-down"></i></div>
+                              </div>
+                              {{form.yard_id}}
+                            </div>
+                            <div class="input-group mb-2 text-danger">
+                              {{form.yard_id.errors}}
+                            </div>
+                            <div class="input-group mb-2">
+                              <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-chevron-circle-down"></i></div>
+                              </div>
+                              {{form.role}}
+                            </div>
+                            <div class="input-group mb-2 text-danger">
+                              {{form.role.errors}}
+                            </div>
+                            <button id="submit" type="submit" class="btn btn-primary mt-3 mb-3 px-4">{% translate 'Create Account' %}</button>
+                            </form>
+                          </div>
+                          
+                        </div> 
+                </div>
+            </div>
+          </div>
+                </div>
+               
+      
+  <!-- Wrapper End -->
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  {% comment %} <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> {% endcomment %}
+  
+  {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> {% endcomment %}
+  <script src="{% static 'yard/js/jquery-3.2.1.slim.min.js'%}"></script>
+  <script src="{% static 'yard/js/popper.min.js'%}"></script>
+  <script src="{% static 'yard/js/bootstrap4.min.js'%}"></script>
+  {% comment %} <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> {% endcomment %}
+</body>
+<!-- <script type="text/javascript">
+      $('#submit').click(function(event) {
+          $.ajax({ 
+              type: $(this).attr('method'), 
+              url: this.action, 
+              data: $(this).serialize(),
+              context: this,
+              success: function(data, status) {
+                console.log(data,status)
+                  // $('#LoginModal').html(data);
+              }
+              });
+          return false;  
+        });
+</script> -->
+</html>

@@ -1,0 +1,113 @@
+{%block head%}
+  {%load static%}
+
+{%endblock%}
+{% block content %}
+{% load i18n %}
+<style>
+body{border:0}
+/*.dataTables_scroll{position:relative}*/
+/*.dataTables_scrollHead{margin-bottom:40px;}*/
+/*.dataTables_scrollFoot{position:absolute; top:38px}*/
+table td{
+  width:15px;
+}
+tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+</style>
+
+<div class="row" style="overflow: overlay;">
+    <!-- <table class="table table-sm table-striped table-bordered aclist" > -->
+      <table id="example" class="display" style="width:100%">
+      <thead class="thead-dark">
+        <tr>
+          <th>{% trans 'lfd_nr' %}</th>
+          <th>{% trans 'Vehicle' %}</th>
+          <th>{% trans 'Article' %}</th>
+          <th>{% trans 'Customer' %}</th>
+          <th>{% trans 'Supplier' %}</th>
+          <th>{% trans 'First Weight' %}</th>
+          <th>Status</th>
+          <th>{% trans 'Action' %}</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+      {% for data in dataset %}
+        <tr>
+          <td>{{ data.id }}</td>
+          <td>{{ data.vehicle }}</td>
+          <td>{{ data.article }}</td>
+          <td>{{ data.customer }}</td>
+          <td>{{ data.supplier }}</td>
+          <td>{{ data.first_weight }}</td>
+          <td> {% if data.status == '0' %} Eingang {% elif data.status == '1' %} Ausgang {% else %} N/A {%endif%}</td>
+          <td><a href="javascript:loadTranscationDetails('{{ data.id }}')">{% trans 'Select' %}</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+      <tfoot class="thead-dark">
+        <tr>
+          <th>lfd_nr</th>
+          <th>Vehicle</th>
+          <th>Article</th>
+          <th>Customer</th>
+          <th>Supplier</th>
+          <th>First Weight</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </tfoot>
+    </table>
+</div>
+<div class="row">
+  <br/>
+  <br/>
+</div>
+<script>
+   $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#example tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text"  />' );
+    } );
+ 
+    // DataTable
+    var table = $('#example').DataTable({
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+ 
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        }
+    });
+ 
+} );
+
+$('tr').click(function(){
+   //console.log("row clicked");
+   var href = $(this).find('a').attr('href');
+   if (href){
+     window.location = href ;
+   }
+   
+});
+
+
+<!--    function loadVehicle(id){-->
+<!--    $('#id_vehicle').val(id).trigger('change');-->
+<!--    $("#MyPopup").modal("hide");-->
+<!--  }-->
+</script>
+{% endblock %}

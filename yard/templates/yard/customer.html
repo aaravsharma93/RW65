@@ -1,0 +1,414 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+body{border:0}
+/*.dataTables_scroll{position:relative}*/
+/*.dataTables_scrollHead{margin-bottom:40px;}*/
+/*.dataTables_scrollFoot{position:absolute; top:38px}*/
+table td{
+  width:15px;
+}
+table tr{
+  height:10px;
+}
+tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+</style>
+<div class="row" style="min-height: 50%;height: 50%;padding-left: 4%;">
+  <div class="col-md-11 col-lg-11 col-xl-11" style="overflow: scroll;height: 395px;">
+    <table class="table table-sm table-striped table-bordered aclist display"  id="example" style="width:100%" >
+      <thead class="thead-dark">
+        <tr>
+          <th>Action</th>
+          <th>{{form.firstname.label}}</th>
+          <th>{{form.name.label}}</th>
+          <th>{{form.description.label}}</th>
+          <th>{{form.street.label}}</th>
+          <th>{{form.pin.label}}</th>
+          <th>{{form.telephone.label}}</th>
+          <th>{{form.place.label}}</th>
+          <th>{{form.country.label}}</th>
+          <th>{{form.email.label}}</th>
+          <th>{{form.website.label}}</th>
+          <th>{{form.contact_person1_name.label}}</th>
+          <th>{{form.contact_person2_name.label}}</th>
+          <th>{{form.contact_person3_name.label}}</th>
+          <th>{{form.contact_person1_email.label}}</th>
+          <th>{{form.contact_person2_email.label}}</th>
+          <th>{{form.contact_person3_email.label}}</th>
+          <th>{{form.contact_person1_phone.label}}</th>
+          <th>{{form.contact_person2_phone.label}}</th>
+          <th>{{form.contact_person3_phone.label}}</th>
+          <th>{{form.contact_person1_position.label}}</th>
+          <th>{{form.contact_person2_position.label}}</th>
+          <th>{{form.contact_person3_position.label}}</th>
+          <th>{{form.customer_type.label}}</th>
+          <th>{{form.classification.label}}</th>
+          <th>{{form.sector.label}}</th>
+          <th>{{form.company_size.label}}</th>
+          <th>{{form.area.label}}</th>
+        </tr>
+      </thead>
+      <tfoot >
+        <tr>
+          <th>Action</th>
+          <th>{{form.firstname.label}}</th>
+          <th>{{form.name.label}}</th>
+          <th>{{form.description.label}}</th>
+          <th>{{form.street.label}}</th>
+          <th>{{form.pin.label}}</th>
+          <th>{{form.telephone.label}}</th>
+          <th>{{form.place.label}}</th>
+          <th>{{form.country.label}}</th>
+          <th>{{form.email.label}}</th>
+          <th>{{form.website.label}}</th>
+          <th>{{form.contact_person1_name.label}}</th>
+          <th>{{form.contact_person2_name.label}}</th>
+          <th>{{form.contact_person3_name.label}}</th>
+          <th>{{form.contact_person1_email.label}}</th>
+          <th>{{form.contact_person2_email.label}}</th>
+          <th>{{form.contact_person3_email.label}}</th>
+          <th>{{form.contact_person1_phone.label}}</th>
+          <th>{{form.contact_person2_phone.label}}</th>
+          <th>{{form.contact_person3_phone.label}}</th>
+          <th>{{form.contact_person1_position.label}}</th>
+          <th>{{form.contact_person2_position.label}}</th>
+          <th>{{form.contact_person3_position.label}}</th>
+          <th>{{form.customer_type.label}}</th>
+          <th>{{form.classification.label}}</th>
+          <th>{{form.sector.label}}</th>
+          <th>{{form.company_size.label}}</th>
+          <th>{{form.area.label}}</th>
+        </tr>
+      </tfoot>
+      <tbody>
+      {% for data in dataset %}
+        <tr>
+          <td><a href="javascript:loadCustomerDetails('{{ data.id }}')">Edit</a>&nbsp;&nbsp;<a class="confirmdelete" href="{% url 'customer_delete' identifier=data.id  %}">Delete</a></td>
+          <td>{{ data.firstname }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.description }}</td>
+          <td>{{ data.street }}</td>
+          <td>{{ data.pin }}</td>
+          <td>{{ data.telephone }}</td>
+          <td>{{ data.place }}</td>
+          <td>{{ data.country }}</td>
+          <td>{{ data.email }}</td>
+          <td>{{ data.website }}</td>
+          <td>{{ data.contact_person1_name }}</td>
+          <td>{{ data.contact_person2_name }}</td>
+          <td>{{ data.contact_person3_name }}</td>
+          <td>{{ data.contact_person1_email }}</td>
+          <td>{{ data.contact_person2_email }}</td>
+          <td>{{ data.contact_person3_email }}</td>
+          <td>{{ data.contact_person1_phone }}</td>
+          <td>{{ data.contact_person2_phone }}</td>
+          <td>{{ data.contact_person3_phone }}</td>
+          <td>{{ data.contact_person1_position }}</td>
+          <td>{{ data.contact_person2_position }}</td>
+          <td>{{ data.contact_person3_position }}</td>
+          <td>{{ data.customer_type }}</td>
+          <td>{{ data.classification }}</td>
+          <td>{{ data.sector }}</td>
+          <td>{{ data.company_size }}</td>
+          <td>{{ data.area }}</td>
+
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row">
+  <br/>
+  <br/>
+</div>
+<div class="row">
+  <div class="col-md-11 col-lg-11 col-xl-11 edit-form">
+    <div class="accordion active">
+      {%if request.session.customer %}{{ request.session.customer }} {%else%}Customer{%endif%}
+<!--       <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="vechicle" placeholder="Nummer"> -->
+    </div>
+    <div class="panel panel-default" style="max-height: 286px;">
+        <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <input type="hidden" name="id" id="id">
+          <div class="row ipt1">
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.firstname.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.firstname}}{{ form.firstname.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.name.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.name}}{{ form.name.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.street.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.street}}{{ form.street.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.pin.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.pin}}{{ form.pin.errors}}
+              </div>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.description.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.description}}{{ form.description.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.telephone.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.telephone}}{{ form.telephone.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.place.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.place}}{{ form.place.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.country.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.country}}{{ form.country.errors}}
+              </div>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.email.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.email}}{{ form.email.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.website.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.website}}{{ form.website.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.customer_type.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.customer_type}}{{ form.customer_type.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.classification.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.classification}}{{ form.classification.errors}}
+              </div>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person1_name.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person1_name}}{{ form.contact_person1_name.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person1_email.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person1_email}}{{ form.contact_person1_email.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person1_phone.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person1_phone}}{{ form.contact_person1_phone.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person1_position.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person1_position}}{{ form.contact_person1_position.errors}}
+              </div>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person2_name.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person2_name}}{{ form.contact_person2_name.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person2_email.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person2_email}}{{ form.contact_person2_email.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person2_phone.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person2_phone}}{{ form.contact_person2_phone.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person2_position.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person2_position}}{{ form.contact_person2_position.errors}}
+              </div>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person3_name.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person3_name}}{{ form.contact_person3_name.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person3_email.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person3_email}}{{ form.contact_person3_email.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person3_phone.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person3_phone}}{{ form.contact_person3_phone.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person3_position.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person3_position}}{{ form.contact_person3_position.errors}}
+              </div>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.sector.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.sector}}{{ form.sector.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.company_size.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.company_size}}{{ form.company_size.errors}}
+              </div>
+            </div>
+            <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.area.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.area}}{{ form.area.errors}}
+              </div>
+            </div>
+    <!--         <div class="col-md-3 col-lg-3 col-xl-3">
+              <div class="pull-left">
+                <label>{{form.contact_person3_position.label}}</label>
+              </div>
+              <div class="pull-right">
+                {{ form.contact_person3_position}}{{ form.contact_person3_position.errors}}
+              </div>
+            </div> -->
+          </div>
+
+            <div class="row ipt1">
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <button id="submit" type="submit" class="cus-button-1" >Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+<script>
+   $('#example tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text"/>' );
+    } );
+    // DataTable
+    $(document).ready(function() {
+    var table = $('#example').DataTable({
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+ 
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        }
+    });
+ });
+
+</script>
+{% endblock %}

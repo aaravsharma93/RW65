@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-10 col-lg-10 col-xl-10">
+    <table class="table table-sm table-striped table-bordered aclist" >
+      <thead class="thead-dark">
+        <tr>
+          <th>{{form.license_plate.label}}</th>
+          <th>{{form.forwarder.label}}</th>
+          <th>{{form.group.label}}</th>
+          <th>{{form.country.label}}</th>
+          <th>{{form.telephone.label}}</th>
+          <th>{{form.vehicle_weight.label}}</th>
+          <th>{{form.vehicle_weight_id.label}}</th>
+          <th>Updated on</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      {% for data in dataset %}
+      <tbody>
+        <tr>
+
+          <td>{{ data.license_plate }}</td>
+          <td>{{ data.forwarder }}</td>
+          <td>{{ data.group }}</td>
+          <td>{{ data.country }}</td>
+          <td>{{ data.telephone }}</td>
+          <td>{{ data.vehicle_weight }}</td>
+          <td>{{ data.vehicle_weight_id }}</td>
+          <td>{{ data.updated_date_time }}</td>
+          <td><a href="javascript:loadVehicleDetails('{{ data.id }}')">Edit</a> <a class="confirmdelete" href="{% url 'vehicle_delete' identifier=data.id  %}">Delete</a></td>
+        </tr>
+      </tbody>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+<div class="row">
+  <br/>
+  <br/>
+</div>
+<div class="row">
+  <div class="col-md-6 col-lg-6 col-xl-6 edit-form">
+    <div class="accordion active">
+      Vehicle
+<!--       <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="vechicle" placeholder="Nummer"> -->
+    </div>
+    <div class="panel panel-default" style="max-height: 394px;">
+        <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <input type="hidden" name="id" id="id">
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.license_plate.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.license_plate}}
+              {{ form.license_plate.errors}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.forwarder.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.forwarder }}
+              {{ form.forwarder.errors}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.group.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.group}}
+              {{ form.group.errors}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.country.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.country }} {{ form.country.errors}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.telephone.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.telephone}}
+              {{ form.telephone.errors}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.vehicle_weight.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.vehicle_weight }}
+              {{ form.vehicle_weight.errors}}
+
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.vehicle_weight_id.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.vehicle_weight_id }}{{ form.vehicle_weight_id.errors}}
+            </div>
+          </div>
+          <input type="hidden" name="taken" id="id_taken" value=0>
+            <div class="row ipt1">
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <button id="submit" type="submit" class="cus-button-1" >Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% load i18n %}
+{% block content %}
+<style>
+body{border:0}
+/*.dataTables_scroll{position:relative}*/
+/*.dataTables_scrollHead{margin-bottom:40px;}*/
+/*.dataTables_scrollFoot{position:absolute; top:38px}*/
+table td{
+  width:15px;
+}
+tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+</style>
+
+<div class="row" style="overflow: overlay;">
+    <!-- <table class="table table-sm table-striped table-bordered aclist" > -->
+      <table id="example" class="display" style="width:100%">
+      <thead class="thead-dark">
+        <tr>
+          <th>{% trans 'Action' %}</th>
+          <th>{% trans 'License Plate' %}</th>
+          <th>{% trans 'License Plate' %} 2</th>
+          <th>{% trans 'Forwarder' %}</th>
+          <th>{% trans 'Type' %}</th>
+          <th>{% trans 'Country' %}</th>
+          <th>{% trans 'Telephone' %}</th>
+          <th>{% trans 'Vehicle Weight' %}</th>
+          <th>{% trans 'Trailor Weight' %}</th>
+          <th>{% trans 'Owner' %}</th>
+          <th>{% trans 'Driver Name' %}</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for data in dataset %}
+        <tr>
+          <td><a href="javascript:loadVehicle('{{ data.id }}')">{% trans 'Select' %}</a></td>
+          <td>{{ data.license_plate }}</td>
+          <td>{{ data.license_plate2 }}</td>
+          <td>{{ data.forwarder }}</td>
+          <td>{{ data.vehicle_type }}</td>
+          <td>{{ data.country }}</td>
+          <td>{{ data.telephone }}</td>
+          <td>{{ data.vehicle_weight }}</td>
+          <td>{{ data.trailor_weight }}</td>
+          <td>{{ data.owner }}</td>
+          <td>{{ data.driver_name }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+      <tfoot class="thead-dark">
+        <tr>
+          <th>{% trans 'Action' %}</th>
+          <th>{% trans 'License Plate' %}</th>
+          <th>{% trans 'License Plate2' %}</th>
+          <th>{% trans 'Forwarder' %}</th>
+          <th>{% trans 'Type' %}</th>
+          <th>{% trans 'Country' %}</th>
+          <th>{% trans 'Telephone' %}</th>
+          <th>{% trans 'Vehicle Weight' %}</th>
+          <th>{% trans 'Trailor Weight' %}</th>
+          <th>{% trans 'Owner' %}</th>
+          <th>{% trans 'Driver Name' %}</th>
+        </tr>
+      </tfoot>
+    </table>
+</div>
+<div class="row">
+  <br/>
+  <br/>
+</div>
+<script>
+   $(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#example tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text"  />' );
+    } );
+ 
+    // DataTable
+    var table = $('#example').DataTable({
+        initComplete: function () {
+            // Apply the search
+            this.api().columns().every( function () {
+                var that = this;
+ 
+                $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+        }
+    });
+ 
+} );
+    function loadVehicle(id){
+    $('#id_vehicle').val(id).trigger('change');
+    $("#MyPopup").modal("hide");
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base2.html' %}
+{% load i18n %}
+{%block head%}
+{% load static %}
+{%endblock%}
+
+{% block content %}
+<button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+  <i class="fas fa-align-justify"></i>
+</button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 ">
+                <h5 class="font-weight-bold">{% translate "Reports & Masters" %}</h5>
+                <div class="card-deck mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                          <h6 class="card-title font-weight-bold"><i class="far fa-file-alt"></i> Crops & Lands</h6>
+                          
+                          <ul class="list-group">
+                            <a href="/crop" style="color: gray;" class="c-link"><li class="list-group-item">Crop</li></a>
+                            <a href="/crop_cycle" style="color: gray;" class="c-link"><li class="list-group-item ">Crop Cycle</li></a>
+                            <a href="/crop_location" style="color: gray;" class="c-link"><li class="list-group-item ">Location</li></a>
+                          </ul>
+                        
+                        </div>
+                      </div>
+
+                      <div class="card">
+                        <div class="card-body">
+                          <h6 class="card-title font-weight-bold"><i class="far fa-file-alt"></i> Analytics</h6>
+                          
+                          <ul class="list-group">
+                            <a href="/plant_analysis" style="color: gray;" class="c-link"><li class="list-group-item">Plants Analysis</li></a>
+                            <a href="/soil_analysis" style="color: gray;" class="c-link"><li class="list-group-item ">Soil Analysis</li></a>
+                            <!-- <a href="" style="color: gray;" class="c-link"><li class="list-group-item ">Water Analysis</li></a> -->
+                            <a href="/soil_texture" style="color: gray;" class="c-link"><li class="list-group-item ">Soil Texture</li></a>
+                            <!-- <a href="" style="color: gray;" class="c-link"><li class="list-group-item ">Weather</li></a> -->
+                            <!-- <a href="" style="color: gray;" class="c-link"><li class="list-group-item ">Agriculture Analysis Criteria</li></a> -->
+                          </ul>
+                        
+                        </div>
+                      </div>
+
+                      <div class="card">
+                        <div class="card-body">
+                          <h6 class="card-title font-weight-bold"><i class="far fa-file-alt"></i> Diseases & Fertilizers</h6>
+                          
+                          <ul class="list-group">
+                            <!-- <a href="" style="color: gray;" class="c-link"><li class="list-group-item">Diseases</li></a> -->
+                            <a href="" style="color: gray;" class="c-link"><li class="list-group-item ">Fertilizer</li></a>
+                          </ul>
+                        
+                        </div>
+                      </div>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+
+    {% block scripts %}
+    <script>
+    $(document).ready(function(){
+        $(".c-link").mouseover(function(){
+            $(".list-group-item",this).css({transition: "0.5s", 
+                            "text-decoration": "none",
+                            color:"#c43c1a",
+                            "background-color":"rgb(240, 240, 240)",});
+        
+        })
+    
+        $(".c-link").mouseout(function(){
+            $(".list-group-item",this).css({transition: "0.5s", 
+                            "text-decoration": "none",
+                            color:"gray",
+                            "background-color":"rgb(255, 255, 255)",});
+        
+        })
+    });
+</script>
+    {% endblock %}
+{% endblock %}

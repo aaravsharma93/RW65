@@ -1,0 +1,664 @@
+{% extends 'base2.html' %}
+{% load i18n %}
+{%block head%}
+{% load static %}
+{%endblock%}
+
+{% block content %}
+    <form action="" id="crop_form">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <h4 class="font-weight-bold">Edit Crop</h4>
+            </div>
+            <div class="col-md-2 ml-auto">
+                <button type="button" id="btn_save_crop" onclick="add_new_crop_to_db()" class="btn btn-success btn-block">Save</button>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <div class="col-md-11 mx-auto bg-white mt-3 p-3 rounded shadow border">
+                <div class="row">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="title">Title</label>
+                              <input type="text" value="{{crop.title}}" disabled class="form-control" id="title" required name="title">
+                              <!-- <small id="title_msg" class="color-danger">This field is reqired</small> -->
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-11 mx-auto bg-white mt-3 p-3 rounded shadow border">
+                <div class="row">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="crop_name">Crop Name</label>
+                              <input type="text" value="{{crop.name}}" disabled class="form-control" id="crop_name" required name="crop_name">
+                            </div>
+                    </div>
+
+                    <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="scientific_name">Scientific Name</label>
+                              <input type="text" class="form-control" value="{{crop.scientific_name}}" id="scientific_name" name="scientific_name">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-11 mx-auto bg-white mt-3 p-3 rounded shadow border" >
+                <h5 class="font-weight-bold">Tasks</h5>
+                <small class="text-muted">You can define all the tasks which need to carried out for this crop here. The day field is used to mention the day on which the task needs to be carried out, 1 being the 1st day, etc..</small>
+                <br>
+                <br>
+                <small class="text-muted">Agriculture Task</small>
+
+                <table id="crop_add_task_table" class="nowrap display" style="width: 100%;" cellspacing="0">
+                    <thead>
+                        <tr>              
+                            <th>No.</th>
+                            <th>Task Name</th>
+                            <th>Start Day</th>
+                            <th>End Day</th>
+                            <th>Holiday Management</th>
+                            <th>Priority</th>
+                            <th></th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        {% for task in crop_tasks %}
+                            <tr id="task{{forloop.counter}}">
+                                <td>{{forloop.counter}}</td>
+                                <td>{{task.name}}</td>
+                                <td>{{task.start_day}}</td>
+                                <td>{{task.end_day}}</td>
+                                <td>{{task.holiday_management}}</td>
+                                <td>{{task.priority}}</td>
+                                <td>
+                                    <button type='button' class='btn btn-info'><i class='fas fa-edit' data-toggle='modal' data-target='#edit_task{{forloop.counter}}'></i></button>
+                                </td>
+                                <td>
+                                    <button type='button' class='btn btn-danger' onclick="remove_table_row('#task{{forloop.counter}}')"><i class='far fa-trash-alt'></i></button>
+                                </td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+                <div class="form-group mt-2">
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#add_task">Add Task</i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-11 mx-auto bg-white mt-3 p-3 rounded shadow border">
+                <div class="row">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="crop_spacing">Crop Spacing</label>
+                              <input type="text" class="form-control" id="crop_spacing" value="{{crop.crop_spacing}}" name="crop_spacing">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="row_spacing">Row Spacing</label>
+                                <input type="text" class="form-control" id="row_spacing" value="{{crop.row_spacing}}" name="row_spacing">
+                              </div>
+                    </div>
+
+                    <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="crop_spacing_uom">Crop Spacing UOM</label>
+                              <!-- <input type="text" class="form-control" > -->
+                              <select class="selectpicker form-control" data-live-search="true" id="crop_spacing_uom" name="crop_spacing_uom">
+                                  {% for name in uom %}
+                                    {% if name|lower == crop.crop_spacing_uom|lower %}
+                                        <option value="{{name}}" selected>{{name}}</option>
+                                    {% else %}
+                                        <option value="{{name}}">{{name}}</option>
+                                    {% endif %}
+                                  {% endfor %}
+                                <!-- <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+                                <option data-tokens="mustard">Burger, Shake and a Smile</option>
+                                <option data-tokens="frosting">Sugar, Spice and all things nice</option> -->
+                            </select>
+                            </div>
+
+                            
+                              
+
+                            <div class="form-group">
+                                <label for="row_spacing_uom">Row Spacing UOM</label>
+                                <!-- <input type="text" class="form-control" > -->
+                                <select class="selectpicker form-control" data-live-search="true" id="row_spacing_uom" name="row_spacing_uom">
+                                    {% for name in uom %}
+                                        {% if name|lower == crop.row_spacing_uom|lower %}
+                                            <option value="{{name}}" selected>{{name}}</option>
+                                        {% else %}
+                                            <option value="{{name}}">{{name}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                              </select>
+                              </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-11 mx-auto bg-white mt-3 p-3 rounded shadow border">
+                <div class="row">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="type">Type</label>
+                                <select class="form-control" id="type" name="type">
+                                    <option selected value="{{crop.type}}">{{crop.type}}</option>
+                                    <option value="Annual">Annual</option>
+                                    <option value="Perennial">Perennial</option>
+                                    <option value="Biennial">Biennial</option>
+                                  </select>
+                            </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <input type="text" class="form-control" value="{{crop.category}}" id="category" name="category">
+                              </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-11 mx-auto bg-white mt-3 p-3 rounded shadow border">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="target_warehouse">Target Warehouse</label>
+                            <input type="text" class="form-control" id="target_warehouse" value="{{crop.target_warehouse.name}}" name="target_warehouse">
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-11 mx-auto bg-white mt-3 p-3 rounded shadow border">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="planting_uom">Planting UOM</label>
+                            <!-- <input type="text" class="form-control" > -->
+                            <select class="selectpicker form-control" data-live-search="true" id="planting_uom" name="planting_uom">
+                                {% for name in uom %}
+                                    {% if name|lower == crop.planting_uom|lower %}
+                                        <option value="{{name}}" selected>{{name}}</option>
+                                    {% else %}
+                                        <option value="{{name}}">{{name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                          </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="planting_area">Planting Area</label>
+                            <input type="text" class="form-control" id="planting_area" value="{{crop.planting_area}}" name="planting_area">
+                          </div>
+
+
+                    </div>
+
+                    <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="yield_uom">Yield UOM</label>
+                            <!-- <input type="text" class="form-control" > -->
+                            <select class="selectpicker form-control" data-live-search="true" id="yield_uom" name="yield_uom">
+                                {% for name in uom %}
+                                    {% if name|lower == crop.yield_uom|lower %}
+                                        <option value="{{name}}" selected>{{name}}</option>
+                                    {% else %}
+                                        <option value="{{name}}">{{name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                          </select>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</form>
+
+
+<!-- Modal -->
+<div>
+<div class="modal fade" id="add_task" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New Task</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                <div class="form-group">
+                    <label for="add_task_name">Task Name</label>
+                    <input type="text" class="form-control" id="add_task_name" required name="add_task_name">
+                </div>
+                <div class="form-group">
+                    <label for="add_start_day">Start Day</label>
+                    <input type="date" class="form-control" id="add_start_day" min="0" required name="add_start_day">
+                </div>
+                <div class="form-group">
+                    <label for="add_end_day">End Day</label>
+                    <input type="date" class="form-control" id="add_end_day" min="0" required name="add_end_day">
+                </div>
+                <div class="form-group">
+                    <label for="add_hm">Holiday Management</label>
+                    <select name="add_hm" id="add_hm" class="form-control">
+                        <option value="Ignore holidays" selected>Ignore holidays</option>
+                        <option value="Previous Business holidays">Previous Business holidays</option>
+                        <option value="Next Business holidays">Next Business holidays</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="add_priority">Priority</label>
+                    <select name="add_priority" id="add_priority" class="form-control">
+                        <option value="Low" selected>Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Urgent">Urgent</option>
+                    </select>
+                </div>
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="add_task()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="edit_tasks">
+    {% for task in crop_tasks %}
+    <div class="modal fade" id="edit_task{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label for="edit_task_name{{forloop.counter}}">Task Name</label>
+                        <input type="text" class="form-control" id="edit_task_name{{forloop.counter}}" value="{{task.name}}" required name="edit_task_name{{forloop.counter}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_start_day{{forloop.counter}}">Start Day</label>
+                        <input type="date" class="form-control" id="edit_start_day{{forloop.counter}}" min="0" value="{{task.start_day}}" required name="edit_start_day{{forloop.counter}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_end_day{{forloop.counter}}">End Day</label>
+                        <input type="date" class="form-control" id="edit_end_day{{forloop.counter}}" min="0" value="{{task.end_day}}" required name="edit_end_day{{forloop.counter}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_hm{{forloop.counter}}">Holiday Management</label>
+                        <select name="edit_hm{{forloop.counter}}" id="edit_hm{{forloop.counter}}" class="form-control">
+                            <option value="{{task.holiday_management}}" selected>{{task.holiday_management}}</option>
+                            <option value="Ignore holidays">Ignore holidays</option>
+                            <option value="Previous Business holidays">Previous Business holidays</option>
+                            <option value="Next Business holidays">Next Business holidays</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_priority{{forloop.counter}}">Priority</label>
+                        <select name="edit_priority{{forloop.counter}}" id="edit_priority{{forloop.counter}}" class="form-control">
+                            <option value="{{task.priority}}" selected>{{task.priority}}</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Urgent">Urgent</option>
+                        </select>
+                    </div>
+                
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="edit_task('{{forloop.counter}}')">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+
+  {% block scripts %}
+        <script>
+
+            $("#crop_add_task_table").on("draw.dt", function () {
+                $(this).find(".dataTables_empty").parents('tbody').empty();
+                }).DataTable({
+                        paging:   false,
+                        ordering: true,
+                        info:     false,
+                        scrollY:  "400px",
+                        scrollCollapse: true,
+                        // columnDefs: [
+                        // { "width": "2", "targets": 1 }
+                        // ],
+                        // fixedColumns: true,
+                        // responsive: true,
+                        scrollX: false,
+                        searching:false,
+
+                    });
+
+
+            function add_task(){
+                let task_name = $("#add_task_name").val();
+                let start_day = $("#add_start_day").val();
+                let end_day = $("#add_end_day").val();
+                let hm = $("#add_hm").val();
+                let priority = $("#add_priority").val();
+                if (task_name.length > 0 && start_day.length > 0 && end_day.length > 0){
+                
+                $("#add_task_name").val("");
+                $("#add_start_day").val("");
+                $("#add_end_day").val("");
+
+                var rowCount = $('#crop_add_task_table tbody tr').length + 1
+
+                let html = "<tr id='task"+rowCount+"'>"
+                html +='<td>'+rowCount+"</td>"
+                html +="<td>"+task_name+"</td>"
+                html +="<td>"+start_day+"</td>"
+                html +="<td>"+end_day+"</td>"
+                html +="<td>"+hm+"</td>"
+                html +="<td>"+priority+"</td>"
+                html +="<td><button type='button' class='btn btn-info'><i class='fas fa-edit' data-toggle='modal' data-target='#edit_task"+rowCount+"'></i></button></td>"
+                html +="<td><button type='button' class='btn btn-danger' onclick=\"remove_table_row('#task"+rowCount+"',"+rowCount+")\"><i class='far fa-trash-alt'></i></button></td>"
+                html += "</tr>"                
+                                    
+                $('#crop_add_task_table > tbody:last-child').append(html);
+                $.fn.dataTable.ext.errMode = 'none';
+                
+                add_task_model();
+                                
+                    // $("#crop_add_task_table").css({visibility: "visible;"});
+                // $('#crop_add_task_table').DataTable( {
+                //     paging:   false,
+                //     ordering: true,
+                //     info:     false,
+                //     scrollY:  "400px",
+                //     scrollCollapse: true,
+                //     // columnDefs: [
+                //     // { "width": "2", "targets": 1 }
+                //     // ],
+                //     // fixedColumns: true,
+                //     // responsive: true,
+                //     scrollX: false,
+                //     searching:false,
+                //     language:{
+                //         "zeroRecords" : " "
+                //     }
+
+                // } );
+                }
+                else{
+                    $("#add_task_name, #add_start_day, #add_end_day").css({"background-color":"#f5573b"});
+                }
+                
+                
+            }
+
+            function remove_table_row(row_id, id){
+                
+                if(confirm("Do you want to remove Task?")){
+                    $(row_id).remove();
+                    $("#edit_task"+id).remove();
+                }
+                
+
+            }
+
+            
+            function add_task_model(){
+                let modal_html = ''
+                $('table tbody').find('tr').each(function (i, el) {
+                var $tds = $(this).find('td'),
+                    rowCount = $tds.eq(0).text(),
+                    task_name = $tds.eq(1).text(),
+                    start_day = $tds.eq(2).text(),
+                    end_day = $tds.eq(3).text();
+                    hm = $tds.eq(4).text();
+                    priority = $tds.eq(5).text();
+
+                    // do something with productId, product, Quantity
+                    modal_html += '<div class="modal fade" id="edit_task'+rowCount+'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">'
+                    modal_html += '<div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header">'
+                    modal_html += '<h5 class="modal-title" id="exampleModalLabel">Edit Task</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body">'
+                    modal_html += '<div class="form-group"><label for="edit_task_name'+rowCount+'">Task Name</label><input type="text" class="form-control" id="edit_task_name'+rowCount+'" value="'+task_name+'" required name="edit_task_name'+rowCount+'"></div>'
+                    modal_html += '<div class="form-group"><label for="edit_start_day'+rowCount+'">Start Day</label><input type="date" class="form-control" value="'+start_day+'" id="edit_start_day'+rowCount+'" min="0" required name="edit_start_day'+rowCount+'"></div>'
+                    modal_html += '<div class="form-group"><label for="edit_end_day'+rowCount+'">End Day</label><input type="date" class="form-control" value="'+end_day+'" id="edit_end_day'+rowCount+'" min="0" required name="edit_end_day'+rowCount+'"></div>'
+                    modal_html += '<div class="form-group">'
+                    modal_html += '<label for="edit_hm'+rowCount+'">Holiday Management</label>'
+                    modal_html += '<select name="edit_hm'+rowCount+'" id="edit_hm'+rowCount+'" class="form-control">'
+                    modal_html += '<option value="'+hm+'" selected>'+hm+'</option>'
+                    modal_html += '<option value="Ignore holidays">Ignore holidays</option>'
+                    modal_html += '<option value="Previous Business holidays">Previous Business holidays</option>'
+                    modal_html += '<option value="Next Business holidays">Next Business holidays</option>'
+                    modal_html += '</select></div>'
+                    modal_html += '<div class="form-group">'
+                    modal_html += '<label for="edit_priority'+rowCount+'">Priority</label>'
+                    modal_html += '<select name="edit_priority'+rowCount+'" id="edit_priority'+rowCount+'" class="form-control">'
+                    modal_html += '<option value="'+priority+'" selected>'+priority+'</option>'
+                    modal_html += '<option value="Low">Low</option>'
+                    modal_html += '<option value="Medium">Medium</option>'
+                    modal_html += '<option value="High">High</option>'
+                    modal_html += '<option value="Urgent">Urgent</option>'
+                    modal_html += '</select></div></div>'
+                    modal_html += '<div class="modal-footer">'
+                    modal_html += '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>'
+                    modal_html += '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick=\'edit_task("'+rowCount+'")\'>Save</button>'
+                    modal_html += '</div></div></div></div>'
+                    });
+
+                    $("#edit_tasks").html(modal_html)
+                
+            }
+
+
+            function edit_task(id){
+                let task_name = $("#edit_task_name"+id).val();
+                let start_day = $("#edit_start_day"+id).val();
+                let end_day = $("#edit_end_day"+id).val();
+                let hm = $("#edit_hm"+id).val();
+                let priority = $("#edit_priority"+id).val();
+                if (task_name.length > 0 && start_day.length > 0 && end_day.length > 0){
+
+                let html ='<td>'+id+"</td>"
+                html +="<td>"+task_name+"</td>"
+                html +="<td>"+start_day+"</td>"
+                html +="<td>"+end_day+"</td>"
+                html +="<td>"+hm+"</td>"
+                html +="<td>"+priority+"</td>"
+                html +="<td><button type='button' class='btn btn-info'><i class='fas fa-edit' data-toggle='modal' data-target='#edit_task"+id+"'></i></button></td>"
+                html +="<td><button type='button' class='btn btn-danger' onclick=\"remove_table_row('#task"+id+"')\"><i class='far fa-trash-alt'></i></button></td>"
+                                    
+                $("#task"+id).html(html);
+                $.fn.dataTable.ext.errMode = 'none';
+                
+                }
+                else{
+                    $("#add_task_name, #add_start_day, #add_end_day").css({"background-color":"#f5573b"});
+                }
+                
+            }
+
+        </script>
+
+        <script>
+
+
+
+
+            function add_new_crop_to_db(){
+                let crop_id = {{crop.id}}
+                let title = $("#title").val();
+                let crop_name = $("#crop_name").val();
+                let scientific_name = $("#scientific_name").val();
+                let crop_spacing = $("#crop_spacing").val();
+                let row_spacing = $("#row_spacing").val();
+                let crop_spacing_uom = $("#crop_spacing_uom").val();
+                let row_spacing_uom = $("#row_spacing_uom").val();
+                let type = $("#type").val();
+                let category = $("#category").val();
+                let target_warehouse = $("#target_warehouse").val();
+                let planting_uom = $("#planting_uom").val();
+                let planting_area = $("#planting_area").val();
+                let yield_uom = $("#yield_uom").val();
+                let task_names = []
+                let start_days = []
+                let end_days = []
+                let hms = []
+                let priorities = []
+                let task_ids = []
+                $('table').find('tr').each(function (i, el) {
+                var $tds = $(this).find('td'),
+                    task_name = $tds.eq(1).text(),
+                    start_day = $tds.eq(2).text(),
+                    end_day = $tds.eq(3).text();
+                    hm = $tds.eq(4).text();
+                    priority = $tds.eq(5).text();
+
+                    task_names.push(task_name)
+                    start_days.push(start_day)
+                    end_days.push(end_day)
+                    hms.push(hm)
+                    priorities.push(priority)
+                    // do something with productId, product, Quantity
+
+                });
+                if(title.length > 0 && crop_name.length > 0 ){
+                    $.ajax({
+                    url:"{% url 'crop_view' %}",
+                    type:"POST",
+                    data:{
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        title:title,
+                        crop_name:crop_name,
+                        scientific_name:scientific_name,
+                        crop_spacing:crop_spacing,
+                        row_spacing:row_spacing,
+                        crop_spacing_uom:crop_spacing_uom,
+                        row_spacing_uom:row_spacing_uom,
+                        type:type,
+                        category:category,
+                        target_warehouse:target_warehouse,
+                        planting_uom:planting_uom,
+                        planting_area:planting_area,
+                        yield_uom:yield_uom,
+                        start_days:start_days,
+                        end_days:end_days,
+                        hms:hms,
+                        priorities:priorities,
+                        task_names:task_names,
+                        crop_id:crop_id,
+                    },
+                    success:function(data){
+                        if(data=="success"){
+                            window.location.href = "/crop";                          
+                        }
+                    }
+                })
+                    
+                }
+                else{
+                        $("#title").css({"border":"1px solid red"})
+                        $("#crop_name").css({"border":"1px solid red"})
+                 
+                    
+            }
+                }
+        </script>
+
+        <script>
+        function create_uom(input, callback,ele){
+                    let url = "/add_uom/";
+                    form_data = {'csrfmiddlewaretoken': '{{ csrf_token }}',name: input}
+                    $.ajax({
+                        url:url,
+                        type: "POST",
+                        data: form_data,
+                        success: function (event) {
+                            if (event){
+                                if(ele === 'crop_spacing_uom'){
+                                let selectize = $(document.getElementsByName("row_spacing_uom"))[0].selectize;
+                                selectize.addOption({value: event.id, text :input});
+                                }
+                                else {
+                                    let selectize = $(document.getElementsByName("crop_spacing_uom"))[0].selectize;
+                                    selectize.addOption({value: event.id, text :input});
+                                    let selectize1 = $(document.getElementsByName("planting_uom"))[0].selectize;
+                                    selectize1.addOption({value: event.id, text :input});
+                                    let selectize2 = $(document.getElementsByName("yield_uom"))[0].selectize;
+                                    selectize2.addOption({value: event.id, text :input});
+                                }
+                                callback({value: event.id, text :input})
+                            }
+                        }
+                    })
+                }
+
+                $(document).ready(() =>{
+                $(document.getElementsByName("crop_spacing_uom")).selectize({
+                        create: (input, callback) => create_uom(input, callback,"crop_spacing_uom"),
+                        // sortField: "text",
+                    });
+                $(document.getElementsByName("row_spacing_uom")).selectize({
+                        create: (input, callback) => create_uom(input, callback,"row_spacing_uom"),
+                        // sortField: "text",
+                    });
+                $(document.getElementsByName("yield_uom")).selectize({
+                        create: (input, callback) => create_uom(input, callback,"yield_uom"),
+                        // sortField: "text",
+                    });
+                $(document.getElementsByName("planting_uom")).selectize({
+                        create: (input, callback) => create_uom(input, callback,"planting_uom"),
+                        // sortField: "text",
+                    });
+                    // $("#crop").selectize({
+                    //         create: true,
+                    //         // sortField: "text",
+                    // });
+                });   
+        </script>
+
+        <script>
+            
+        </script>
+  {% endblock %}
+
+
+{% endblock %}
+
+

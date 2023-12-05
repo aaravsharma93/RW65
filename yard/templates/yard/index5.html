@@ -1,0 +1,575 @@
+{% extends 'base2.html' %}
+{% load i18n %}
+{%block head%}
+{% load static %}
+{%endblock%}
+{% block content %}
+<form method="POST" id="form_home" name="myForm" target="_blank" enctype="multipart/form-data" >
+   {% csrf_token %}
+   <div class="container mb-4">
+      <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+         <i class="fas fa-align-justify"></i>
+         </button>
+         <div class="row   border-top-0 border-left-0 border-right-0 mb-3">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="content_text">
+                     <p class="mb-0">{% trans 'OVERVIEW' %}</p>
+                  </div>
+                  <div class="heding">
+                     <p>{% trans 'Weighing' %}</p>
+                  </div>
+                  <hr>
+               </div>
+               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div class="row">
+                     <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <input type="hidden" name="ident" id="id_selected_combi">
+                  <input type="hidden" name="trans_id" id="trans_id" value="">
+                  <select name="id" id='id_ident' class="form-control select2" onchange="populateCombinationDetails($(this).val())">
+                     <option value='0'>{% trans "Select ID or Enter New ID" %}</option>
+                     {%for i in combination_list%}
+                     <option value={{i.pk}}>{{i.fields.ident}}</option>
+                     {%endfor%}
+                  </select>
+                     </div>
+                     <div class="col-xl-3 col-lg-2 col-md-6 col-sm-12 col-12">
+                        <button id="clear_ident" class="btn btn-primary mr-3">Clear</button>
+                     </div>
+                  </div>
+                
+               </div>
+              
+            </div>
+            <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12 col-12">
+               <div class="resp-container">
+                  <div class="row "> 
+                     <iframe class="responsive-iframe" id="iframe_data"  src="http://www.rw-datanet.com:8001/" frameborder="0" allow="accelerometer" allowfullscreen></iframe>
+                  </div>
+               </div>
+            </div>
+         </div>
+   </div>
+   <!--FORM-->
+   <div class="container" style="overflow-x: auto">
+         <div class="row mb-5" style="width:2500px">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+               <!-- Material form login -->
+               <div class="card">
+                  <div class="row">
+                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <h5 class="card-header info-color white-text py-3">
+                           <div class="panel-heading">
+                              <h4 class="panel-title">
+                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse12">
+                                    <div class="row">
+                                       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+                                          <p class="mb-0 pt-2 text_color">{% trans "Vehicle" %}</p>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </h4>
+                           </div>
+                        </h5>
+                     </div>
+                  </div>
+                  <div id="collapse12" class="collapse " >
+                     <div class="panel-body">
+                        <div class="card-body text-left">
+                           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right py-1">
+                              <button type="button" class="btn btn-primary" id="vehiclePopup">{% trans 'Advanced Search' %}</button>
+                           </div>
+                           <div class="md-form mb-3">
+                              <label>{% trans "License Plate" %}</label>
+                              <div class="row">
+                                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
+                                    <select id="id_vehicle" name="id_vehicle" class="form-control select2" onchange="populateVehicleDetails($(this).val())" >
+                                       <option value='0'>{% trans "Select Vehicle" %}</option>
+                                       {%for i in vehicle_list%}
+                                       <option value={{i.pk}}>{{i.fields.license_plate}}</option>
+                                       {%endfor%}
+                                    </select>
+                                 </div>
+                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                    <button id="read_camera" class="btn btn-primary">Get</button>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="md-form mb-3">
+                              <label>{% trans "License Plate2" %}</label>
+                              <div class="row">
+                                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
+                                    <input id="license_plate2" name="license_plate2" class="form-control">
+                                 </div>
+                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                                    <button id="read_camera2" class="btn btn-primary">Get</button>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="md-form mb-3">
+                              <label>{% trans "Forwarder" %}</label>
+                              <input type="hidden"  id="vehicle_id" class="fahrzeuge" name="vehicle">
+                              <select id="vehicle_forwarder" name="vehicle_forwarder" class="form-control select2"  >
+                                 <option value='0'>{% trans "Select Forwarder" %}</option>
+                                 {%for i in forwarder_list%}
+                                 <option value={{i.pk}}>{{i.fields.name}}</option>
+                                 {%endfor%}
+                              </select>
+                           </div>
+                           <div class="md-form mb-3">
+                              <label>{% trans "Vehicle Weight" %}</label>
+                              <input type="number" class="form-control" id="vehicle_weight" name="vehicle_weight" step="any" required placeholder="{% trans 'Vehicle Weight' %}">
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+            <div class="card ">
+               <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                     <h5 class="card-header info-color white-text py-3">
+                        <div class="panel-heading">
+                           <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse-24">
+                                 <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+                                       <p class="mb-0 pt-2 text_color">
+                                          {% trans "Weight" %}
+                                       </p>
+                                    </div>
+                                 </div>
+                              </a>
+                           </h4>
+                        </div>
+                     </h5>
+                  </div>
+               </div>
+               <div id="collapse-24" class="collapse " >
+                  <div class="panel-body">
+                     <div class="card-body text-left">
+                        <div class="md-form mb-3">
+                           <div id="card_back">
+                              <div class="tab-content" id="myTabContent">
+                                 <div class="tab-pane fade show active" id="scale1" role="tabpanel" aria-labelledby="scale1-tab">
+                                    <div class="card-body py-4">
+                                       <div class="md-form mb-3">
+                                          <div class="kg text-center mt-3">
+                                             <input id="id_date"  type='hidden'>
+                                             <input id="id_time" type='hidden'>
+                                             <input id="id_alibi_num" type='hidden'>
+                                          </div>
+                                          <div class="col-auto">
+                                             <!--                            <label class="sr-only" for="inlineFormInputGroup5">0000</label>-->
+                                             <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                   <button class="input-group-text" id="btn-firstweight" name="btn_firstweight">{% trans "First Weighing" %}</button>
+                                                </div>
+                                                <input type="text" class="form-control" id="firstweight" name="first_weight" value="0000"  readonly><label
+                                                   class=" ml-2">KG</label>
+                                                <input id="trans-flag" type="hidden" name="trans_flag">
+                                                <input id="datetime_firstw" type="hidden"  name="firstw_date_time" value="0000" >
+                                                <input id="alibi_firstw" type="hidden"  name="firstw_alibi_nr" value="0000" >
+                                                <input id="stat_vehicle_weight" type="hidden" value = false name="vehicle_weight_flag">
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div id="text_card1">
+                                          <div class="md-form mb-3">
+                                             <div class="md-form mb-3">
+                                                <div class="col-auto">
+                                                   <!--                                <label class="sr-only" for="inlineFormInputGroup5">0000</label>-->
+                                                   <div class="input-group mb-2">
+                                                      <div class="input-group-prepend">
+                                                         <button class="input-group-text" id="btn-secondweight">{% trans "Second Weighing" %}</button>
+                                                      </div>
+                                                      <input type="text" class="form-control" id="secondweight" name="second_weight" value="0000" readonly><label
+                                                         class=" ml-2">KG</label>
+                                                      <input id="datetime_secondw" type="hidden"  name="secondw_date_time" value="0000">
+                                                      <input id="alibi_secondw" type="hidden"  name="secondw_alibi_nr" value="0000">
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="md-form mb-3">
+                                          <div class="md-form mb-3">
+                                             <div class="md-form mb-3">
+                                                <div class="col-auto">
+                                                   <!-- <label class="sr-only" for="inlineFormInputGroup">0</label>-->
+                                                   <div class="input-group mb-2">
+                                                      <div class="input-group-prepend">
+                                                         <button id="btn-netweight" class="input-group-text">{% trans "Net Weight" %}</button>
+                                                      </div>
+                                                      <input type="text" class="form-control" id="netweight" value="0000" name="net_weight" readonly><label
+                                                         class=" ml-2">KG</label>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <!--                  <div class="tab-pane fade" id="scale2" role="tabpanel" aria-labelledby="scale2-tab">-->
+                                 <!--                    <div class="card-body py-4">-->
+                                 <!--                        <div class="md-form mb-3">-->
+                                 <!--                          <div class="kg text-center mt-3">-->
+                                 <!--                            <h1 class="bg-text">0020<small class="align-middle text-secondary">KG</small></h1>-->
+                                 <!--                          </div>-->
+                                 <!--                          <div class="col-auto">-->
+                                 <!--                            <label class="sr-only" for="inlineFormInputGroup1">0000</label>-->
+                                 <!--                            <div class="input-group mb-2">-->
+                                 <!--                              <div class="input-group-prepend">-->
+                                 <!--                                <div class="input-group-text">First Weighing</div>-->
+                                 <!--                              </div>-->
+                                 <!--                              <input type="text" class="form-control" id="inlineFormInputGroup1" placeholder="0000"><label-->
+                                 <!--                                class=" ml-2">KG</label>-->
+                                 <!--                            </div>-->
+                                 <!--                          </div>-->
+                                 <!--                        </div>-->
+                                 <!--                        <div id="text_card">-->
+                                 <!--                          <div class="md-form mb-3">-->
+                                 <!--                            <div class="md-form mb-3">-->
+                                 <!--                              <div class="col-auto">-->
+                                 <!--                                <label class="sr-only" for="inlineFormInputGroup2">0000</label>-->
+                                 <!--                                <div class="input-group mb-2">-->
+                                 <!--                                  <div class="input-group-prepend">-->
+                                 <!--                                    <div class="input-group-text">Second Weighing</div>-->
+                                 <!--                                  </div>-->
+                                 <!--                                  <input type="text" class="form-control" id="inlineFormInputGroup2" placeholder="0000"><label-->
+                                 <!--                                    class=" ml-2">KG</label>-->
+                                 <!--                                </div>-->
+                                 <!--                              </div>-->
+                                 <!--                            </div>-->
+                                 <!--                          </div>-->
+                                 <!--                        </div>-->
+                                 <!--                        <div class="md-form mb-3">-->
+                                 <!--                          <div class="md-form mb-3">-->
+                                 <!--                            <div class="md-form mb-3">-->
+                                 <!--                              <div class="col-auto">-->
+                                 <!--                                <label class="sr-only" for="inlineFormInputGroup3">0</label>-->
+                                 <!--                                <div class="input-group mb-2">-->
+                                 <!--                                  <div class="input-group-prepend">-->
+                                 <!--                                    <div class="input-group-text">Net Weighing</div>-->
+                                 <!--                                  </div>-->
+                                 <!--                                  <input type="text" class="form-control" id="inlineFormInputGroup3" placeholder="0"><label-->
+                                 <!--                                    class=" ml-2">KG</label>-->
+                                 <!--                                </div>-->
+                                 <!--                              </div>-->
+                                 <!--                            </div>-->
+                                 <!--                          </div>-->
+                                 <!--                        </div>-->
+                                 <!--                    </div>-->
+                                 <!--                  </div>-->
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            
+         </div>
+        
+     
+         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+            <!-- Material form login -->
+            <div class="card">
+               <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                     <h5 class="card-header info-color white-text py-3">
+                        <div class="panel-heading">
+                           <h4 class="panel-title">
+                              <a data-toggle="collapse"  data-parent="#accordion" href="#collapse18">
+                                 <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+                                       <p class="mb-0 pt-2 text-color text_color">{%if request.session.customer %}{% trans request.session.customer %} {%else%}{% trans "Customer" %}{%endif%}</p>
+                                    </div>
+                                 </div>
+                              </a>
+                           </h4>
+                        </div>
+                     </h5>
+                  </div>
+               </div>
+               <div id="collapse18" class="collapse ">
+                  <div class="panel-body">
+                     <div class="card-body text-left">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right py-1">
+                           <button type="button" id="customerPopup" class="btn btn-primary">{% trans 'Advanced Search' %}</button>
+                        </div>
+                        <div class="md-form mb-3">
+                           <label>{% trans "Name1" %}</label>
+                           <select id='id_customer' name = "id_customer" class="form-control select2" onchange="populateCustomerDetails($(this).val())">
+                              <option value='0'>Select {%if request.session.customer %}{% trans request.session.customer %} {%else%}Customer{%endif%}</option>
+                              {%for i in customer_list%}
+                              <option value={{i.pk}}>{{i.fields.name}}</option>
+                              {%endfor%}
+                           </select>
+                        </div>
+                        <div class="md-form mb-3">
+                           <label>{% trans "Name2" %}</label>
+                           <input type="text" class="form-control" placeholder="{% trans 'Name2' %}" id="customer_firstname" name="customer_firstname">
+                        </div>
+                        <div class="md-form mb-3">
+                           <label>{% trans "Street" %}</label>
+                           <input type="text" class="form-control" placeholder="{% trans 'Street' %}" id="customer_street" name="customer_street">
+                        </div>
+                        <div class="md-form mb-3">
+                           <label>{% trans "Pin" %}</label>
+                           <input type="text" class="form-control" placeholder="{% trans 'Pin' %}" id="customer
+                           <div class="md-form mb-3">
+                           <label>{% trans "Place" %}</label>
+                           <input type="text" class="form-control" placeholder="{% trans 'Place' %}" id="customer_place" name="customer_place">
+                        </div>
+                        <div class="md-form mb-3">
+                           <input type="hidden" name="customer" id="customer_id" value="">
+                           <label>{% trans "Price Group" %}</label>
+                           <select class="form-control" id="customer_price_group" name="customer_price_group">
+                              <option value="price1">Price1</option>
+                              <option value="price2">Price2</option>
+                              <option value="price3">Price3</option>
+                              <option value="price4">Price4</option>
+                              <option value="price5">Price5</option>
+                           </select>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+ 
+         </div>
+
+
+         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+         
+              <!-- Material form login -->
+            <div class="card">
+               <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                     <h5 class="card-header info-color white-text py-3">
+                        <div class="panel-heading">
+                           <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+                                 <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+                                       <p class="mb-0 pt-2 text_color">{%if request.session.article %}{{ request.session.article }} {%else%}Material{%endif%}</p>
+                                    </div>
+                                 </div>
+                              </a>
+                           </h4>
+                        </div>
+                     </h5>
+                  </div>
+               </div>
+               <div id="collapse6" class="collapse " >
+                  <div class="panel-body">
+                     <div class="card-body text-left">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right py-1">
+                           <button type="button" id="materialPopup" class="btn btn-primary">{% trans 'Advanced Search' %}</button>
+                        </div>
+                        <div class="md-form mb-3">
+                           <label>{% trans 'Name' %}</label>
+                           <select id="id_article" name="id_article" class="form-control select2" onchange="populateArticleDetails($(this).val())">
+                              <option value='0'>Select {%if request.session.article %}{{ request.session.article }} {%else%}Material{%endif%}</option>
+                              {%for i in article_list%}
+                              <option value={{i.pk}}>{{i.fields.name}}</option>
+                              {%endfor%}
+                           </select>
+                        </div>
+                        <div class="md-form mb-3">
+                           <label>{% trans 'Price' %}</label>
+                           <input type="hidden" name="article" id="article_id" class="artikel">
+                           <input type="number" step="any" required class="form-control" id="article_price" name="price_per_item" placeholder="{% trans 'Price' %}">
+                           <!--  <label>{% trans 'Short Name' %}</label>
+                              <input type="hidden" name="article" id="article_id" class="artikel">
+                              <input type="text" class="form-control" id="article_short_name" name="article_short_name" placeholder="{% trans 'Short Name' %}"> -->
+                        </div>
+                        <!--                    <div class="md-form mb-3">-->
+                        <!--                      <label>{% trans 'Street' %}</label>-->
+                        <!--                      <input type="text" class="form-control" name="description" placeholder="Street">-->
+                        <!--                    </div>-->
+                        <div class="md-form mb-3">
+                           <label>{% trans 'Type' %}</label>
+                           <select class="form-control" id="article_group" required name="article_group">
+                              <option value=1 selected>Type1</option>
+                              <option value=2>Type2</option>
+                              <option value=3>Type3</option>
+                              <option value=4>Type4</option>
+                              <option value=5>Type5</option>
+                              <option value=6>Other Type</option>
+                           </select>
+                        </div>
+                        <!--  <div class="md-form mb-3">-->
+                        <!--  <label>{% trans 'Remaining Quantity' %}</label>-->
+                        <!--  <input type="number" class="form-control" id="article_balance_weight" name="article_balance_weight" step="any" required placeholder="{% trans 'Remaining Quantity' %}">-->
+                        <!--  </div>-->
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+            <!-- Material form login -->
+            
+            <div class="card py-0">
+               <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                     <h5 class="card-header info-color white-text py-3">
+                        <div class="panel-heading">
+                           <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse-32">
+                                 <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+                                       <p class="mb-0 pt-2 text_color">{%if request.session.supplier %}{{ request.session.supplier }} {%else%}Supplier{%endif%}</p>
+                                    </div>
+                                 </div>
+                              </a>
+                           </h4>
+                        </div>
+                     </h5>
+                  </div>
+               </div>
+               <div id="collapse-32" class="collapse " >
+                  <div class="panel-body">
+                     <div class="card-body text-left">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right py-1">
+                           <button type="button" id="supplierPopup" class="btn btn-primary" data-toggle="modal">{% trans 'Advanced Search' %}</button>
+                        </div>
+                        <div class="md-form mb-3">
+                           <!-- <label>{%if request.session.supplier %}{{ request.session.supplier }} {%else%}Supplier{%endif%} Name</label> -->
+                           <label>{% trans 'Name1' %}</label>
+                           <select id="id_supplier"  name="id_supplier" class="form-control select2" onchange="populateSupplierDetails($(this).val())">
+                              <option value='0'>Select {%if request.session.supplier %}{{ request.session.supplier }} {%else%}Supplier{%endif%}</option>
+                              {%for i in supplier_list%}
+                              <option value={{i.pk}}>{{i.fields.supplier_name}}</option>
+                              {%endfor%}
+                           </select>
+                           <input type="hidden"  name="supplier" id="supplier_id" class="lieferanten">
+                        </div>
+                        <!--                    <div class="md-form mb-3">-->
+                        <!--                      <label>{% trans 'Short Name' %}</label>-->
+                        <!--                      <input type="text" class="form-control" id="supplier_short_name" name="supplier_short_name" placeholder="{% trans 'Short Name' %}">-->
+                        <!--                    </div>-->
+                        <div class="md-form mb-3">
+                           <label>{% trans 'Name2' %}</label>
+                           <input type="text" class="form-control" id="supplier_firstname" name="supplier_firstname" placeholder="{% trans 'Name2' %}">
+                        </div>
+                        <div class="md-form mb-3">
+                           <label>{% trans 'Street' %}</label>
+                           <input type="text" class="form-control" id="supplier_street" name="supplier_street" placeholder="{% trans 'Street' %}">
+                        </div>
+                        <div class="md-form mb-3">
+                           <label>{% trans 'Place' %}</label>
+                           <input type="text" class="form-control" id="supplier_place" name="supplier_place" placeholder="{% trans 'Place' %}">
+                        </div>
+                        <div class="md-form mb-3">
+                           <label>{% trans 'Pin' %}</label>
+                           <input type="text" class="form-control" id="supplier_pin" name="supplier_pin" placeholder="{% trans 'Pin' %}">
+                        </div>
+                        <!--                    <div class="md-form mb-3">-->
+                        <!--                      <label>{% trans 'Place' %}</label>-->
+                        <!--                      <input type="text" class="form-control" id="supplier_place" name="supplier_place" placeholder="{% trans 'Place' %}">-->
+                        <!--                    </div>-->
+                     </div>
+                  </div>
+               </div>
+            </div>
+ 
+         </div>
+
+         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3">
+            <!-- Material form login -->
+            
+    
+            <div class="card py-0">
+               <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                     <h5 class="card-header info-color white-text py-3">
+                        <div class="panel-heading">
+                           <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse-33">
+                                 <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+                                       <p class="mb-0 pt-2 text_color">{% trans 'Captured Images' %}</p>
+                                    </div>
+                                 </div>
+                              </a>
+                           </h4>
+                        </div>
+                     </h5>
+                  </div>
+               </div>
+               <div  id="collapse-33" class="collapse " >
+                  <div class="panel-body">
+                     <div class="card-body text-left">
+                        <div class="md-form mb-3">
+                           <img id="img_loading1" data-toggle="modal" data-target="#myModal"  src="{% static 'yard/images/loading.gif'%}"  width="150px"  alt="" class="img-fluid">
+                           <img id="img_loading2" data-toggle="modal" data-target="#myModal" src="{% static 'yard/images/loading.gif'%}" width="150px"  alt="" class="img-fluid">
+                           <img id="img_loading3" data-toggle="modal" data-target="#myModal" src="{% static 'yard/images/loading.gif'%}" width="150px"  alt="" class="img-fluid">
+                           <input name="image_loading1" id="id_img_loading1" type="hidden">
+                           <input name="image_loading2" id="id_img_loading2" type="hidden">
+                           <input name="image_loading3" id="id_img_loading3" type="hidden">
+                        </div>
+                        <br class="md-form mb-3">
+                        <button class="btn btn-primary ml-2" name="image_capture_button2" id="id_capture_image1"><i class="fas fa-camera"></i> {% trans 'Capture Image1' %}</button></br></br>
+                        <button class="btn btn-primary ml-2" name="image_capture_button2" id="id_capture_image2"><i class="fas fa-camera"></i> {% trans 'Capture Image2' %}</button></br></br>
+                        <button class="btn btn-primary ml-2" name="image_capture_button3" id="id_capture_image3"><i class="fas fa-camera"></i> {% trans 'Capture Image3' %}</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+
+      </div>
+       </div>
+   </div>
+  
+   <div class="row mb-2 ml-3">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+         <button type="submit" class="btn btn-primary" name="save_button" id="btn-index-save"><i class="fas fa-save ml-2"></i> {% trans 'Save' %}</button>
+         <button type="submit" class="btn btn-primary ml-2" id="btn-print" name="print_button"><i class="fas fa-print"></i> {% trans 'Print' %}</button>
+         <!-- <button type="submit" class="btn btn-primary ml-2" name="image_capture_button" id="btn-image-capture"><i class="fas fa-camera"></i> {% trans 'Capture Image' %}</button>-->
+      </div>
+   </div>
+</form>
+<div id="MyPopup" class="modal fade modal-custom bd-example-modal-lg" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content p-4">
+         <div class="modal-header modal-header-custom">
+            <h4 class="modal-title">
+            </h4>
+            <button type="button" class="close" data-dismiss="modal">
+            &times;</button>
+         </div>
+         <div class="modal-body">
+         </div>
+         <div class="modal-footer">
+            <input type="button" id="btnClosePopup" value="Close" class="btn btn-secondary" />
+         </div>
+      </div>
+   </div>
+   
+</div>
+<div id="myModal" class="modal fade modal-custom bd-example-modal-lg" role="dialog">
+   <div class="modal-dialog  modal-lg">
+      <div class="modal-content  p-4">
+         <div class="modal-body">
+            <img class="img-responsive" src="" style="width:100%"/>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'yard/js/index.js'%}"></script>
+{%endblock%}
+

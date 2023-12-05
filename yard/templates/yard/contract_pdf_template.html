@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {%block head%}
+    {%load static%}
+    {%endblock%}
+    {% load i18n %}
+    {% load l10n %}
+    {%load custom_template_filters%}
+    <meta charset="utf-8">
+    <title>Contract</title>
+
+    <!-- <link rel="stylesheet" href="{% static 'yard/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'yard/css/custom.css'%}">
+    <link rel="stylesheet" href="{% static 'yard/css/jquery.dataTables.min.css'%}">
+    <link rel="stylesheet" href="{% static 'yard/css/select2.min.css'%}">
+    <script src="{% static 'yard/js/jquery.min.js'%}"></script>
+    <script src="{% static 'yard/js/jquery.dataTables.min.js'%}"></script>
+    <script src="{% static 'yard/js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'yard/js/select2.min.js'%}"></script> -->
+
+    <!-- Bootstrap CSS -->
+  
+  <!-- <link rel="stylesheet" href="{% static 'yard/css/bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'yard/css/style.css'%}">
+  <link rel="stylesheet" href="{% static 'yard/css/jquery-datables-min.css.css'%}">
+  {% comment %} <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'yard/css/jquery.dataTables.min.css'%}">
+  {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'yard/css/all.min.css'%}">
+  {% comment %} <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'yard/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'yard/css/utils.css'%}"> -->
+
+    <style>
+    .Row {
+        display: table;
+        width: 100%; /*Optional*/
+        table-layout: fixed; /*Optional*/
+        border-spacing: 40px; /*Optional*/
+    }
+    .Column {
+        display: table-cell;
+        border-left: 10px;
+    }
+    table { -pdf-keep-with-next: true; }
+    p { margin: 0; -pdf-keep-with-next: true; }
+    p.separator { -pdf-keep-with-next: false; font-size: 6pt; }
+
+    .header_logo{
+        text-align: right;
+        padding-bottom: 20px;
+        padding-right: 20px;
+        width:100%;
+        height:auto;
+    }
+    .header_logo img{
+        max-width: 100%;
+        max-height: auto;
+    }
+    .right-column {
+        width: 150px;
+        text-align: right;
+        padding-top: -150px;
+    }
+    .title{
+        font-size: 16px;
+    }
+    .main_date{
+        padding-top: 30px;
+    }
+    .year{
+        text-align: left;
+    }
+    .month{
+        text-align: center;
+        padding-top: -34px;
+    }
+    .day{
+        text-align: left;
+        padding-top: -34px;
+        padding-left: 650px;
+    }
+    .table-title{
+        padding-top: 20px;
+    }
+    .table-title b{
+        font-size: 20px;
+    }
+    .main_table{
+        margin-top: 30px;
+    }
+    .table{
+        width:100%;
+    }
+    .main_table .table .tr .th{
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+        padding: 4px;
+        text-align: left;
+    }
+    .main_table .table .tr .td{
+        text-align: left;
+    }
+    .footer{
+        padding-top: 60px;
+    }
+    .footer .footer_first span{
+        font-size: 10px;
+    }
+
+    </style>
+</head>
+   <body>
+       <!-- <button type="button" class="btn btn-success">cick</button> -->
+      <div class="a4_sheet">
+         <div class="row main_row" style="padding-top:20%;">
+            <div class="header_logo">
+                <img src="/static/yard/images/logo.png"/>
+            </div>
+            <div class="left-column">
+                <font color="orange">Ihr Firmenname GmbH | Musterweg 1 | 12345 Musterstadt</font> 
+                <br>
+                <br>
+                <strong class="title">Kunden GmbH & Co. KG </strong><br>
+                <span>
+                    Herr Max Mustermann <br>
+                    Musterstrasse 1 <br>
+                    12345 Musterstadt
+                </span><br> <br>
+                <b>Baustelle:</b> <br>
+                <span>Musterstrasse 1, 12345 Musterstad</span><br>
+            </div>
+
+            <div class="right-column">
+                <img src="data:image/png;base64, {{ qr_code }}"/>
+{#                   {% for img in logo %}#}
+{#                   {% if img.logo.url is not None %}#}
+{#                   <img src="{{ img.logo.url }}" style="width:200%;height:10%;"/>#}
+{#                   {% endif %}#}
+{#                  {% endfor %}#}
+            </div>
+
+
+
+            <div class="main_date">
+                <div class="year">
+                    <b>Auftragnummer:</b> <br>
+                    <span>YYYYYYYYYYYY</span>
+                </div> 
+                
+                <div class="month">
+                    <b>Auftragsdatum:</b> <br>
+                    <span>von TT.MM.JJJJ  Bis   TT.MM.JJJJ</span>
+                </div> 
+
+                <div class="day" style="width: 60px;">
+                    <b>Datum:</b> <br>
+                    <span>TT.MM.JJJJ</span>
+                </div> 
+            </div>
+
+
+            <div class="table-title">
+                <b>Auftragsbestätigung</b> <br> <br>
+                <span>Wir bedanken uns für Ihren Auftrag. </span>
+            </div>
+
+            <div class="main_table">
+                <table class="table">
+                    <tr class="tr">
+                        <th class="th" style="width: 50px;">Pos.</th>
+                        <th class="th">Material</th>
+                        <th class="th">Menge</th>
+                    </tr>
+                    <tr style="padding-top: 6px;">
+                        <td class="td" style="margin-left: 15px;">1</td>
+                        <td class="td" style="margin-left: 9px;">Material 1</td>
+                        <td class="td" style="margin-left: 8px;">15 Ton</td>
+                    </tr>
+                    <tr>
+                        <td class="td" style="margin-left: 15px;">2</td>
+                        <td class="td" style="margin-left: 9px;">Material 2</td>
+                        <td class="td" style="margin-left: 8px;">10 Ton</td>
+                    </tr>
+                </table>
+            </div>
+
+
+            <div class="footer">
+                <div class="footer_first">
+                    <span>Sie haben noch Fragen? Sie erreichen uns täglich von XX.XX bis XX.XX unter (Company Telefon) oder per E-Mail mail@musterfirma.com.</span>
+                        <br><br>
+                    <span>Wir freuen uns auf die Zusammenarbeit </span>
+                        <br><br>
+                    <span>Mit freundlichen Grüßen</span>
+                </div>
+            </div>
+
+
+        </div>
+      </div>
+
+
+
+
+            <!-- <br><br><br>
+            <table border="1" style="width:100%">
+               <tr style="height: 100px;">
+                  <td colspan="3" style="width:50%;text-align:left;padding-left:5px;font-size: 14pt;height:50%">
+                     
+{#                     {% for head in logo %}#}
+{#                     {{head.heading}}<br>#}
+{#                     {% endfor %} <br>  #}
+                     Rüdiger Wöhrl GmbH Goldbergstr. 1 74629 Pfedelbach <br>
+                     {% comment %} <b>{%if request.session.customer %}{% trans request.session.customer %} {%else%}{% trans "Customer" %}{%endif%}:</b><br> {{context}} {% endcomment %}
+                     <b>{{contract.customer}}:</b><br>
+                     
+                     {{contract.customer.salutation}}
+                     
+                     {{ contract.customer.name1|space }} {% if contract.customer.name2 %} {{ contract.customer.name2|space }} {% endif %} <br>
+
+                     {% if contract.customer.description is not None %}
+                     {{ contract.customer.description|space }}<br>
+                     {%endif%}
+
+                     {% if contract.customer.street is not None %}
+                     {{ contract.customer.street|space }}<br>
+                     {%endif%}
+
+                     {% if contract.customer.pin is not None %}
+                     {{ contract.customer.pin|space }}
+                     {%endif%}
+                     
+                     {% if contract.customer.place is not None %}
+                      {{ contract.customer.place|space }}<br>
+                      {%endif%}
+                  </td><td colspan="3" style="text-align:center;">
+                   <img src="data:image/png;base64, {{ qr_code }}"/>
+{#                   {% for img in logo %}#}
+{#                   {% if img.logo.url is not None %}#}
+{#                   <img src="{{ img.logo.url }}" style="width:200%;height:10%;"/>#}
+{#                   {% endif %}#}
+{#                  {% endfor %}#}
+
+                  </td>
+               </tr>
+               <tr style="height: 80px;">
+                  <td style="font-size:10pt;text-align:center;width:25%;padding-left:2px;">
+                     <b>Contract<br></b>
+                  </td>
+{#                  <td colspan="2" style="font-size:10pt;padding-left:5px;text-align:center;">#}
+{#                     Contract Nr<br><br>#}
+{#                     {{ contract.contract_number }}#}
+{#                  </td>#}
+                  <td colspan="3" style="font-size:10pt;padding-left:5px;text-align:center;" >
+                      {% translate "Material" %} <br><br>
+                     {{ contract.article.name }}
+                  </td>
+                   <td colspan="3" style="font-size:10pt;text-align:center;">
+                       {% translate "Material" %} <br><br>
+                       {{ contract.article.name }}
+                   </td>
+                   <td colspan="3" style="font-size:10pt;text-align:center;">
+                       {% translate "Material" %} <br><br>
+                       {{ contract.article.name }}
+                   </td>
+               </tr>
+               <tr style="height: 100px;">
+                   <td colspan="2" style="width:50%;font-size:12pt;padding-left:5px;">
+                     {% translate "Vehicles" %} <br><br>
+                       {{ vehicles }}
+{#                     {{ dataset.supplier.supplier_name|space }} <br>#}
+{#                     {{ dataset.supplier.street|space }} <br>#}
+{#                     {{ dataset.supplier.pin|space }} {{ dataset.supplier.place|space }} <br>#}
+                  </td>
+                   <td colspan="2" style="width:50%;font-size:12pt;">
+                       {% translate "Construction Site" %} <br><br>
+                       {{ construction_site }}
+                   </td>
+{#               {% if io.status == 1 %}#}
+{#                  <td colspan="2" style="width:50%;font-size:12pt;padding-left:5px;">#}
+{#                     Ab-/Beladestelle Baustelle: <br><br>#}
+{#                     {{ dataset.supplier.supplier_name|space }} <br>#}
+{#                     {{ dataset.supplier.street|space }} <br>#}
+{#                     {{ dataset.supplier.pin|space }} {{ dataset.supplier.place|space }} <br>#}
+{#                  </td>#}
+{#                  <td colspan="1" style="width:50%;text-align:center;font-size:11pt;padding-bottom:2px;">#}
+{#                  Richtung : {% if dataset.status == "0" %}#}
+{#                              <br><br> Eingang #}
+{#                           {% elif dataset.status == '1' %}#}
+{#                              <br><br> Ausgang #}
+{#                           {% else %}#}
+{#                              <br><br><br>#}
+{#                           {% endif %}#}
+{#                  </td>#}
+{#                  {% else %}#}
+{#                  <td colspan="3" style="width:50%;font-size:12pt;padding-left:5px;">#}
+{#                     Ab-/Beladestelle Baustelle: <br><br>#}
+{#                     {{ dataset.supplier.supplier_name|space }} <br>#}
+{#                     {{ dataset.supplier.street|space }} <br>#}
+{#                     {{ dataset.supplier.pin|space }} {{ dataset.supplier.place|space }} <br>#}
+{#                  </td>#}
+{#                  {% endif %}#}
+{#                  <td colspan="3" style="width:50%;font-size:12pt;padding-left: 5px">#}
+{#                     Kennzeichen Nr. 1 : &nbsp;{{ dataset.vehicle.license_plate|upper }} <br><br>#}
+{#                     Kennzeichen Nr. 2 : &nbsp;{{ dataset.vehicle.license_plate2|upper }}<br>#}
+{#                  </td>#}
+{#               </tr>#}
+            </table>
+         </div>
+{#         <div class="row">#}
+{#            <table style="height:100px;width:100%;">#}
+{#            {% if show_container == 'true' %}#}
+{#               <tr style="height:31px;padding-top:5px;border-bottom:1px solid black">#}
+{#                  <td colspan="2" style="font-size:15px;border-left: 1px solid black;padding-left: 5px;text-align:left" > Container-Name : {{dataset.container|upper}} puskar</td>#}
+{#                  <td colspan="2" style="font-size:15px;text-align:left;">Type : {{dataset.container.container_type}}</td>#}
+{#                  <td colspan='2' style="font-size:15px;text-align:left;">Weight : {{dataset.container.container_weight|unlocalize}} kg</td>#}
+{#                  #}
+{#                  <td style="border-right: 1px solid black;"></td>#}
+{#               </tr>#}
+{#               {% endif %}#}
+{#               <tr style="height:30px;font-size:10pt;padding-top:5px;border-top: 1px solid black;border-bottom: 1px solid black;">#}
+{#                  <td style="border-left: 1px solid black;"></td>#}
+{#                  <td >Datum</td>#}
+{#                  <td style="">Uhrzeit</td>#}
+{#                  <td style="width:5%;"></td>#}
+{#                  <td >Gewicht</td>#}
+{#                  <td >{{article}}</td>#}
+{#                  <td style="border-right: 1px solid black;">AlibiNr.</td>#}
+{#               </tr>#}
+{#               #}
+{#               <tr style="height:30px;padding-top:5px;">#}
+{#                  <td style="font-size:15px;border-left: 1px solid black;padding-left:5px;" >{% trans "First Weighing" %}</td>#}
+{#                  <td style="font-size:15px;">{{ dataset.firstw_date_time|date:"d.m.y" }}</td>#}
+{#                  <td style="font-size:15px;">{{ dataset.firstw_date_time|time:"H:i" }}</td>#}
+{#                  <td style="font-size:15px;">{% if dataset.vehicle_weight_flag == 1 %} PT {% elif dataset.vehicle_weight_flag == 2 %} H {%endif%}</td>#}
+{#                  {% if showt.status == 1 %}#}
+{#                  <td style="font-size:15px;">{{ dataset.first_weight }}&nbsp;kg</td>#}
+{#                  {% else %}#}
+{#                  <td style="font-size:15px;">{{ dataset.first_weight|convert_to_tonne|unlocalize}} &nbsp;t</td>#}
+{#                  {% endif %}#}
+{#                  <td style="font-size:15px;"></td>#}
+{#                  <td style="border-right: 1px solid black;">{{ dataset.firstw_alibi_nr }}</td>#}
+{#               </tr> #}
+{#               <tr style="height:30px;padding-top:5px;">#}
+{#                  <td style="font-size:15px;border-left: 1px solid black;padding-left: 5px" >{% trans "Second Weighing" %} </td>#}
+{#                  <td style="font-size:15px;">{{ dataset.secondw_date_time|date:"d.m.y" }}</td>#}
+{#                  <td style="font-size:15px;width:10%;"> {{ dataset.secondw_date_time|time:"H:i" }}</td>#}
+{#                  <td style="font-size:15px;width:5%;">{% if dataset.vehicle_second_weight_flag %}{% if dataset.vehicle_second_weight_flag == 1 %} PT {% elif dataset.vehicle_second_weight_flag == 2 %} H {%endif%} {%endif%}</td>#}
+{#                  {% if showt.status == 1 %}#}
+{#                  <td style="font-size:15px;">{{ dataset.second_weight }}&nbsp;kg</td>#}
+{#                  {% else %}#}
+{#                  <td style="font-size:15px;">{{ dataset.second_weight|convert_to_tonne|unlocalize}} &nbsp;t</td>#}
+{#                  {% endif %}#}
+{#                  <td style="font-size:15px;"></td>#}
+{#                  <td style="border-right: 1px solid black;"> {{ dataset.secondw_alibi_nr }}</td>#}
+{#               </tr>#}
+{#               <tr style="height:30px;padding-top:5px;border-bottom:1px solid black">#}
+{#                  <td colspan="3" style="font-size:15px;border-left: 1px solid black;padding-left: 5px" >{% trans "Net Weight" %}</td>#}
+{#                  <td style="font-size:15px;">E</td>#}
+{#                  {% if showt.status == 1 %}#}
+{#                  <td style="font-size:15px;">{{ dataset.net_weight }}&nbsp;kg</td>#}
+{#                  {%else%}#}
+{#                  <td style="font-size:15px;">{{dataset.net_weight|convert_to_tonne|unlocalize}} &nbsp;t</td>#}
+{#                  {%endif%}#}
+{#                  <td style="font-size:15px;">{{dataset.article.name|space}}</td>#}
+{#                  <td style="border-right: 1px solid black;"></td>#}
+{#               </tr> {% if show_price == 'true' %}#}
+{#               <tr style="height:30px;padding-top:5px;border-bottom:1px solid black">#}
+{#                  <td colspan="3" style="font-size:15px;border-left: 1px solid black;padding-left: 10px;text-align:right" >Barbezahler-Price : </td>#}
+{#                  <td style="font-size:15px;text-align:right;">&nbsp;€&nbsp;</td>#}
+{#                  <td style="font-size:15px;text-align:left;">{{dataset.total_price|unlocalize}}</td>#}
+{#                  <td style="font-size:15px;"></td>#}
+{#                  <td style="border-right: 1px solid black;"></td>#}
+{#               </tr>#}
+{#               {% endif %}#}
+{#               #}
+{#            </table>#}
+{#         </div>#}
+         <br>
+          <br>
+      </div> -->
+
+
+
+
+
+
+
+
+
+
+     
+   </body>
+</html>

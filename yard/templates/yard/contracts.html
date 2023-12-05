@@ -1,0 +1,586 @@
+{% extends 'base2.html' %}
+{% load i18n %}
+{%block head%}
+{% load static %}
+{%endblock%}
+{% block content %}
+    <style>
+    .hidden{
+        display: none;
+    }
+       
+    label{
+        font-size: 12px;
+    }
+    input{
+        font-size: 12px !important;
+        height: 25px !important;
+        border-radius: 0px !important;
+    }
+    input:focus{
+        box-shadow: none !important;
+    }
+    .form-group{
+        padding: 2px;
+        margin: 1px;
+    }
+    .card{
+        padding: 4px;
+    }
+    .card-body{
+        box-shadow: 0px 0px 1px #ccc !important;
+    }
+    .ton{
+        color: #222;
+        font-size: 12px;
+    }
+    textarea{
+        font-size: 12px !important;
+        border-radius: 0px !important;
+    }
+    textarea:focus{
+        box-shadow: none !important;
+        border-color: indigo;
+    }
+    #met_btn{
+        /* background-color: #ccc; */
+        font-size: 12px;
+    }
+    #sup_btn{
+        /* background-color: #ccc; */
+        font-size: 12px;
+    }
+    #met_btn:focus{
+        box-shadow: none;
+    }
+    #sup_btn:focus{
+        box-shadow: none;
+    }
+ 
+    </style>
+    <div class="container">
+        <div class="row border border-top-0 border-left-0 border-right-0 mb-3">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="content_text">
+              <p class="mb-0">{% translate 'OVERVIEW' %}</p>
+            </div>
+            <div class="heding">
+              <p>{% translate 'Contracts' %}</p>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div style="float: right" class="content_text">
+              <button data-toggle="modal" data-target="#contract_model" type="button" class="btn btn-primary ml-auto">
+                    <i>Create Contract</i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row p-2">
+            <table class="table table-striped table-hover table-bordered mt-3 building_site" width="100%" id="deliveryNoteTable">
+              <thead>
+                <tr>
+                    <th>{% translate "Contract No" %}</th>
+                    <th>{% translate "Customer" %}</th>
+{#                    <th>{% translate "Material" %}</th>#}
+                    <th>{% translate "Action" %}</th>
+                </tr>
+              </thead>
+              <tbody class="mt-4">
+                {% for contract in contracts %}
+                    <tr data-toggle="collapse" onclick="onClickCollapse(event,{{ forloop.counter }});" data-target="#collapseExample{{ forloop.counter }}" aria-expanded="false" aria-controls="collapseExample{{ forloop.counter }}" style="cursor: pointer;">
+
+                        <td> <i class="fas fa-plus plus " id="plus-{{ forloop.counter }}"></i>
+                            <i class="fas fa-minus minus hidden" id="minus-{{ forloop.counter }}"></i>
+                            <span>{{ contract.contract_number }}</span>
+                        </td>
+                        <td>{{ contract.customer.name1 }}</td>
+{#                        <td>{{ contract.article.name }}</td>#}
+                        <td><div class="row">
+                            <div class="col-1"><a class="hover pointer-cursor" onclick="((e) => open_edit_dialog(e,'{{ contract.contract_number }}'))()" ><i class="fas fa-pencil-alt text-primary"></i></a></div>
+                            <div class="col-1"><a class="hover pointer-cursor" target="#"><i class="fas fa-trash-alt text-danger"></i></a></div>
+                            <div class="col-1"><a class="hover pointer-cursor" onclick="window.location.href = '/contract_pdf/{{ contract.contract_number }}';"><i class="fas fa-file-pdf"></i></a></div>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr class="collapse" id="collapseExample{{ forloop.counter }}">
+                        <tr class="collapse" id="collapseExample{{ forloop.counter }}">
+                            <th style="font-weight: 600;">Artikel</th>
+                            <th style="font-weight: 600;">Agreed Value</th>
+                            <th style="font-weight: 600;">Value Remaining</th>
+                        </tr>
+                        {% for material_obj in contract.materials %}
+                            <tr class="collapse" id="collapseExample{{ forloop.parentloop.counter }}">
+                                <td>{{ material_obj.material }}</td>
+                                <td>{{ material_obj.agreed_value }}</td>
+                                <td>{{ material_obj.remaining }}</td>
+                            </tr>
+                        {% endfor %}
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+
+
+
+{#    Create/Update Modal #}
+    <div id="contract_model" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New Contract</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body ">
+            <div class="row">
+            <div class="col-md-12 mx-auto">
+                <form id="contract_form">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" id="id">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customers_select" class="control-label">{% translate "Customer" %}</label>
+                                <div class="">
+                                    <select name="customer" id="customers_select" style="width: 100%">
+                                        {% for customer in customers %}
+                                            <option value="{{ customer.id }}">{{ customer.name1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">{{ contract_form.contract_number.label }}</label>
+                                <div class="">
+                                    {{ contract_form.contract_number }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="vehicles_select" class="control-label">{% translate "Vehicles" %}</label>
+                                <div class="">
+                                    <select name="vehicles" id="vehicles_select" multiple style="width: 100%">
+                                        {% for vehicle in vehicles %}
+                                            <option value="{{ vehicle.id }}">{{ vehicle.license_plate }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="construction_sites_select" class="control-label">{% translate "Construction Site" %}</label>
+                                <div class="">
+                                    <select name="construction_site" id="construction_sites_select" multiple style="width: 100%">
+                                        {% for construction_site in construction_sites %}
+                                            <option value="{{ construction_site.id }}">{{ construction_site.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="materials_select" class="control-label">{% translate "Material" %}</label>
+                                <div class="">
+                                    <select name="article" id="materials_select" style="width: 100%">
+                                        {% for material in materials %}
+                                            <option value="{{ material.id }}">{{ material.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">{{ contract_form.agreed_value.label }}</label>
+                                <div class="">
+                                    {{ contract_form.agreed_value }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+        </div>
+      </div>
+
+
+
+
+
+      <hr>
+
+
+
+
+
+      <div class="container">
+          <form action="">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Contract-Nr:</label>
+                            <input type="text"  class="form-control" placeholder="Contract-Nr">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Reserved Date:</label>
+                            <input type="text" class="form-control" placeholder="Reserved Date">
+                        </div>
+                    </div>
+               
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="m-0">Project-Nr:</label>
+                            <input type="text"  class="form-control" placeholder="Project-Nr">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Contarct-Status:</label>
+                            <input type="text" class="form-control" placeholder="Contarct-Status">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Start Date:</label>
+                            <input type="text"  class="form-control" placeholder="Start Date">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">End Date:</label>
+                            <input type="text" class="form-control" placeholder="End Date">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class=" m-0">Street & Nr:</label>
+                            <input type="text"  class="form-control" placeholder="Street & Nr">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Projekt-Nr:</label>
+                            <input type="text" class="form-control" placeholder="Projekt-Nr">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Projekt-Nr:</label>
+                            <input type="text" class="form-control" placeholder="Projekt-Nr">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Plz/ Ort:</label>
+                            <input type="text"  class="form-control" placeholder="Plz/ Ort">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Country:</label>
+                            <input type="text"  class="form-control" placeholder="Country">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" id="meterial" >
+                            <div class="d-flex justify-content-between py-1">
+                                <div> 
+                                    <label class=" m-0" style="font-weight: 600;"><i class="fas fa-plus"></i> Material:</label>
+                                </div>
+                                <div>
+                                   <button class="btn btn-sm btn-primary" id="met_btn">Add new</button>
+                                </div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Material">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" id="supplier">
+                            <div class="d-flex justify-content-between py-1">
+                                <div>
+                                    <label class=" m-0" style="font-weight: 600;"><i class="fas fa-plus"></i> Supplier:</label>
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-primary" id="sup_btn">Add new</button>
+                                </div>
+                            </div>
+                            <input type="text"  class="form-control" placeholder="Supplier">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0" style="font-weight: 600;"><i class="fas fa-plus"></i> Customer</label>
+                            <input type="text"  class="form-control" placeholder="Customer">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Customer-Nr:</label>
+                            <input type="text" class="form-control" placeholder="Customer-Nr">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Street:</label>
+                            <input type="text" class="form-control" placeholder="Street">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Plz/ Ort:</label>
+                            <input type="text" class="form-control" placeholder="Plz/ Ort">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Country:</label>
+                            <input type="text" class="form-control" placeholder="Country">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0">Projekt-Nr:</label>
+                            <input type="text" class="form-control" placeholder="Projekt-Nr">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class=" m-0">Agreed Value:</label>
+                            <div class="d-flex align-items-center">
+                                <input type="text" class="form-control w-100" placeholder="Agreed Value">
+                                <span class="ton pl-1">tonne</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class=" m-0"><i class="fas fa-plus"></i> Vehichle:</label>
+                            <input type="text"  class="form-control" placeholder="Vehichle">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mt-0 mt-md-3">
+                        
+                            <span class="ton m-0">Tara Allowed:</span>
+                            <input type="checkbox" style="position: relative;top:9px;">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class=" m-0">Comment:</label>
+                            <textarea name="" id="" cols="30" rows="4" class="form-control" placeholder="Comment"></textarea>
+                        </div>  
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+      </div>
+
+
+  
+      <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+      <script>
+          $(document).ready(function() {
+              $("#met_btn").click(function(e) {
+                e.preventDefault();
+                  $("#meterial").append('<div class="row"><div class="col-10"><div class="form-group p-0"><input type="text" id="met_input" class="form-control" placeholder="Material"></div></div><div class="col-1"><a href="javascript:void(0);" class="icon_met" style="color: #000;text-decoration: none;"><i class="fas fa-times"></i></a></div></div>');
+              });
+
+             
+              $("#sup_btn").click(function(e) {
+                e.preventDefault();
+                  $("#supplier").append('<div class="row"><div class="col-10"><div class="form-group p-0"><input type="text" id="met_input" class="form-control" placeholder="Supplier"></div></div><div class="col-1"><a href="javascript:void(0);" class="icon_met" style="color: #000;text-decoration: none;"><i class="fas fa-times"></i></a></div></div>');
+              });
+          });
+
+          $(document).on("click",".icon_met",function(e){
+              e.preventDefault();
+              $(this).parent('div').parent('div').remove();
+          });
+              
+          $(document).on("click",".icon_met",function(e){
+              e.preventDefault();
+              $(this).parent('div').parent('div').remove();
+          });
+          
+      </script>
+
+    
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" form="contract_form" class="btn btn-primary" id="save_contract_btn">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+    });
+    let contract_list = []
+
+    let fields_list = {
+        customers:"name1",
+        materials:"name",
+        vehicles: "license_plate",
+        "construction_sites":"name"
+    }
+    let onClickCollapse = (e,id) =>{
+        $(`#minus-${id}`).toggle();
+        $(`#plus-${id}`).toggle();
+    }
+    let addLoaderButton = () => {
+        let location_btn = $("#save_contract_btn");
+        location_btn.empty()
+        let inner_html = $(`<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
+        let loading_html = $("<i>Loading...</i>");
+        location_btn.attr("disabled");
+        location_btn.append(inner_html);
+        location_btn.append(loading_html);
+
+    }
+
+    let get_contract = async (id) => {
+        let response = await $.ajax(
+            {
+                url: `/contract/${id}`,
+                type: "GET"
+            }
+        );
+        return response;
+    }
+
+    let removeLoader = () => {
+        let location_btn = $("#save_contract_btn");
+        location_btn.empty()
+        let save_html = $("<i>Save</i>")
+        location_btn.append(save_html);
+    }
+
+    let open_edit_dialog = async (event,id) =>{
+        let response = await get_contract(id);
+        $("#contract_model").modal("show")
+        $("#id").attr("value",response.contract_number);
+        $("#customers_select").attr("value",response.customer).trigger("change");
+        $("#id_contract_number").attr("value",response.contract_number);
+        $("#materials_select").val(response.article)
+                              .trigger("change");
+        $("#id_agreed_value").attr("value",response.agreed_value)
+        $("#vehicles_select").val(response.vehicles)
+                             .trigger("change");
+        $("#construction_sites_select").val(response.construction_site)
+                                        .trigger("change");
+    }
+
+    let clear_contract_form = () => {
+        $("#id").attr("value","");
+        $("#customers_select").attr("value",null).trigger("change");
+        $("#id_contract_number").attr("value","");
+        $("#materials_select").val(null)
+                              .trigger("change");
+        $("#id_agreed_value").attr("value",0)
+        $("#vehicles_select").val(null)
+                             .trigger("change");
+        $("#construction_sites_select").val(null)
+                                        .trigger("change");
+    }
+
+    $(document).ready(()=>{
+
+        $('#contract_model').on('hidden.bs.modal', function () {
+            console.log("Close Modal Triggered");
+            clear_contract_form()
+        });
+
+        $('#contract_model').on('show.bs.modal', function () {
+            let random_num = Math.floor(Math.random()*90000) + 10000;
+            console.log("Show Modal Triggered");
+            $("#id_contract_number").attr("value",`CN_${random_num}`);
+        });
+
+        for (let field of Object.keys(fields_list)){
+            $(`#${field}_select`).select2({
+                width: 'resolve'
+            });
+        }
+        {#let random_num = Math.floor(Math.random()*90000) + 10000;#}
+
+        let serialize_data = () => {
+            return {
+                id: $("#id").val(),
+                customer: $("#customers_select").val(),
+                contract_number: $("#id_contract_number").val(),
+                article : $("#materials_select").val(),
+                agreed_value: $("#id_agreed_value").val(),
+                vehicles: $("#vehicles_select").val(),
+                construction_site: $("#construction_sites_select").val()
+            }
+        }
+
+        let submit_contract_form = async function(e) {
+            e.preventDefault();
+            addLoaderButton();
+           let url = "/contracts/";
+           {#let form_data = $(e.target).serialize();#}
+           let form_data = serialize_data()
+            let method = "POST";
+           if(form_data.id !== ""){
+               method = "PUT";
+               {#url = "/update_contract/";#}
+           }
+           delete form_data["id"]
+           try{
+            let response = await $.ajax(
+               {
+                   url:url,
+                   type:method,
+                   data: JSON.stringify(form_data),
+               }
+           );
+               window.location.reload();
+
+           } catch (e) {
+               alert(e.toString())
+           } finally {
+               removeLoader()
+           }
+           console.log(e);
+           return false;
+        }
+        {#$("#id_contract_number").attr("value",`CN_${random_num}`);#}
+
+        $("#contract_form").submit(async (e) => await submit_contract_form(e) );
+    });
+    </script>
+{% endblock %}

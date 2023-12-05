@@ -1,0 +1,3233 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.7
+-- Dumped by pg_dump version 12.6 (Ubuntu 12.6-0ubuntu0.20.10.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO yardman_admin;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO yardman_admin;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO yardman_admin;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO yardman_admin;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO yardman_admin;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO yardman_admin;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO yardman_admin;
+
+--
+-- Name: scale_app_devices; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.scale_app_devices (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    ip_addr character varying(100) NOT NULL,
+    serial_num character varying(100) NOT NULL,
+    mac_addr character varying(100) NOT NULL,
+    port integer NOT NULL,
+    wx_btn boolean NOT NULL,
+    zero_btn boolean NOT NULL,
+    tara_btn boolean NOT NULL,
+    man_tara_btn boolean NOT NULL,
+    x10_btn boolean NOT NULL,
+    active boolean NOT NULL,
+    certi_num character varying(100) NOT NULL,
+    max_weight integer,
+    min_weight integer,
+    e_d integer,
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL,
+    CONSTRAINT scale_app_devices_e_d_check CHECK ((e_d >= 0)),
+    CONSTRAINT scale_app_devices_max_weight_check CHECK ((max_weight >= 0)),
+    CONSTRAINT scale_app_devices_min_weight_check CHECK ((min_weight >= 0)),
+    CONSTRAINT scale_app_devices_port_check CHECK ((port >= 0))
+);
+
+
+ALTER TABLE public.scale_app_devices OWNER TO yardman_admin;
+
+--
+-- Name: scale_app_devices_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.scale_app_devices_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.scale_app_devices_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: scale_app_devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.scale_app_devices_id_seq OWNED BY public.scale_app_devices.id;
+
+
+--
+-- Name: scale_app_transaction; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.scale_app_transaction (
+    trans_id integer NOT NULL,
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL,
+    tara numeric(10,2) NOT NULL,
+    net_weight numeric(10,2) NOT NULL,
+    device_id integer NOT NULL
+);
+
+
+ALTER TABLE public.scale_app_transaction OWNER TO yardman_admin;
+
+--
+-- Name: scale_app_transaction_trans_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.scale_app_transaction_trans_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.scale_app_transaction_trans_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: scale_app_transaction_trans_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.scale_app_transaction_trans_id_seq OWNED BY public.scale_app_transaction.trans_id;
+
+
+--
+-- Name: yard_article; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_article (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    description character varying(250),
+    short_name character varying(40),
+    entry_weight numeric(10,4) NOT NULL,
+    balance_weight numeric(10,2) NOT NULL,
+    outgoing_weight numeric(10,2) NOT NULL,
+    price1 numeric(10,2),
+    price2 numeric(10,2),
+    price3 numeric(10,2),
+    price4 numeric(10,2),
+    price5 numeric(10,2),
+    discount character varying(100),
+    "group" integer NOT NULL,
+    vat numeric(10,2),
+    minimum_amount numeric(10,2),
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL,
+    avv_num character varying(250),
+    account character varying(250),
+    cost_center character varying(250),
+    unit character varying(250),
+    min_quantity integer,
+    revenue_group character varying(250),
+    revenue_account character varying(250),
+    list_price_net numeric(10,2),
+    ean character varying(250),
+    supplier_id integer,
+    ware_house_id integer,
+    yard_id integer NOT NULL,
+    CONSTRAINT yard_article_group_check CHECK (("group" >= 0)),
+    CONSTRAINT yard_article_min_quantity_check CHECK ((min_quantity >= 0))
+);
+
+
+ALTER TABLE public.yard_article OWNER TO yardman_admin;
+
+--
+-- Name: yard_article_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_article_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_article_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_article_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_article_id_seq OWNED BY public.yard_article.id;
+
+
+--
+-- Name: yard_article_meta; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_article_meta (
+    id integer NOT NULL,
+    entry_weight numeric(10,3),
+    balance_weight numeric(10,3),
+    outgoing_weight numeric(10,3),
+    article_id integer,
+    yard_id integer NOT NULL
+);
+
+
+ALTER TABLE public.yard_article_meta OWNER TO yardman_admin;
+
+--
+-- Name: yard_article_meta_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_article_meta_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_article_meta_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_article_meta_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_article_meta_id_seq OWNED BY public.yard_article_meta.id;
+
+
+--
+-- Name: yard_buildingsite; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_buildingsite (
+    id integer NOT NULL,
+    name character varying(100),
+    short_name character varying(40),
+    place character varying(100),
+    street character varying(100),
+    pin character varying(100),
+    infotext character varying(100) NOT NULL,
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.yard_buildingsite OWNER TO yardman_admin;
+
+--
+-- Name: yard_buildingsite_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_buildingsite_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_buildingsite_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_buildingsite_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_buildingsite_id_seq OWNED BY public.yard_buildingsite.id;
+
+
+--
+-- Name: yard_combination; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_combination (
+    id integer NOT NULL,
+    ident character varying(40) NOT NULL,
+    short_name character varying(40),
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL,
+    article_id integer,
+    building_site_id integer,
+    customer_id integer,
+    forwarders_id integer,
+    supplier_id integer,
+    vehicle_id integer,
+    yard_id integer
+);
+
+
+ALTER TABLE public.yard_combination OWNER TO yardman_admin;
+
+--
+-- Name: yard_combination_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_combination_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_combination_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_combination_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_combination_id_seq OWNED BY public.yard_combination.id;
+
+
+--
+-- Name: yard_container; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_container (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    container_type character varying(40),
+    "group" integer,
+    container_weight numeric(10,2) NOT NULL,
+    volume character varying(40),
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL,
+    last_site_id integer,
+    container_number integer,
+    hazard_warnings character varying(200),
+    maximum_gross_weight numeric(10,2) NOT NULL,
+    next_exam date,
+    payload_container_volume character varying(40),
+    tare_weight numeric(10,2),
+    waste_type character varying(50),
+    CONSTRAINT yard_container_container_number_check CHECK ((container_number >= 0)),
+    CONSTRAINT yard_container_group_check CHECK (("group" >= 0))
+);
+
+
+ALTER TABLE public.yard_container OWNER TO yardman_admin;
+
+--
+-- Name: yard_container_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_container_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_container_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_container_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_container_id_seq OWNED BY public.yard_container.id;
+
+
+--
+-- Name: yard_customer; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_customer (
+    id integer NOT NULL,
+    name character varying(40) NOT NULL,
+    firstname character varying(40),
+    company character varying(40),
+    salutation character varying(10) NOT NULL,
+    addition1 character varying(40),
+    addition2 character varying(40),
+    addition3 character varying(40),
+    post_office_box character varying(40),
+    description character varying(250),
+    street character varying(250),
+    pin character varying(10),
+    fax character varying(15),
+    place character varying(100),
+    website character varying(100),
+    cost_centre integer,
+    country character varying(100),
+    contact_person1_email character varying(40),
+    contact_person2_email character varying(40),
+    contact_person3_email character varying(40),
+    contact_person1_phone character varying(40),
+    contact_person2_phone character varying(40),
+    contact_person3_phone character varying(40),
+    diff_invoice_recipient character varying(40),
+    customer_type character varying(40),
+    price_group character varying(10) NOT NULL,
+    classification character varying(40),
+    sector character varying(40),
+    company_size character varying(40),
+    area character varying(40),
+    private_person boolean NOT NULL,
+    document_lock boolean NOT NULL,
+    payment_block boolean NOT NULL,
+    delivery_terms character varying(10) NOT NULL,
+    special_discount numeric(10,2),
+    debitor_number integer,
+    dunning character varying(10),
+    perm_street character varying(100),
+    perm_pin character varying(10),
+    perm_place character varying(100),
+    perm_country character varying(100),
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL,
+    warehouse_id integer,
+    CONSTRAINT yard_customer_cost_centre_check CHECK ((cost_centre >= 0)),
+    CONSTRAINT yard_customer_debitor_number_check CHECK ((debitor_number >= 0))
+);
+
+
+ALTER TABLE public.yard_customer OWNER TO yardman_admin;
+
+--
+-- Name: yard_customer_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_customer_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_customer_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_customer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_customer_id_seq OWNED BY public.yard_customer.id;
+
+
+--
+-- Name: yard_delivery_note; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_delivery_note (
+    id integer NOT NULL,
+    lfd_nr character varying(100) NOT NULL,
+    file_name character varying(100) NOT NULL,
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.yard_delivery_note OWNER TO yardman_admin;
+
+--
+-- Name: yard_delivery_note_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_delivery_note_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_delivery_note_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_delivery_note_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_delivery_note_id_seq OWNED BY public.yard_delivery_note.id;
+
+
+--
+-- Name: yard_forwarders; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_forwarders (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    firstname character varying(100),
+    second_name character varying(100),
+    street character varying(100),
+    pin character varying(10),
+    telephone character varying(15),
+    place character varying(100),
+    country character varying(100),
+    contact_person character varying(100),
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.yard_forwarders OWNER TO yardman_admin;
+
+--
+-- Name: yard_forwarders_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_forwarders_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_forwarders_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_forwarders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_forwarders_id_seq OWNED BY public.yard_forwarders.id;
+
+
+--
+-- Name: yard_images_base64; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_images_base64 (
+    id integer NOT NULL,
+    image1 character varying(100),
+    image2 character varying(100),
+    image3 character varying(100),
+    transaction_id integer
+);
+
+
+ALTER TABLE public.yard_images_base64 OWNER TO yardman_admin;
+
+--
+-- Name: yard_images_base64_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_images_base64_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_images_base64_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_images_base64_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_images_base64_id_seq OWNED BY public.yard_images_base64.id;
+
+
+--
+-- Name: yard_logo; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_logo (
+    id integer NOT NULL,
+    heading character varying(100)
+);
+
+
+ALTER TABLE public.yard_logo OWNER TO yardman_admin;
+
+--
+-- Name: yard_logo_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_logo_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_logo_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_logo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_logo_id_seq OWNED BY public.yard_logo.id;
+
+
+--
+-- Name: yard_selectcamera; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_selectcamera (
+    id integer NOT NULL,
+    yes boolean NOT NULL
+);
+
+
+ALTER TABLE public.yard_selectcamera OWNER TO yardman_admin;
+
+--
+-- Name: yard_selectcamera_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_selectcamera_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_selectcamera_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_selectcamera_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_selectcamera_id_seq OWNED BY public.yard_selectcamera.id;
+
+
+--
+-- Name: yard_settings; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_settings (
+    id integer NOT NULL,
+    name character varying(40),
+    customer character varying(40),
+    supplier character varying(40),
+    article character varying(40),
+    show_article boolean NOT NULL,
+    show_supplier boolean NOT NULL,
+    show_yard boolean NOT NULL,
+    show_forwarders boolean NOT NULL,
+    show_storage boolean NOT NULL,
+    show_building_site boolean NOT NULL,
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL,
+    read_number_from_camera boolean NOT NULL,
+    language character varying(40),
+    yard_id integer NOT NULL
+);
+
+
+ALTER TABLE public.yard_settings OWNER TO yardman_admin;
+
+--
+-- Name: yard_settings_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_settings_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_settings_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_settings_id_seq OWNED BY public.yard_settings.id;
+
+
+--
+-- Name: yard_supplier; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_supplier (
+    id integer NOT NULL,
+    supplier_name character varying(100) NOT NULL,
+    name character varying(40),
+    first_name character varying(40),
+    street character varying(100),
+    pin character varying(10),
+    fax character varying(15),
+    place character varying(100),
+    infotext character varying(100),
+    salutation character varying(10) NOT NULL,
+    addition1 character varying(40),
+    addition2 character varying(40),
+    addition3 character varying(40),
+    post_office_box character varying(40),
+    country character varying(100),
+    contact_person1_email character varying(40),
+    contact_person2_email character varying(40),
+    contact_person3_email character varying(40),
+    contact_person1_phone character varying(40),
+    contact_person2_phone character varying(40),
+    contact_person3_phone character varying(40),
+    website character varying(100),
+    cost_centre integer,
+    creditor_number bigint,
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL,
+    warehouse_id integer,
+    CONSTRAINT yard_supplier_cost_centre_check CHECK ((cost_centre >= 0))
+);
+
+
+ALTER TABLE public.yard_supplier OWNER TO yardman_admin;
+
+--
+-- Name: yard_supplier_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_supplier_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_supplier_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_supplier_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_supplier_id_seq OWNED BY public.yard_supplier.id;
+
+
+--
+-- Name: yard_transaction; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_transaction (
+    id integer NOT NULL,
+    first_weight numeric(10,0) NOT NULL,
+    second_weight numeric(10,0) NOT NULL,
+    net_weight numeric(10,0) NOT NULL,
+    total_price numeric(10,0),
+    lfd_nr character varying(40),
+    firstw_date_time timestamp with time zone,
+    secondw_date_time timestamp with time zone,
+    firstw_alibi_nr character varying(40),
+    secondw_alibi_nr character varying(40),
+    vehicle_weight_flag boolean,
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL,
+    trans_flag integer,
+    price_per_item numeric(10,2),
+    article_id integer,
+    customer_id integer,
+    supplier_id integer,
+    vehicle_id integer,
+    yard_id integer,
+    CONSTRAINT yard_transaction_trans_flag_check CHECK ((trans_flag >= 0))
+);
+
+
+ALTER TABLE public.yard_transaction OWNER TO yardman_admin;
+
+--
+-- Name: yard_transaction_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_transaction_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_transaction_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_transaction_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_transaction_id_seq OWNED BY public.yard_transaction.id;
+
+
+--
+-- Name: yard_user; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    name character varying(30) NOT NULL,
+    email character varying(254) NOT NULL,
+    date_joined timestamp with time zone NOT NULL,
+    is_active boolean NOT NULL,
+    is_staff boolean NOT NULL,
+    role character varying(30) NOT NULL,
+    yard_id integer
+);
+
+
+ALTER TABLE public.yard_user OWNER TO yardman_admin;
+
+--
+-- Name: yard_user_groups; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.yard_user_groups OWNER TO yardman_admin;
+
+--
+-- Name: yard_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_user_groups_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_user_groups_id_seq OWNED BY public.yard_user_groups.id;
+
+
+--
+-- Name: yard_user_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_user_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_user_id_seq OWNED BY public.yard_user.id;
+
+
+--
+-- Name: yard_user_user_permissions; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.yard_user_user_permissions OWNER TO yardman_admin;
+
+--
+-- Name: yard_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_user_user_permissions_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_user_user_permissions_id_seq OWNED BY public.yard_user_user_permissions.id;
+
+
+--
+-- Name: yard_vehicle; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_vehicle (
+    id integer NOT NULL,
+    license_plate character varying(100) NOT NULL,
+    license_plate2 character varying(100),
+    "group" integer,
+    country character varying(100),
+    telephone character varying(20),
+    vehicle_weight numeric(10,0) NOT NULL,
+    vehicle_weight_id character varying(100),
+    taken integer,
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL,
+    vehicle_type character varying(10),
+    cost_center character varying(100),
+    owner character varying(100),
+    driver_name character varying(100),
+    trailor_weight numeric(10,0) NOT NULL,
+    forwarder_id integer,
+    vehicle_weight2 numeric(10,0),
+    CONSTRAINT yard_vehicle_group_check CHECK (("group" >= 0)),
+    CONSTRAINT yard_vehicle_taken_check CHECK ((taken >= 0))
+);
+
+
+ALTER TABLE public.yard_vehicle OWNER TO yardman_admin;
+
+--
+-- Name: yard_vehicle_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_vehicle_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_vehicle_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_vehicle_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_vehicle_id_seq OWNED BY public.yard_vehicle.id;
+
+
+--
+-- Name: yard_warehouse; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_warehouse (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    stock_designation character varying(100),
+    stock_number character varying(100),
+    stock_item boolean NOT NULL,
+    locked_warehouse boolean NOT NULL,
+    ordered boolean NOT NULL,
+    production character varying(100),
+    reserved character varying(100),
+    available integer,
+    total_stock integer,
+    store integer,
+    outsource integer,
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL,
+    storage_location character varying(100),
+    warehouse_street character varying(100),
+    minimum_quantity integer,
+    CONSTRAINT yard_warehouse_available_check CHECK ((available >= 0)),
+    CONSTRAINT yard_warehouse_minimum_quantity_check CHECK ((minimum_quantity >= 0)),
+    CONSTRAINT yard_warehouse_outsource_check CHECK ((outsource >= 0)),
+    CONSTRAINT yard_warehouse_store_check CHECK ((store >= 0)),
+    CONSTRAINT yard_warehouse_total_stock_check CHECK ((total_stock >= 0))
+);
+
+
+ALTER TABLE public.yard_warehouse OWNER TO yardman_admin;
+
+--
+-- Name: yard_warehouse_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_warehouse_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_warehouse_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_warehouse_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_warehouse_id_seq OWNED BY public.yard_warehouse.id;
+
+
+--
+-- Name: yard_yard_list; Type: TABLE; Schema: public; Owner: yardman_admin
+--
+
+CREATE TABLE public.yard_yard_list (
+    id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    street character varying(40),
+    pin character varying(10),
+    place character varying(40),
+    country character varying(40),
+    telephone character varying(15),
+    email character varying(40),
+    created_date_time timestamp with time zone NOT NULL,
+    updated_date_time timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.yard_yard_list OWNER TO yardman_admin;
+
+--
+-- Name: yard_yard_list_id_seq; Type: SEQUENCE; Schema: public; Owner: yardman_admin
+--
+
+CREATE SEQUENCE public.yard_yard_list_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.yard_yard_list_id_seq OWNER TO yardman_admin;
+
+--
+-- Name: yard_yard_list_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: yardman_admin
+--
+
+ALTER SEQUENCE public.yard_yard_list_id_seq OWNED BY public.yard_yard_list.id;
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: scale_app_devices id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.scale_app_devices ALTER COLUMN id SET DEFAULT nextval('public.scale_app_devices_id_seq'::regclass);
+
+
+--
+-- Name: scale_app_transaction trans_id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.scale_app_transaction ALTER COLUMN trans_id SET DEFAULT nextval('public.scale_app_transaction_trans_id_seq'::regclass);
+
+
+--
+-- Name: yard_article id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_article ALTER COLUMN id SET DEFAULT nextval('public.yard_article_id_seq'::regclass);
+
+
+--
+-- Name: yard_article_meta id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_article_meta ALTER COLUMN id SET DEFAULT nextval('public.yard_article_meta_id_seq'::regclass);
+
+
+--
+-- Name: yard_buildingsite id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_buildingsite ALTER COLUMN id SET DEFAULT nextval('public.yard_buildingsite_id_seq'::regclass);
+
+
+--
+-- Name: yard_combination id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_combination ALTER COLUMN id SET DEFAULT nextval('public.yard_combination_id_seq'::regclass);
+
+
+--
+-- Name: yard_container id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_container ALTER COLUMN id SET DEFAULT nextval('public.yard_container_id_seq'::regclass);
+
+
+--
+-- Name: yard_customer id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_customer ALTER COLUMN id SET DEFAULT nextval('public.yard_customer_id_seq'::regclass);
+
+
+--
+-- Name: yard_delivery_note id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_delivery_note ALTER COLUMN id SET DEFAULT nextval('public.yard_delivery_note_id_seq'::regclass);
+
+
+--
+-- Name: yard_forwarders id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_forwarders ALTER COLUMN id SET DEFAULT nextval('public.yard_forwarders_id_seq'::regclass);
+
+
+--
+-- Name: yard_images_base64 id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_images_base64 ALTER COLUMN id SET DEFAULT nextval('public.yard_images_base64_id_seq'::regclass);
+
+
+--
+-- Name: yard_logo id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_logo ALTER COLUMN id SET DEFAULT nextval('public.yard_logo_id_seq'::regclass);
+
+
+--
+-- Name: yard_selectcamera id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_selectcamera ALTER COLUMN id SET DEFAULT nextval('public.yard_selectcamera_id_seq'::regclass);
+
+
+--
+-- Name: yard_settings id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_settings ALTER COLUMN id SET DEFAULT nextval('public.yard_settings_id_seq'::regclass);
+
+
+--
+-- Name: yard_supplier id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_supplier ALTER COLUMN id SET DEFAULT nextval('public.yard_supplier_id_seq'::regclass);
+
+
+--
+-- Name: yard_transaction id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_transaction ALTER COLUMN id SET DEFAULT nextval('public.yard_transaction_id_seq'::regclass);
+
+
+--
+-- Name: yard_user id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user ALTER COLUMN id SET DEFAULT nextval('public.yard_user_id_seq'::regclass);
+
+
+--
+-- Name: yard_user_groups id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user_groups ALTER COLUMN id SET DEFAULT nextval('public.yard_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: yard_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.yard_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: yard_vehicle id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_vehicle ALTER COLUMN id SET DEFAULT nextval('public.yard_vehicle_id_seq'::regclass);
+
+
+--
+-- Name: yard_warehouse id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_warehouse ALTER COLUMN id SET DEFAULT nextval('public.yard_warehouse_id_seq'::regclass);
+
+
+--
+-- Name: yard_yard_list id; Type: DEFAULT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_yard_list ALTER COLUMN id SET DEFAULT nextval('public.yard_yard_list_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add content type	4	add_contenttype
+14	Can change content type	4	change_contenttype
+15	Can delete content type	4	delete_contenttype
+16	Can view content type	4	view_contenttype
+17	Can add session	5	add_session
+18	Can change session	5	change_session
+19	Can delete session	5	delete_session
+20	Can view session	5	view_session
+21	Can add article	6	add_article
+22	Can change article	6	change_article
+23	Can delete article	6	delete_article
+24	Can view article	6	view_article
+25	Can add building site	7	add_buildingsite
+26	Can change building site	7	change_buildingsite
+27	Can delete building site	7	delete_buildingsite
+28	Can view building site	7	view_buildingsite
+29	Can add customer	8	add_customer
+30	Can change customer	8	change_customer
+31	Can delete customer	8	delete_customer
+32	Can view customer	8	view_customer
+33	Can add delivery_note	9	add_delivery_note
+34	Can change delivery_note	9	change_delivery_note
+35	Can delete delivery_note	9	delete_delivery_note
+36	Can view delivery_note	9	view_delivery_note
+37	Can add forwarders	10	add_forwarders
+38	Can change forwarders	10	change_forwarders
+39	Can delete forwarders	10	delete_forwarders
+40	Can view forwarders	10	view_forwarders
+41	Can add supplier	11	add_supplier
+42	Can change supplier	11	change_supplier
+43	Can delete supplier	11	delete_supplier
+44	Can view supplier	11	view_supplier
+45	Can add warehouse	12	add_warehouse
+46	Can change warehouse	12	change_warehouse
+47	Can delete warehouse	12	delete_warehouse
+48	Can view warehouse	12	view_warehouse
+49	Can add yard_list	13	add_yard_list
+50	Can change yard_list	13	change_yard_list
+51	Can delete yard_list	13	delete_yard_list
+52	Can view yard_list	13	view_yard_list
+53	Can add vehicle	14	add_vehicle
+54	Can change vehicle	14	change_vehicle
+55	Can delete vehicle	14	delete_vehicle
+56	Can view vehicle	14	view_vehicle
+57	Can add transaction	15	add_transaction
+58	Can change transaction	15	change_transaction
+59	Can delete transaction	15	delete_transaction
+60	Can view transaction	15	view_transaction
+61	Can add settings	16	add_settings
+62	Can change settings	16	change_settings
+63	Can delete settings	16	delete_settings
+64	Can view settings	16	view_settings
+65	Can add images_base64	17	add_images_base64
+66	Can change images_base64	17	change_images_base64
+67	Can delete images_base64	17	delete_images_base64
+68	Can view images_base64	17	view_images_base64
+69	Can add container	18	add_container
+70	Can change container	18	change_container
+71	Can delete container	18	delete_container
+72	Can view container	18	view_container
+73	Can add combination	19	add_combination
+74	Can change combination	19	change_combination
+75	Can delete combination	19	delete_combination
+76	Can view combination	19	view_combination
+77	Can add user	20	add_user
+78	Can change user	20	change_user
+79	Can delete user	20	delete_user
+80	Can view user	20	view_user
+81	Can add article_meta	21	add_article_meta
+82	Can change article_meta	21	change_article_meta
+83	Can delete article_meta	21	delete_article_meta
+84	Can view article_meta	21	view_article_meta
+85	Can add logo	22	add_logo
+86	Can change logo	22	change_logo
+87	Can delete logo	22	delete_logo
+88	Can view logo	22	view_logo
+89	Can add select camera	23	add_selectcamera
+90	Can change select camera	23	change_selectcamera
+91	Can delete select camera	23	delete_selectcamera
+92	Can view select camera	23	view_selectcamera
+93	Can add devices	24	add_devices
+94	Can change devices	24	change_devices
+95	Can delete devices	24	delete_devices
+96	Can view devices	24	view_devices
+97	Can add transaction	25	add_transaction
+98	Can change transaction	25	change_transaction
+99	Can delete transaction	25	delete_transaction
+100	Can view transaction	25	view_transaction
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	contenttypes	contenttype
+5	sessions	session
+6	yard	article
+7	yard	buildingsite
+8	yard	customer
+9	yard	delivery_note
+10	yard	forwarders
+11	yard	supplier
+12	yard	warehouse
+13	yard	yard_list
+14	yard	vehicle
+15	yard	transaction
+16	yard	settings
+17	yard	images_base64
+18	yard	container
+19	yard	combination
+20	yard	user
+21	yard	article_meta
+22	yard	logo
+23	yard	selectcamera
+24	scale_app	devices
+25	scale_app	transaction
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2021-05-27 17:41:42.665551+00
+2	contenttypes	0002_remove_content_type_name	2021-05-27 17:41:42.704309+00
+3	auth	0001_initial	2021-05-27 17:41:42.815915+00
+4	auth	0002_alter_permission_name_max_length	2021-05-27 17:41:44.471786+00
+5	auth	0003_alter_user_email_max_length	2021-05-27 17:41:44.768064+00
+6	auth	0004_alter_user_username_opts	2021-05-27 17:41:44.940188+00
+7	auth	0005_alter_user_last_login_null	2021-05-27 17:41:45.105049+00
+8	auth	0006_require_contenttypes_0002	2021-05-27 17:41:45.258855+00
+9	auth	0007_alter_validators_add_error_messages	2021-05-27 17:41:45.430397+00
+10	auth	0008_alter_user_username_max_length	2021-05-27 17:41:45.603119+00
+11	auth	0009_alter_user_last_name_max_length	2021-05-27 17:41:45.769413+00
+12	auth	0010_alter_group_name_max_length	2021-05-27 17:41:45.934197+00
+13	auth	0011_update_proxy_permissions	2021-05-27 17:41:46.098959+00
+14	auth	0012_alter_user_first_name_max_length	2021-05-27 17:41:46.271981+00
+15	yard	0001_initial	2021-05-27 17:41:48.337108+00
+16	admin	0001_initial	2021-05-27 17:41:49.045482+00
+17	admin	0002_logentry_remove_auto_add	2021-05-27 17:41:49.122418+00
+18	admin	0003_logentry_add_action_flag_choices	2021-05-27 17:41:49.168341+00
+19	scale_app	0001_initial	2021-05-27 17:41:49.496017+00
+20	sessions	0001_initial	2021-05-27 17:41:49.570543+00
+21	yard	0002_auto_20210412_1022	2021-05-27 17:41:49.905934+00
+22	yard	0003_auto_20210422_0932	2021-05-27 17:41:50.930194+00
+23	yard	0004_auto_20210425_2224	2021-05-27 17:41:51.341896+00
+24	yard	0005_warehouse_minimum_quantity	2021-05-27 17:41:51.390941+00
+25	yard	0006_auto_20210429_0955	2021-05-27 17:41:51.473245+00
+26	yard	0007_auto_20210505_1114	2021-05-27 17:41:52.193637+00
+27	yard	0008_auto_20210506_0902	2021-05-27 17:41:54.044334+00
+28	yard	0009_selectcamera	2021-05-27 17:41:54.102725+00
+29	yard	0010_auto_20210507_0904	2021-05-27 17:41:54.159364+00
+30	yard	0011_auto_20210526_0744	2021-05-27 17:41:54.44972+00
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+l1jxu2e16vsi6tr2hpbo5cgaunlt24xp	.eJxVkMtqwzAQRf9F62L8iG05u2Zb-g1iJI1sNbIU9CCU0n_vOJg03g3n3Lkw88MElLyIkjAKq9mZNeztlUlQV_Sb0F_g51Cp4HO0stoi1W5T9Rk0usuePRQskBbalqYG2XA5jqdm6OpWYa8maIdp4u1Q983UShj7ruvagUvOoTvJDozs-2k0I3KgUlVSDitGavsoXiOhVG43Zx_oAqTRuQ1DzFbRdGbvNF3RbdEl3MVT5FhwZ_8dL_Aboj4AE-KdGMZ0XM4hwnwslMU6bf0sks1PExG08GWV9BITwyoU0CnAzgZcIu_oueXRxOiy3z8eYYz8:1lmK2k:V-9ryEt-ch1Cmwf2MxmzMhh-i-OMRi2w3l2gviDFO4Q	2021-06-10 17:43:38.679112+00
+v2ve7jrqkwwrprwlkfomu27mmtusww9b	.eJxVkMtqwzAQRf9F62L8iG05u2Zb-g1iJI1sNbIU9CCU0n_vOJg03g3n3Lkw88MElLyIkjAKq9mZNeztlUlQV_Sb0F_g51Cp4HO0stoi1W5T9Rk0usuePRQskBbalqYG2XA5jqdm6OpWYa8maIdp4u1Q983UShj7ruvagUvOoTvJDozs-2k0I3KgUlVSDitGavsoXiOhVG43Zx_oAqTRuQ1DzFbRdGbvNF3RbdEl3MVT5FhwZ_8dL_Aboj4AE-KdGMZ0XM4hwnwslMU6bf0sks1PExG08GWV9BITwyoU0CnAzgZcIu_oueXRxOiy3z8eYYz8:1ln0AA:L7FxoRCJeqrNV1Ww7qsjyJokEt1ktPgzZ43ty-7AA8o	2021-06-12 14:42:06.162425+00
+dcw6hq4rqj1z8tufj9wqsmds13nzqvl0	.eJxVkMtqwzAQRf9F62L8iG05u2Zb-g1iJI1sNbIU9CCU0n_vOJg03g3n3Lkw88MElLyIkjAKq9mZNeztlUlQV_Sb0F_g51Cp4HO0stoi1W5T9Rk0usuePRQskBbalqYG2XA5jqdm6OpWYa8maIdp4u1Q983UShj7ruvagUvOoTvJDozs-2k0I3KgUlVSDitGavsoXiOhVG43Zx_oAqTRuQ1DzFbRdGbvNF3RbdEl3MVT5FhwZ_8dL_Aboj4AE-KdGMZ0XM4hwnwslMU6bf0sks1PExG08GWV9BITwyoU0CnAzgZcIu_oueXRxOiy3z8eYYz8:1lmK5m:mZPt4ZY9oE6Dx-vaCN73lDgVekzd7r1dcJkl7XSSOXM	2021-06-10 17:46:46.2891+00
+nm0oelqe98q817jxuyp3s0938vqbdp11	.eJxVkMtqwzAQRf9F62L8iG05u2Zb-g1iJI1sNbIU9CCU0n_vOJg03g3n3Lkw88MElLyIkjAKq9mZNeztlUlQV_Sb0F_g51Cp4HO0stoi1W5T9Rk0usuePRQskBbalqYG2XA5jqdm6OpWYa8maIdp4u1Q983UShj7ruvagUvOoTvJDozs-2k0I3KgUlVSDitGavsoXiOhVG43Zx_oAqTRuQ1DzFbRdGbvNF3RbdEl3MVT5FhwZ_8dL_Aboj4AE-KdGMZ0XM4hwnwslMU6bf0sks1PExG08GWV9BITwyoU0CnAzgZcIu_oueXRxOiy3z8eYYz8:1ln2ZZ:zzonzGc6bhg9iV1n8379JzgIjRItaMfoIo8kK-qcJ2U	2021-06-12 17:16:29.355765+00
+16dy7euucmw347407n4hlyisyzvc65tx	.eJxVkMtqwzAQRf9F62L8iG05u2Zb-g1iJI1sNbIU9CCU0n_vOJg03g3n3Lkw88MElLyIkjAKq9mZNeztlUlQV_Sb0F_g51Cp4HO0stoi1W5T9Rk0usuePRQskBbalqYG2XA5jqdm6OpWYa8maIdp4u1Q983UShj7ruvagUvOoTvJDozs-2k0I3KgUlVSDitGavsoXiOhVG43Zx_oAqTRuQ1DzFbRdGbvNF3RbdEl3MVT5FhwZ_8dL_Aboj4AE-KdGMZ0XM4hwnwslMU6bf0sks1PExG08GWV9BITwyoU0CnAzgZcIu_oueXRxOiy3z8eYYz8:1lmZDe:YVNvCDWxU1bXwwl1uszU0mWGspwEuppK_-hxP0IIVEw	2021-06-11 09:55:54.310944+00
+twdtokjab2280sufhlnj4m2i69nm26hi	.eJxVkMtqwzAQRf9F62L8iG05u2Zb-g1iJI1sNbIU9CCU0n_vOJg03g3n3Lkw88MElLyIkjAKq9mZNeztlUlQV_Sb0F_g51Cp4HO0stoi1W5T9Rk0usuePRQskBbalqYG2XA5jqdm6OpWYa8maIdp4u1Q983UShj7ruvagUvOoTvJDozs-2k0I3KgUlVSDitGavsoXiOhVG43Zx_oAqTRuQ1DzFbRdGbvNF3RbdEl3MVT5FhwZ_8dL_Aboj4AE-KdGMZ0XM4hwnwslMU6bf0sks1PExG08GWV9BITwyoU0CnAzgZcIu_oueXRxOiy3z8eYYz8:1lmaa9:TPfGG3NLBKo6LchXiJBXWRx4Ug-LLiUDP57EZyb2Y0k	2021-06-11 11:23:13.144398+00
+ma1iuzcf1nmqv9u7zwrsqisxjt1bxtmi	.eJxVkMtqwzAQRf9F62L8iG05u2Zb-g1iJI1sNbIU9CCU0n_vOJg03g3n3Lkw88MElLyIkjAKq9mZNeztlUlQV_Sb0F_g51Cp4HO0stoi1W5T9Rk0usuePRQskBbalqYG2XA5jqdm6OpWYa8maIdp4u1Q983UShj7ruvagUvOoTvJDozs-2k0I3KgUlVSDitGavsoXiOhVG43Zx_oAqTRuQ1DzFbRdGbvNF3RbdEl3MVT5FhwZ_8dL_Aboj4AE-KdGMZ0XM4hwnwslMU6bf0sks1PExG08GWV9BITwyoU0CnAzgZcIu_oueXRxOiy3z8eYYz8:1lmwn2:jJXzGcO0jxmi32o_wGHA2QS8ksNaFvdA70TpBSxS_KE	2021-06-12 11:06:00.04694+00
+u9259hs7obdjvrh61aguvb2338rcpqvu	.eJxVkMtqwzAQRf9F62L8iG05u2Zb-g1iJI1sNbIU9CCU0n_vOJg03g3n3Lkw88MElLyIkjAKq9mZNeztlUlQV_Sb0F_g51Cp4HO0stoi1W5T9Rk0usuePRQskBbalqYG2XA5jqdm6OpWYa8maIdp4u1Q983UShj7ruvagUvOoTvJDozs-2k0I3KgUlVSDitGavsoXiOhVG43Zx_oAqTRuQ1DzFbRdGbvNF3RbdEl3MVT5FhwZ_8dL_Aboj4AE-KdGMZ0XM4hwnwslMU6bf0sks1PExG08GWV9BITwyoU0CnAzgZcIu_oueXRxOiy3z8eYYz8:1lmxtP:eLRKXqpI7bjs7Fuj3lLTM4D7zhUZUHdPvKsOSFoQ2SQ	2021-06-12 12:16:39.422871+00
+\.
+
+
+--
+-- Data for Name: scale_app_devices; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.scale_app_devices (id, name, ip_addr, serial_num, mac_addr, port, wx_btn, zero_btn, tara_btn, man_tara_btn, x10_btn, active, certi_num, max_weight, min_weight, e_d, created_date_time, updated_date_time) FROM stdin;
+\.
+
+
+--
+-- Data for Name: scale_app_transaction; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.scale_app_transaction (trans_id, created_date_time, updated_date_time, tara, net_weight, device_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: yard_article; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_article (id, name, description, short_name, entry_weight, balance_weight, outgoing_weight, price1, price2, price3, price4, price5, discount, "group", vat, minimum_amount, created_date_time, updated_date_time, avv_num, account, cost_center, unit, min_quantity, revenue_group, revenue_account, list_price_net, ean, supplier_id, ware_house_id, yard_id) FROM stdin;
+10	TEST		TT	142844.0000	142654.00	50234.00	\N	\N	\N	\N	\N	\N	1	\N	\N	2021-04-29 06:00:18.174+00	2021-05-29 09:49:59.445411+00	\N	\N	\N	\N	\N	revenue1	\N	\N	\N	\N	1	1
+\.
+
+
+--
+-- Data for Name: yard_article_meta; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_article_meta (id, entry_weight, balance_weight, outgoing_weight, article_id, yard_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: yard_buildingsite; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_buildingsite (id, name, short_name, place, street, pin, infotext, created_date_time, updated_date_time) FROM stdin;
+1	TEST Site	Test	Indore	Indore	451245	None	2021-04-13 06:13:36.096+00	2021-04-13 06:13:36.096+00
+4	\N	\N	\N	\N	\N		2021-04-13 06:35:20.677+00	2021-04-13 06:35:20.677+00
+5	\N	\N	\N	\N	\N		2021-04-13 06:36:04.761+00	2021-04-13 06:36:04.761+00
+7	dummy	none	indore	indore	124563	heeeellllppp	2021-04-13 06:48:36.603+00	2021-04-13 06:48:36.603+00
+8	Name	Short nsee	placeee	strrrert	166649	inforttrtr	2021-04-13 06:59:19.121+00	2021-04-13 06:59:19.121+00
+9	Name	Short nsee	placeee	strrrert	166649	inforttrtr	2021-04-13 11:50:27.565+00	2021-04-13 11:50:27.565+00
+\.
+
+
+--
+-- Data for Name: yard_combination; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_combination (id, ident, short_name, created_date_time, updated_date_time, article_id, building_site_id, customer_id, forwarders_id, supplier_id, vehicle_id, yard_id) FROM stdin;
+1	F1	\N	2021-04-29 09:36:30.395+00	2021-05-06 07:16:44.946+00	10	\N	1	\N	1	6	1
+2	RW555	\N	2021-04-29 09:37:48.159+00	2021-05-04 10:26:53.088+00	10	\N	2	\N	2	6	1
+3	ID ausw�hlen oder neue ID eingeben	\N	2021-04-29 10:31:24.666+00	2021-04-29 10:31:24.69+00	10	\N	3	\N	2	2	1
+4	rw55	\N	2021-05-04 12:39:10.956+00	2021-05-04 12:39:10.972+00	10	\N	2	\N	2	2	1
+\.
+
+
+--
+-- Data for Name: yard_container; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_container (id, name, container_type, "group", container_weight, volume, created_date_time, updated_date_time, last_site_id, container_number, hazard_warnings, maximum_gross_weight, next_exam, payload_container_volume, tare_weight, waste_type) FROM stdin;
+1	Metal Container1	Solid Hollow	5	1450.00	2455	2021-02-19 10:39:17.975+00	2021-02-19 10:39:17.975+00	\N	\N	\N	0.00	\N	\N	0.00	\N
+\.
+
+
+--
+-- Data for Name: yard_customer; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_customer (id, name, firstname, company, salutation, addition1, addition2, addition3, post_office_box, description, street, pin, fax, place, website, cost_centre, country, contact_person1_email, contact_person2_email, contact_person3_email, contact_person1_phone, contact_person2_phone, contact_person3_phone, diff_invoice_recipient, customer_type, price_group, classification, sector, company_size, area, private_person, document_lock, payment_block, delivery_terms, special_discount, debitor_number, dunning, perm_street, perm_pin, perm_place, perm_country, created_date_time, updated_date_time, warehouse_id) FROM stdin;
+1	Gupta	Rohan Kumar	5555	Mr	cdddd bhjhhh	1444	2155	125	R&D	10th Street between 1st & Avenue A, Manhattan	\N	1245555	Mumbai	www.technofydigital.com	1	India	rassan2gmail.com	roshan452gmail.com	robinhood522gmail.com	5896325896	9896325896	996325896	1255	1	price2	Designing	Production	25	time square	f	f	f	free	\N	\N	\N	\N	\N	\N	\N	2021-02-19 10:49:50.815+00	2021-05-06 12:19:56.115+00	1
+2	M�ller	Fritz	\N	Mr	\N	\N	\N	\N	\N	Kronberger Str. 43	\N	\N	Frankfurt am Main	\N	1	Deutschland	info@ruediger-woehrl.de	\N	\N	\N	\N	\N	\N	\N	price2	\N	\N	\N	\N	f	f	f	free	\N	\N	\N	\N	\N	\N	\N	2021-04-02 11:32:01.316+00	2021-05-07 09:24:17.499+00	\N
+3	Jain	Manal	None	Mr	1	2	3	102345	none		\N	none	india	india.com	3	India	example@example.com	example@expam.com	exmpl2exmpl.com	12345667900	12222333348	03125469875	none	new	price3	none	1	12	india	f	t	f	paid	10.00	4	1	\N	\N	\N	\N	2021-04-22 09:25:32.393+00	2021-05-05 03:41:59.85+00	1
+4	M�ller KG	Fritz	M�ller KG	Mr	\N	\N	\N	\N	\N	Test str. 11	\N	\N	TESTHAUSEN	\N	1	Deutschland	test@test.com	\N	\N	0123 / 547896	\N	\N	\N	\N	price1	\N	\N	\N	\N	f	f	f	free	\N	\N	\N	\N	\N	\N	\N	2021-05-03 07:36:36.406+00	2021-05-07 09:47:00.043+00	\N
+5	test		\N		\N	\N	\N	\N	\N		\N	\N		\N	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	price1	\N	\N	\N	\N	f	f	f		\N	\N	\N	\N	\N	\N	\N	2021-05-05 05:45:21.315+00	2021-05-05 06:56:15.074+00	\N
+6	AAAA		\N		\N	\N	\N	\N	\N		\N	\N		\N	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	price1	\N	\N	\N	\N	f	f	f		\N	\N	\N	\N	\N	\N	\N	2021-05-05 09:26:57.475+00	2021-05-06 07:01:08.287+00	\N
+7	Allll		\N		\N	\N	\N	\N	\N		\N	\N		\N	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	price1	\N	\N	\N	\N	f	f	f		\N	\N	\N	\N	\N	\N	\N	2021-05-05 11:48:49.299+00	2021-05-05 11:48:49.318+00	\N
+8	kundee		\N		\N	\N	\N	\N	\N		\N	\N		\N	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	price1	\N	\N	\N	\N	f	f	f		\N	\N	\N	\N	\N	\N	\N	2021-05-28 09:23:35.495249+00	2021-05-28 09:23:37.517288+00	\N
+9	kundeeeeee		\N		\N	\N	\N	\N	\N		\N	\N		\N	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	price1	\N	\N	\N	\N	f	f	f		\N	\N	\N	\N	\N	\N	\N	2021-05-28 09:29:16.045643+00	2021-05-28 09:29:16.053645+00	\N
+10	Woehrl		\N		\N	\N	\N	\N	\N		\N	\N		\N	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	price1	\N	\N	\N	\N	f	f	f		\N	\N	\N	\N	\N	\N	\N	2021-05-29 06:58:07.223156+00	2021-05-29 06:58:07.230786+00	\N
+11	GURJANT		\N		\N	\N	\N	\N	\N		\N	\N		\N	1	\N	\N	\N	\N	\N	\N	\N	\N	\N	price1	\N	\N	\N	\N	f	f	f		\N	\N	\N	\N	\N	\N	\N	2021-05-29 09:49:07.901756+00	2021-05-29 09:49:59.43115+00	\N
+\.
+
+
+--
+-- Data for Name: yard_delivery_note; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_delivery_note (id, lfd_nr, file_name, created_date_time, updated_date_time) FROM stdin;
+\.
+
+
+--
+-- Data for Name: yard_forwarders; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_forwarders (id, name, firstname, second_name, street, pin, telephone, place, country, contact_person, created_date_time, updated_date_time) FROM stdin;
+1	Maruti Susuki	Roshan Kumar	Singh	10th Street between 1st & Avenue A, Manhattan	201504	9865321475	Mumbai	India	\N	2021-02-19 10:40:42.39+00	2021-02-19 10:41:01.742+00
+2	Dachser	Max	Meier	Treppenweg 3	70174		Stuttgart		\N	2021-04-02 11:42:53.554+00	2021-04-02 11:42:53.554+00
+\.
+
+
+--
+-- Data for Name: yard_images_base64; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_images_base64 (id, image1, image2, image3, transaction_id) FROM stdin;
+33				31
+34				32
+35				33
+36				34
+37				35
+38				36
+40				38
+41				39
+42				40
+44				42
+45				43
+46				44
+47				45
+48				46
+50				48
+52				50
+53				51
+55				53
+56				54
+60				58
+61				59
+62				60
+63				61
+64				62
+65				63
+66				64
+67				65
+68				66
+69				67
+70				68
+71				69
+72				70
+73				71
+74				72
+75				73
+76				74
+77				75
+78				76
+79				77
+80				78
+81				79
+82				80
+83				81
+84				82
+85				83
+86				84
+87				85
+88				86
+89				87
+90				88
+91				89
+92				90
+93				91
+94				92
+95				93
+96				94
+97				95
+98				96
+99				97
+100				98
+101				99
+102				100
+\.
+
+
+--
+-- Data for Name: yard_logo; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_logo (id, heading) FROM stdin;
+5	 R�diger W�hrl GmbH Goldbergstr. 1 74629 Pfedelbach
+\.
+
+
+--
+-- Data for Name: yard_selectcamera; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_selectcamera (id, yes) FROM stdin;
+11	f
+\.
+
+
+--
+-- Data for Name: yard_settings; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_settings (id, name, customer, supplier, article, show_article, show_supplier, show_yard, show_forwarders, show_storage, show_building_site, created_date_time, updated_date_time, read_number_from_camera, language, yard_id) FROM stdin;
+1	Christian Zinn	Kunde	Baustelle	Artikel	t	t	t	t	t	t	2021-02-19 10:28:01.418+00	2021-05-29 10:26:25.497091+00	f	de	1
+\.
+
+
+--
+-- Data for Name: yard_supplier; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_supplier (id, supplier_name, name, first_name, street, pin, fax, place, infotext, salutation, addition1, addition2, addition3, post_office_box, country, contact_person1_email, contact_person2_email, contact_person3_email, contact_person1_phone, contact_person2_phone, contact_person3_phone, website, cost_centre, creditor_number, created_date_time, updated_date_time, warehouse_id) FROM stdin;
+1	Tata motor	Gupta	Rajesh Kumar	123 Main Street, New York, NY 10030	4520690	1245555	Mumbai	\N	Mr	cdddd bhjhhh	1444	2155	125	India	roshan2gmail.com	roshan552gmail.com	roshan277gmail.com	5896325896	9896325896	996325896	www.technofydigital.com	25	12488	2021-02-19 10:42:50.754+00	2021-05-06 12:19:56.164+00	1
+2	Toyota	jain	Manal	none	1124	012245	none	\N	Mrs	none	noe	noe	noe	noen	exmpl@Wexmpl.com	example@ex.com	exm.plW2exmpl.com	0123548796	12345679900	1234567890	noe	3	12345012483	2021-04-22 09:27:23.89+00	2021-05-07 09:47:00.084+00	1
+\.
+
+
+--
+-- Data for Name: yard_transaction; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_transaction (id, first_weight, second_weight, net_weight, total_price, lfd_nr, firstw_date_time, secondw_date_time, firstw_alibi_nr, secondw_alibi_nr, vehicle_weight_flag, created_date_time, updated_date_time, trans_flag, price_per_item, article_id, customer_id, supplier_id, vehicle_id, yard_id) FROM stdin;
+31	112	190	78	78	\N	2021-04-29 04:04:33+00	2021-04-29 04:05:00+00	0	0	t	2021-04-29 06:05:22.279+00	2021-04-29 06:05:22.299+00	2	\N	10	1	1	2	1
+32	189	189	0	0	\N	2021-04-29 04:14:41+00	2021-04-29 04:15:42+00	0	0	t	2021-04-29 06:15:48.85+00	2021-04-29 06:15:48.868+00	2	\N	10	1	1	2	1
+33	189	189	0	0	\N	2021-04-29 04:14:41+00	2021-04-29 04:15:42+00	0	0	t	2021-04-29 06:18:22.836+00	2021-04-29 06:18:22.855+00	2	\N	10	1	1	2	1
+34	189	112	77	77	\N	2021-04-29 04:19:26+00	2021-04-29 04:19:42+00	56	57	t	2021-04-29 06:19:52.913+00	2021-04-29 06:19:52.932+00	2	\N	10	2	1	3	1
+35	112	189	77	77	\N	2021-04-29 05:20:55+00	2021-04-29 05:21:13+00	58	60	t	2021-04-29 07:21:30.399+00	2021-04-29 07:21:30.416+00	2	\N	10	2	2	2	1
+36	112	189	77	77	\N	2021-04-29 05:20:55+00	2021-04-29 05:21:13+00	58	60	t	2021-04-29 07:21:40.283+00	2021-04-29 07:21:40.3+00	2	\N	10	2	2	2	1
+38	112	112	0	0	\N	2021-04-29 05:39:45+00	2021-04-29 05:39:57+00	64	65	t	2021-04-29 07:40:02.524+00	2021-04-29 07:40:02.541+00	2	\N	10	1	1	2	1
+39	112	112	0	0	\N	2021-04-29 07:04:57+00	2021-04-29 07:04:59+00	96	97	t	2021-04-29 09:05:05.388+00	2021-04-29 09:05:05.409+00	2	\N	10	2	2	4	1
+40	112	112	0	0	\N	2021-04-29 07:08:50+00	2021-04-29 07:08:52+00	98	99	t	2021-04-29 09:08:59.361+00	2021-04-29 09:08:59.379+00	2	\N	10	2	2	5	1
+42	10100	190	9910	9910	\N	1999-12-31 22:00:00+00	2021-04-29 07:46:03+00	0000	103	f	2021-04-29 09:46:05.853+00	2021-04-29 09:46:05.879+00	2	\N	10	1	1	6	1
+43	189	189	0	0	\N	2021-04-29 08:01:04+00	2021-04-29 08:01:19+00	113	114	t	2021-04-29 10:01:21.023+00	2021-04-29 10:01:21.041+00	2	\N	10	1	1	6	1
+44	189	189	0	0	\N	2021-04-29 08:04:39+00	2021-04-29 08:01:19+00	115	114	t	2021-04-29 10:04:50.85+00	2021-04-29 10:04:50.868+00	2	\N	10	1	1	6	1
+45	189	189	0	0	\N	2021-04-29 08:18:16+00	2021-04-29 08:18:18+00	117	118	t	2021-04-29 10:18:28.908+00	2021-04-29 10:18:28.926+00	2	\N	10	2	1	4	1
+46	189	112	77	77	\N	2021-04-29 08:22:12+00	2021-04-29 08:22:18+00	120	121	t	2021-04-29 10:22:21.973+00	2021-04-29 10:22:21.999+00	2	\N	10	2	1	6	1
+48	112	112	0	0	\N	2021-04-29 11:02:00+00	2021-04-29 11:02:00+00	162	163	t	2021-04-29 11:04:46.135+00	2021-04-29 11:04:46.16+00	2	\N	10	2	2	4	1
+50	112	112	0	0	\N	2021-04-29 11:02:00+00	2021-04-29 11:02:00+00	162	163	t	2021-04-29 11:13:07.223+00	2021-04-29 11:13:07.242+00	2	\N	10	2	2	4	1
+51	112	112	0	0	\N	2021-04-29 11:22:00+00	2021-04-29 11:22:00+00	0	0	t	2021-04-29 11:25:49.502+00	2021-04-29 11:25:49.527+00	2	\N	10	2	2	2	1
+53	112	112	0	0	\N	2021-04-29 11:50:00+00	2021-04-29 11:50:00+00	0	0	t	2021-04-29 11:53:27.416+00	2021-04-29 11:53:27.434+00	2	\N	10	2	2	8	1
+54	112	112	0	0	\N	2021-04-29 11:51:00+00	2021-04-29 11:51:00+00	0	0	t	2021-04-29 11:53:56.179+00	2021-04-29 11:53:56.197+00	2	\N	10	2	2	8	1
+58	190	190	0	0	\N	2021-04-29 11:53:00+00	2021-04-29 11:55:00+00	0	0	t	2021-04-29 11:56:29.769+00	2021-04-29 11:58:04.758+00	2	\N	10	1	2	3	1
+59	112	112	0	0	\N	2021-04-29 11:02:00+00	2021-04-29 11:02:00+00	162	163	t	2021-04-29 12:12:42.51+00	2021-04-29 12:12:42.529+00	2	\N	10	2	2	4	1
+60	189	189	0	0	\N	2021-04-30 06:55:00+00	2021-04-30 06:55:00+00	1	2	t	2021-04-30 06:58:09.041+00	2021-04-30 06:58:09.07+00	2	\N	10	3	2	2	1
+61	189	189	189	0	\N	2021-05-03 04:45:00+00	2021-05-03 04:45:00+00	0	0	t	2021-04-30 11:37:31.129+00	2021-05-03 04:48:13.346+00	2	\N	10	1	1	6	1
+62	189	189	0	0	\N	2021-04-30 11:35:00+00	2021-04-30 11:35:00+00	9	11	f	2021-04-30 11:37:48.153+00	2021-04-30 11:38:20.557+00	2	\N	10	1	1	6	1
+63	189	189	0	0	\N	2021-05-04 06:45:00+00	2021-05-04 06:46:00+00	0	0	f	2021-05-04 06:48:04.815+00	2021-05-04 06:48:29.36+00	2	\N	10	1	1	6	1
+64	0	189	189	189	\N	2021-05-04 06:49:00+00	2021-05-04 06:50:00+00	14	16	t	2021-05-04 06:53:08.195+00	2021-05-04 06:53:08.223+00	2	\N	10	4	1	9	1
+65	189	189	0	0	\N	2021-05-04 07:13:00+00	2021-05-04 07:13:00+00	0	0	f	2021-05-04 07:15:45.878+00	2021-05-04 07:16:01.268+00	2	\N	10	1	1	6	1
+66	189	189	0	0	\N	2021-05-04 10:14:00+00	2021-05-04 10:14:00+00	0	0	f	2021-05-04 10:16:40.909+00	2021-05-04 10:21:25.246+00	2	\N	10	1	1	6	1
+67	190	190	0	189	\N	2021-05-05 04:29:00+00	2021-05-05 07:15:00+00	9	39	f	2021-05-04 10:26:52.994+00	2021-05-05 07:18:19.297+00	2	\N	10	2	2	2	1
+68	18246	18246	0	0	\N	2021-05-04 12:22:00+00	2021-05-04 12:23:00+00	10	10	f	2021-05-04 12:22:06.784+00	2021-05-04 12:24:13.94+00	2	\N	10	3	1	2	1
+69	190	190	0	0	\N	2021-05-05 02:49:00+00	2021-05-05 03:39:00+00	0	0	f	2021-05-05 02:52:03.802+00	2021-05-05 03:42:00.013+00	2	\N	10	3	2	3	1
+70	190	190	0	0	\N	2021-05-05 04:30:00+00	2021-05-05 06:45:00+00	0	0	f	2021-05-05 04:33:11.759+00	2021-05-05 06:47:40.979+00	2	\N	10	2	2	4	1
+71	8065	8165	100	0	\N	2021-05-05 05:46:00+00	2021-05-06 07:08:00+00	10	10	f	2021-05-05 05:45:30.742+00	2021-05-06 07:12:38.355+00	2	\N	10	4	1	10	1
+72	189	189	0	0	\N	2021-05-05 09:01:00+00	2021-05-07 09:17:00+00	40	2	f	2021-05-05 09:03:59.039+00	2021-05-07 09:19:15.054+00	2	\N	10	\N	\N	11	1
+73	189	112	77	0	\N	2021-05-05 09:01:00+00	2021-05-05 09:03:00+00	40	0	f	2021-05-05 09:03:59.525+00	2021-05-05 09:05:56.824+00	2	\N	10	4	1	11	1
+74	189	190	1	0	\N	2021-05-05 09:01:00+00	2021-05-07 09:41:00+00	40	6	f	2021-05-05 09:15:21.285+00	2021-05-07 09:46:15.406+00	2	\N	10	\N	\N	11	1
+75	112	8165	8053	0	\N	2021-05-05 09:14:00+00	2021-05-06 06:53:00+00	47	10	f	2021-05-05 09:16:59.999+00	2021-05-06 06:53:06.954+00	2	\N	10	\N	\N	14	1
+76	112	189	77	0	\N	2021-05-05 09:15:00+00	2021-05-07 09:22:00+00	48	4	f	2021-05-05 09:17:19.386+00	2021-05-07 09:24:58.316+00	2	\N	10	2	\N	15	1
+77	112	189	77	0	\N	2021-05-05 09:15:00+00	2021-05-06 12:34:00+00	48	26	f	2021-05-05 09:20:58.502+00	2021-05-06 12:37:05.04+00	2	\N	10	2	\N	15	1
+78	112	189	77	0	\N	2021-05-05 09:20:00+00	2021-05-06 12:33:00+00	51	25	f	2021-05-05 09:25:35.145+00	2021-05-06 12:35:57.85+00	2	\N	10	\N	\N	17	1
+79	112	112	0	0	\N	2021-05-05 09:20:00+00	2021-05-06 12:22:00+00	51	0	f	2021-05-05 09:26:07.793+00	2021-05-06 12:24:45.774+00	2	\N	10	\N	\N	17	1
+80	112	8165	8053	0	\N	2021-05-05 09:39:00+00	2021-05-06 06:45:00+00	62	10	f	2021-05-05 09:26:27.077+00	2021-05-06 06:45:32.966+00	2	\N	10	\N	\N	18	1
+81	112	8165	8053	112	\N	2021-05-05 11:38:00+00	2021-05-06 06:35:00+00	88	10	f	2021-05-05 09:26:57.611+00	2021-05-06 06:35:04.052+00	2	\N	10	\N	\N	21	1
+82	112	8165	8053	112	\N	2021-05-05 09:24:00+00	2021-05-06 07:01:00+00	55	10	f	2021-05-05 09:30:20.102+00	2021-05-06 07:01:08.408+00	2	\N	10	6	\N	19	1
+83	112	8165	8053	0	\N	2021-05-05 09:47:00+00	2021-05-06 06:46:00+00	65	10	f	2021-05-05 09:50:08.479+00	2021-05-06 06:46:19.639+00	2	\N	10	\N	\N	20	1
+84	112	8165	8053	0	\N	2021-05-05 11:39:00+00	2021-05-06 06:57:00+00	89	10	f	2021-05-05 11:41:48.993+00	2021-05-06 06:57:41.969+00	2	0.00	\N	\N	\N	22	1
+85	0	112	112	112	\N	1999-12-31 22:00:00+00	2021-05-05 11:40:00+00	0000	91	f	2021-05-05 11:42:28.226+00	2021-05-05 11:42:28.251+00	2	\N	10	\N	\N	\N	1
+86	0	112	112	112	\N	1999-12-31 22:00:00+00	2021-05-05 11:41:00+00	0000	92	f	2021-05-05 11:43:29.477+00	2021-05-05 11:43:29.502+00	2	\N	10	\N	\N	\N	1
+87	112	112	0	112	\N	2021-05-05 11:44:00+00	2021-05-05 11:45:00+00	0	0	f	2021-05-05 11:46:31.082+00	2021-05-05 11:48:49.438+00	2	\N	10	7	1	23	1
+88	112	112	0	0	\N	2021-05-05 11:48:00+00	2021-05-05 11:50:00+00	97	98	f	2021-05-05 11:50:41.403+00	2021-05-05 11:52:44.73+00	2	\N	10	\N	\N	24	1
+89	112	112	0	0	\N	2021-05-05 12:02:00+00	2021-05-05 12:06:00+00	99	102	f	2021-05-05 12:05:09.483+00	2021-05-05 12:09:12.728+00	2	\N	10	\N	\N	25	1
+90	15000	112	14888	14888	\N	1999-12-31 22:00:00+00	2021-05-05 12:10:00+00	0000	104	f	2021-05-05 12:13:16.146+00	2021-05-05 12:13:16.167+00	2	\N	10	\N	\N	25	1
+91	112	189	77	14888	\N	2021-05-06 12:30:00+00	2021-05-06 12:31:00+00	15	19	f	2021-05-05 12:17:13.932+00	2021-05-06 12:33:33.06+00	2	\N	10	\N	\N	4	1
+92	112	112	0	0	\N	1999-12-31 22:00:00+00	2021-05-05 12:16:00+00	0000	0	f	2021-05-05 12:18:49.589+00	2021-05-05 12:18:49.613+00	2	\N	10	\N	\N	26	1
+93	112	8165	8053	0	\N	2021-05-05 12:48:00+00	2021-05-06 07:04:00+00	110	10	f	2021-05-05 12:50:36.471+00	2021-05-06 07:04:38.021+00	2	\N	10	\N	\N	2	1
+94	8165	112	8053	0	\N	2021-05-06 07:16:00+00	2021-05-06 12:17:00+00	10	0	f	2021-05-06 07:16:44.849+00	2021-05-06 12:19:56.235+00	2	\N	10	1	1	6	1
+95	190	190	0	0	\N	2021-05-07 09:44:00+00	2021-05-07 09:44:00+00	8	12	f	2021-05-07 09:46:40.935+00	2021-05-07 09:47:00.16+00	2	\N	10	4	2	4	1
+96	287	0	0	0	\N	2021-05-28 09:21:00+00	1999-12-31 23:00:00+00	1	0000	t	2021-05-28 09:23:35.562574+00	2021-05-28 09:23:35.572008+00	0	0.00	\N	8	\N	33	1
+97	287	0	0	0	\N	2021-05-28 09:21:00+00	1999-12-31 23:00:00+00	2	0000	t	2021-05-28 09:23:37.57093+00	2021-05-28 09:23:37.580339+00	0	0.00	\N	8	\N	33	1
+98	287	0	0	0	\N	2021-05-28 09:26:00+00	1999-12-31 23:00:00+00	3	0000	t	2021-05-28 09:29:16.131377+00	2021-05-28 09:29:16.141542+00	0	0.00	\N	9	\N	34	1
+99	287	0	0	0	\N	2021-05-29 06:55:00+00	1999-12-31 23:00:00+00	1	0000	t	2021-05-29 06:58:07.288889+00	2021-05-29 06:58:07.29893+00	0	0.00	\N	10	\N	35	1
+100	287	287	0	0	\N	2021-05-29 09:46:00+00	2021-05-29 09:47:00+00	2	3	f	2021-05-29 09:49:07.97105+00	2021-05-29 10:04:24.62705+00	1	\N	10	11	\N	36	1
+\.
+
+
+--
+-- Data for Name: yard_user; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_user (id, password, last_login, is_superuser, name, email, date_joined, is_active, is_staff, role, yard_id) FROM stdin;
+2	pbkdf2_sha256$216000$Jxfr0Rdngecr$T4l56BU5ItUAv3WeQSJTAQ1g2vxTQc8UxSNIL7yEu7Q=	2021-02-19 10:53:10.019+00	t	Manal Jain	superadmin@gmail.com	2021-02-19 10:45:25.418+00	t	t	superuser	2
+3	pbkdf2_sha256$216000$VAgL4RT5V4tm$E8oW8MZX7daJ6l2t+7+jjFtZ1NdN8BAd75JHT8Gfn3M=	\N	t	Rohan	motif@gmail.com	2021-02-19 13:33:25.054+00	t	t	superuser	1
+4	pbkdf2_sha256$216000$svKaIK2xC714$Y7397VZeVXbXP7tD47dK8gJ4QfrfwIk6m+hAl77TZ8w=	2021-04-23 07:07:10.814+00	f	ali1	ali@g.com	2021-04-23 07:05:50.552+00	t	f	technician	1
+1	pbkdf2_sha256$216000$ygb2xn2DIjGF$+/fT4snGyEuCBIZPubS5xWWf/DrsUDlDCWobhOFv5NM=	2021-05-29 14:42:05.838664+00	t		admin@admin.com	2021-02-19 09:11:33.93+00	t	t		1
+\.
+
+
+--
+-- Data for Name: yard_user_groups; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: yard_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: yard_vehicle; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_vehicle (id, license_plate, license_plate2, "group", country, telephone, vehicle_weight, vehicle_weight_id, taken, created_date_time, updated_date_time, vehicle_type, cost_center, owner, driver_name, trailor_weight, forwarder_id, vehicle_weight2) FROM stdin;
+2	S RW 23	S RW 23	\N			112		0	2021-04-02 11:29:34+00	2021-05-07 05:11:03.313+00	type1		M�ller Tiefbau		0	2	0
+3	aasjak	shajh	5	india	ddddddd	190	jashdas	0	2021-04-17 03:41:26+00	2021-05-07 05:11:03.3+00	type2	272726	jasja	jaksjsa	457	1	0
+4	B 22-00	B 23-00	\N			190		\N	2021-04-20 11:25:00+00	2021-05-07 09:47:00.117+00					0	1	0
+5	10215487963320	1023456987520	2	India	0221334556	112	1000	0	2021-04-22 09:23:03+00	2021-05-07 05:11:03.273+00	type3	Indore	Manal	None	1000	1	0
+6	RW1	B 22-00	\N			112		\N	2021-04-29 09:36:30+00	2021-05-07 05:11:03.261+00					0	2	0
+7	ohr 333	ohr 222	\N			100		\N	2021-04-29 10:50:20+00	2021-05-07 05:11:03.247+00					0	\N	0
+8	RW 555	RW 55	\N			112		\N	2021-04-29 11:53:27+00	2021-05-07 05:11:03.238+00					0	\N	0
+9	rw444	rw666	\N			15000		\N	2021-05-04 06:53:08+00	2021-05-07 05:11:03.23+00					0	2	0
+10	RW66		\N			8065		\N	2021-05-05 05:45:21+00	2021-05-07 05:11:03.216+00					0	\N	0
+11	RW555		\N			189		\N	2021-05-05 07:16:17+00	2021-05-07 09:43:30.754+00					0	\N	0
+12	RW5555		\N			190		\N	2021-05-05 07:16:45+00	2021-05-07 05:11:03.2+00					0	\N	0
+13	RW87		\N			190		\N	2021-05-05 07:17:14+00	2021-05-07 05:11:03.191+00					0	\N	0
+14	RWWW		\N			112		\N	2021-05-05 09:16:59+00	2021-05-07 05:11:03.182+00					0	\N	0
+15	RWWW5		\N			112		\N	2021-05-05 09:17:19+00	2021-05-07 09:24:17.579+00					0	\N	0
+16	RWWWW7		\N			0		\N	2021-05-05 09:21:13+00	2021-05-07 05:11:03.163+00					0	\N	0
+17	RRRW		\N			112		\N	2021-05-05 09:23:11+00	2021-05-07 05:11:03.155+00					0	\N	0
+18	RRRRR		\N			112		\N	2021-05-05 09:26:27+00	2021-05-07 05:11:03.146+00					0	\N	0
+19	RRRRRR		\N			112		\N	2021-05-05 09:26:57+00	2021-05-07 05:11:03.138+00					0	\N	0
+20	RRRRRRR5		\N			112		\N	2021-05-05 09:50:08+00	2021-05-07 05:11:03.129+00					0	\N	0
+21	rw696		\N			112		\N	2021-05-05 11:41:10+00	2021-05-07 05:11:03.121+00					0	\N	0
+22	RW666		\N			112		\N	2021-05-05 11:41:48+00	2021-05-07 05:11:03.112+00					0	\N	0
+23	Rwww888		\N			112		\N	2021-05-05 11:46:31+00	2021-05-07 05:11:03.102+00					0	\N	0
+24	RW 666		\N			112		\N	2021-05-05 11:50:41+00	2021-05-07 05:11:03.085+00					0	\N	0
+25	PIV	PIV	\N			112		0	2021-05-05 12:05:09+00	2021-05-07 05:11:03.069+00					0	\N	0
+26	TTTTTT		\N			112		\N	2021-05-05 12:17:13+00	2021-05-07 05:11:03.052+00					0	\N	0
+27			\N			0		\N	2021-05-07 05:06:55+00	2021-05-07 05:11:03.037+00					0	\N	0
+28			\N			0		\N	2021-05-07 05:06:55+00	2021-05-07 05:11:03.022+00					0	\N	0
+29			\N			0		\N	2021-05-07 05:06:55+00	2021-05-07 05:11:03.006+00					0	\N	0
+30			\N			0		\N	2021-05-07 05:06:55+00	2021-05-07 05:11:02.996+00					0	\N	0
+31			\N			0		\N	2021-05-07 05:06:55+00	2021-05-07 05:11:02.987+00					0	\N	0
+32	hgf	hgf2	\N	\N	\N	0	\N	\N	2021-05-11 06:46:57.588+00	2021-05-11 06:46:57.605+00	\N	\N	\N	\N	0	\N	0
+33	fahr		\N	\N	\N	0	\N	\N	2021-05-28 09:23:35.516326+00	2021-05-28 09:23:37.535965+00	\N	\N	\N	\N	0	\N	0
+34	fahhhh		\N	\N	\N	0	\N	\N	2021-05-28 09:29:16.068283+00	2021-05-28 09:29:16.098941+00	\N	\N	\N	\N	0	\N	0
+35	ohr rw 44		\N	\N	\N	0	\N	\N	2021-05-29 06:58:07.246121+00	2021-05-29 06:58:07.257221+00	\N	\N	\N	\N	0	\N	0
+36	RW 7777		\N	\N	\N	287	\N	\N	2021-05-29 09:49:07.926066+00	2021-05-29 09:49:59.470164+00	\N	\N	\N	\N	0	\N	0
+\.
+
+
+--
+-- Data for Name: yard_warehouse; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_warehouse (id, name, stock_designation, stock_number, stock_item, locked_warehouse, ordered, production, reserved, available, total_stock, store, outsource, created_date_time, updated_date_time, storage_location, warehouse_street, minimum_quantity) FROM stdin;
+1	WareHouse1	Store Keeper	1245	t	t	t	Metal body	54	124	254	25	120	2021-02-19 10:37:32.42+00	2021-02-19 10:37:32.42+00	\N	\N	\N
+2	Zentrallager	S�dallee 3	124	t	t	t	\N	\N	\N	\N	\N	\N	2021-04-02 11:58:16.344+00	2021-04-02 11:58:16.344+00	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: yard_yard_list; Type: TABLE DATA; Schema: public; Owner: yardman_admin
+--
+
+COPY public.yard_yard_list (id, name, street, pin, place, country, telephone, email, created_date_time, updated_date_time) FROM stdin;
+1	Sonmichal	\N	\N	New York	USA	\N	\N	2021-02-19 09:13:00.874+00	2021-02-19 09:13:00.874+00
+2	Rahul Shah	\N	\N	Mumbai	India	\N	\N	2021-02-19 10:44:24.178+00	2021-02-19 10:44:24.178+00
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 100, true);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 1, false);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 25, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 30, true);
+
+
+--
+-- Name: scale_app_devices_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.scale_app_devices_id_seq', 1, false);
+
+
+--
+-- Name: scale_app_transaction_trans_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.scale_app_transaction_trans_id_seq', 1, false);
+
+
+--
+-- Name: yard_article_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_article_id_seq', 10, true);
+
+
+--
+-- Name: yard_article_meta_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_article_meta_id_seq', 1, false);
+
+
+--
+-- Name: yard_buildingsite_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_buildingsite_id_seq', 9, true);
+
+
+--
+-- Name: yard_combination_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_combination_id_seq', 4, true);
+
+
+--
+-- Name: yard_container_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_container_id_seq', 1, true);
+
+
+--
+-- Name: yard_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_customer_id_seq', 11, true);
+
+
+--
+-- Name: yard_delivery_note_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_delivery_note_id_seq', 1, false);
+
+
+--
+-- Name: yard_forwarders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_forwarders_id_seq', 2, true);
+
+
+--
+-- Name: yard_images_base64_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_images_base64_id_seq', 102, true);
+
+
+--
+-- Name: yard_logo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_logo_id_seq', 5, true);
+
+
+--
+-- Name: yard_selectcamera_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_selectcamera_id_seq', 11, true);
+
+
+--
+-- Name: yard_settings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_settings_id_seq', 1, true);
+
+
+--
+-- Name: yard_supplier_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_supplier_id_seq', 2, true);
+
+
+--
+-- Name: yard_transaction_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_transaction_id_seq', 100, true);
+
+
+--
+-- Name: yard_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: yard_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_user_id_seq', 4, true);
+
+
+--
+-- Name: yard_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: yard_vehicle_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_vehicle_id_seq', 36, true);
+
+
+--
+-- Name: yard_warehouse_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_warehouse_id_seq', 2, true);
+
+
+--
+-- Name: yard_yard_list_id_seq; Type: SEQUENCE SET; Schema: public; Owner: yardman_admin
+--
+
+SELECT pg_catalog.setval('public.yard_yard_list_id_seq', 2, true);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: scale_app_devices scale_app_devices_name_key; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.scale_app_devices
+    ADD CONSTRAINT scale_app_devices_name_key UNIQUE (name);
+
+
+--
+-- Name: scale_app_devices scale_app_devices_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.scale_app_devices
+    ADD CONSTRAINT scale_app_devices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: scale_app_transaction scale_app_transaction_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.scale_app_transaction
+    ADD CONSTRAINT scale_app_transaction_pkey PRIMARY KEY (trans_id);
+
+
+--
+-- Name: yard_article_meta yard_article_meta_article_id_yard_id_484ce82f_uniq; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_article_meta
+    ADD CONSTRAINT yard_article_meta_article_id_yard_id_484ce82f_uniq UNIQUE (article_id, yard_id);
+
+
+--
+-- Name: yard_article_meta yard_article_meta_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_article_meta
+    ADD CONSTRAINT yard_article_meta_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_article yard_article_name_yard_id_b6b7be03_uniq; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_article
+    ADD CONSTRAINT yard_article_name_yard_id_b6b7be03_uniq UNIQUE (name, yard_id);
+
+
+--
+-- Name: yard_article yard_article_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_article
+    ADD CONSTRAINT yard_article_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_buildingsite yard_buildingsite_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_buildingsite
+    ADD CONSTRAINT yard_buildingsite_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_combination yard_combination_ident_key; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_combination
+    ADD CONSTRAINT yard_combination_ident_key UNIQUE (ident);
+
+
+--
+-- Name: yard_combination yard_combination_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_combination
+    ADD CONSTRAINT yard_combination_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_container yard_container_name_key; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_container
+    ADD CONSTRAINT yard_container_name_key UNIQUE (name);
+
+
+--
+-- Name: yard_container yard_container_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_container
+    ADD CONSTRAINT yard_container_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_customer yard_customer_name_key; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_customer
+    ADD CONSTRAINT yard_customer_name_key UNIQUE (name);
+
+
+--
+-- Name: yard_customer yard_customer_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_customer
+    ADD CONSTRAINT yard_customer_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_delivery_note yard_delivery_note_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_delivery_note
+    ADD CONSTRAINT yard_delivery_note_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_forwarders yard_forwarders_name_key; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_forwarders
+    ADD CONSTRAINT yard_forwarders_name_key UNIQUE (name);
+
+
+--
+-- Name: yard_forwarders yard_forwarders_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_forwarders
+    ADD CONSTRAINT yard_forwarders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_images_base64 yard_images_base64_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_images_base64
+    ADD CONSTRAINT yard_images_base64_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_logo yard_logo_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_logo
+    ADD CONSTRAINT yard_logo_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_selectcamera yard_selectcamera_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_selectcamera
+    ADD CONSTRAINT yard_selectcamera_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_settings yard_settings_name_key; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_settings
+    ADD CONSTRAINT yard_settings_name_key UNIQUE (name);
+
+
+--
+-- Name: yard_settings yard_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_settings
+    ADD CONSTRAINT yard_settings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_supplier yard_supplier_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_supplier
+    ADD CONSTRAINT yard_supplier_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_supplier yard_supplier_supplier_name_key; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_supplier
+    ADD CONSTRAINT yard_supplier_supplier_name_key UNIQUE (supplier_name);
+
+
+--
+-- Name: yard_transaction yard_transaction_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_transaction
+    ADD CONSTRAINT yard_transaction_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_user yard_user_email_key; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user
+    ADD CONSTRAINT yard_user_email_key UNIQUE (email);
+
+
+--
+-- Name: yard_user_groups yard_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user_groups
+    ADD CONSTRAINT yard_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_user_groups yard_user_groups_user_id_group_id_211b4c4e_uniq; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user_groups
+    ADD CONSTRAINT yard_user_groups_user_id_group_id_211b4c4e_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: yard_user yard_user_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user
+    ADD CONSTRAINT yard_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_user_user_permissions yard_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user_user_permissions
+    ADD CONSTRAINT yard_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_user_user_permissions yard_user_user_permissions_user_id_permission_id_5f0d112a_uniq; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user_user_permissions
+    ADD CONSTRAINT yard_user_user_permissions_user_id_permission_id_5f0d112a_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: yard_vehicle yard_vehicle_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_vehicle
+    ADD CONSTRAINT yard_vehicle_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_warehouse yard_warehouse_name_key; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_warehouse
+    ADD CONSTRAINT yard_warehouse_name_key UNIQUE (name);
+
+
+--
+-- Name: yard_warehouse yard_warehouse_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_warehouse
+    ADD CONSTRAINT yard_warehouse_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: yard_yard_list yard_yard_list_name_key; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_yard_list
+    ADD CONSTRAINT yard_yard_list_name_key UNIQUE (name);
+
+
+--
+-- Name: yard_yard_list yard_yard_list_pkey; Type: CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_yard_list
+    ADD CONSTRAINT yard_yard_list_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: scale_app_devices_name_a1cace4c_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX scale_app_devices_name_a1cace4c_like ON public.scale_app_devices USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: scale_app_transaction_device_id_bf976688; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX scale_app_transaction_device_id_bf976688 ON public.scale_app_transaction USING btree (device_id);
+
+
+--
+-- Name: yard_article_meta_article_id_742c60ec; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_article_meta_article_id_742c60ec ON public.yard_article_meta USING btree (article_id);
+
+
+--
+-- Name: yard_article_meta_yard_id_004f01bf; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_article_meta_yard_id_004f01bf ON public.yard_article_meta USING btree (yard_id);
+
+
+--
+-- Name: yard_article_supplier_id_42a19966; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_article_supplier_id_42a19966 ON public.yard_article USING btree (supplier_id);
+
+
+--
+-- Name: yard_article_ware_house_id_6872f764; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_article_ware_house_id_6872f764 ON public.yard_article USING btree (ware_house_id);
+
+
+--
+-- Name: yard_article_yard_id_6a63db80; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_article_yard_id_6a63db80 ON public.yard_article USING btree (yard_id);
+
+
+--
+-- Name: yard_combination_article_id_cf35364a; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_combination_article_id_cf35364a ON public.yard_combination USING btree (article_id);
+
+
+--
+-- Name: yard_combination_building_site_id_31b8603f; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_combination_building_site_id_31b8603f ON public.yard_combination USING btree (building_site_id);
+
+
+--
+-- Name: yard_combination_customer_id_0d9ba8f8; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_combination_customer_id_0d9ba8f8 ON public.yard_combination USING btree (customer_id);
+
+
+--
+-- Name: yard_combination_forwarders_id_96a62c63; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_combination_forwarders_id_96a62c63 ON public.yard_combination USING btree (forwarders_id);
+
+
+--
+-- Name: yard_combination_ident_dd507c80_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_combination_ident_dd507c80_like ON public.yard_combination USING btree (ident varchar_pattern_ops);
+
+
+--
+-- Name: yard_combination_supplier_id_122dfd7b; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_combination_supplier_id_122dfd7b ON public.yard_combination USING btree (supplier_id);
+
+
+--
+-- Name: yard_combination_vehicle_id_707c33e3; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_combination_vehicle_id_707c33e3 ON public.yard_combination USING btree (vehicle_id);
+
+
+--
+-- Name: yard_combination_yard_id_3c614565; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_combination_yard_id_3c614565 ON public.yard_combination USING btree (yard_id);
+
+
+--
+-- Name: yard_container_last_site_id_850dfddf; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_container_last_site_id_850dfddf ON public.yard_container USING btree (last_site_id);
+
+
+--
+-- Name: yard_container_name_8454f58d_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_container_name_8454f58d_like ON public.yard_container USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: yard_customer_name_af536799_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_customer_name_af536799_like ON public.yard_customer USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: yard_customer_warehouse_id_3cfe9e0a; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_customer_warehouse_id_3cfe9e0a ON public.yard_customer USING btree (warehouse_id);
+
+
+--
+-- Name: yard_forwarders_name_5d36371c_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_forwarders_name_5d36371c_like ON public.yard_forwarders USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: yard_images_base64_transaction_id_75bda9d8; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_images_base64_transaction_id_75bda9d8 ON public.yard_images_base64 USING btree (transaction_id);
+
+
+--
+-- Name: yard_settings_name_c54ec768_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_settings_name_c54ec768_like ON public.yard_settings USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: yard_settings_yard_id_9c2994d4; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_settings_yard_id_9c2994d4 ON public.yard_settings USING btree (yard_id);
+
+
+--
+-- Name: yard_supplier_supplier_name_533a4286_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_supplier_supplier_name_533a4286_like ON public.yard_supplier USING btree (supplier_name varchar_pattern_ops);
+
+
+--
+-- Name: yard_supplier_warehouse_id_75e7d162; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_supplier_warehouse_id_75e7d162 ON public.yard_supplier USING btree (warehouse_id);
+
+
+--
+-- Name: yard_transaction_article_id_10b0c55e; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_transaction_article_id_10b0c55e ON public.yard_transaction USING btree (article_id);
+
+
+--
+-- Name: yard_transaction_customer_id_be6fe566; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_transaction_customer_id_be6fe566 ON public.yard_transaction USING btree (customer_id);
+
+
+--
+-- Name: yard_transaction_supplier_id_96d41e88; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_transaction_supplier_id_96d41e88 ON public.yard_transaction USING btree (supplier_id);
+
+
+--
+-- Name: yard_transaction_vehicle_id_0452d9e4; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_transaction_vehicle_id_0452d9e4 ON public.yard_transaction USING btree (vehicle_id);
+
+
+--
+-- Name: yard_transaction_yard_id_d04d9761; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_transaction_yard_id_d04d9761 ON public.yard_transaction USING btree (yard_id);
+
+
+--
+-- Name: yard_user_email_a63a80cb_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_user_email_a63a80cb_like ON public.yard_user USING btree (email varchar_pattern_ops);
+
+
+--
+-- Name: yard_user_groups_group_id_02dc603a; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_user_groups_group_id_02dc603a ON public.yard_user_groups USING btree (group_id);
+
+
+--
+-- Name: yard_user_groups_user_id_71cb25fa; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_user_groups_user_id_71cb25fa ON public.yard_user_groups USING btree (user_id);
+
+
+--
+-- Name: yard_user_user_permissions_permission_id_a94149d3; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_user_user_permissions_permission_id_a94149d3 ON public.yard_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: yard_user_user_permissions_user_id_c99c02b9; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_user_user_permissions_user_id_c99c02b9 ON public.yard_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: yard_user_yard_id_618964e2; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_user_yard_id_618964e2 ON public.yard_user USING btree (yard_id);
+
+
+--
+-- Name: yard_vehicle_forwarder_id_cf6b0b0d; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_vehicle_forwarder_id_cf6b0b0d ON public.yard_vehicle USING btree (forwarder_id);
+
+
+--
+-- Name: yard_warehouse_name_01d872a7_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_warehouse_name_01d872a7_like ON public.yard_warehouse USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: yard_yard_list_name_5344ed7f_like; Type: INDEX; Schema: public; Owner: yardman_admin
+--
+
+CREATE INDEX yard_yard_list_name_5344ed7f_like ON public.yard_yard_list USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_yard_user_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_yard_user_id FOREIGN KEY (user_id) REFERENCES public.yard_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: scale_app_transaction scale_app_transactio_device_id_bf976688_fk_scale_app; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.scale_app_transaction
+    ADD CONSTRAINT scale_app_transactio_device_id_bf976688_fk_scale_app FOREIGN KEY (device_id) REFERENCES public.scale_app_devices(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_article_meta yard_article_meta_article_id_742c60ec_fk_yard_article_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_article_meta
+    ADD CONSTRAINT yard_article_meta_article_id_742c60ec_fk_yard_article_id FOREIGN KEY (article_id) REFERENCES public.yard_article(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_article_meta yard_article_meta_yard_id_004f01bf_fk_yard_yard_list_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_article_meta
+    ADD CONSTRAINT yard_article_meta_yard_id_004f01bf_fk_yard_yard_list_id FOREIGN KEY (yard_id) REFERENCES public.yard_yard_list(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_article yard_article_supplier_id_42a19966_fk_yard_supplier_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_article
+    ADD CONSTRAINT yard_article_supplier_id_42a19966_fk_yard_supplier_id FOREIGN KEY (supplier_id) REFERENCES public.yard_supplier(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_article yard_article_ware_house_id_6872f764_fk_yard_warehouse_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_article
+    ADD CONSTRAINT yard_article_ware_house_id_6872f764_fk_yard_warehouse_id FOREIGN KEY (ware_house_id) REFERENCES public.yard_warehouse(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_article yard_article_yard_id_6a63db80_fk_yard_yard_list_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_article
+    ADD CONSTRAINT yard_article_yard_id_6a63db80_fk_yard_yard_list_id FOREIGN KEY (yard_id) REFERENCES public.yard_yard_list(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_combination yard_combination_article_id_cf35364a_fk_yard_article_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_combination
+    ADD CONSTRAINT yard_combination_article_id_cf35364a_fk_yard_article_id FOREIGN KEY (article_id) REFERENCES public.yard_article(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_combination yard_combination_building_site_id_31b8603f_fk_yard_buil; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_combination
+    ADD CONSTRAINT yard_combination_building_site_id_31b8603f_fk_yard_buil FOREIGN KEY (building_site_id) REFERENCES public.yard_buildingsite(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_combination yard_combination_customer_id_0d9ba8f8_fk_yard_customer_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_combination
+    ADD CONSTRAINT yard_combination_customer_id_0d9ba8f8_fk_yard_customer_id FOREIGN KEY (customer_id) REFERENCES public.yard_customer(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_combination yard_combination_forwarders_id_96a62c63_fk_yard_forwarders_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_combination
+    ADD CONSTRAINT yard_combination_forwarders_id_96a62c63_fk_yard_forwarders_id FOREIGN KEY (forwarders_id) REFERENCES public.yard_forwarders(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_combination yard_combination_supplier_id_122dfd7b_fk_yard_supplier_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_combination
+    ADD CONSTRAINT yard_combination_supplier_id_122dfd7b_fk_yard_supplier_id FOREIGN KEY (supplier_id) REFERENCES public.yard_supplier(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_combination yard_combination_vehicle_id_707c33e3_fk_yard_vehicle_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_combination
+    ADD CONSTRAINT yard_combination_vehicle_id_707c33e3_fk_yard_vehicle_id FOREIGN KEY (vehicle_id) REFERENCES public.yard_vehicle(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_combination yard_combination_yard_id_3c614565_fk_yard_yard_list_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_combination
+    ADD CONSTRAINT yard_combination_yard_id_3c614565_fk_yard_yard_list_id FOREIGN KEY (yard_id) REFERENCES public.yard_yard_list(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_container yard_container_last_site_id_850dfddf_fk_yard_buildingsite_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_container
+    ADD CONSTRAINT yard_container_last_site_id_850dfddf_fk_yard_buildingsite_id FOREIGN KEY (last_site_id) REFERENCES public.yard_buildingsite(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_customer yard_customer_warehouse_id_3cfe9e0a_fk_yard_warehouse_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_customer
+    ADD CONSTRAINT yard_customer_warehouse_id_3cfe9e0a_fk_yard_warehouse_id FOREIGN KEY (warehouse_id) REFERENCES public.yard_warehouse(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_images_base64 yard_images_base64_transaction_id_75bda9d8_fk_yard_tran; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_images_base64
+    ADD CONSTRAINT yard_images_base64_transaction_id_75bda9d8_fk_yard_tran FOREIGN KEY (transaction_id) REFERENCES public.yard_transaction(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_settings yard_settings_yard_id_9c2994d4_fk_yard_yard_list_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_settings
+    ADD CONSTRAINT yard_settings_yard_id_9c2994d4_fk_yard_yard_list_id FOREIGN KEY (yard_id) REFERENCES public.yard_yard_list(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_supplier yard_supplier_warehouse_id_75e7d162_fk_yard_warehouse_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_supplier
+    ADD CONSTRAINT yard_supplier_warehouse_id_75e7d162_fk_yard_warehouse_id FOREIGN KEY (warehouse_id) REFERENCES public.yard_warehouse(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_transaction yard_transaction_article_id_10b0c55e_fk_yard_article_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_transaction
+    ADD CONSTRAINT yard_transaction_article_id_10b0c55e_fk_yard_article_id FOREIGN KEY (article_id) REFERENCES public.yard_article(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_transaction yard_transaction_customer_id_be6fe566_fk_yard_customer_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_transaction
+    ADD CONSTRAINT yard_transaction_customer_id_be6fe566_fk_yard_customer_id FOREIGN KEY (customer_id) REFERENCES public.yard_customer(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_transaction yard_transaction_supplier_id_96d41e88_fk_yard_supplier_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_transaction
+    ADD CONSTRAINT yard_transaction_supplier_id_96d41e88_fk_yard_supplier_id FOREIGN KEY (supplier_id) REFERENCES public.yard_supplier(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_transaction yard_transaction_vehicle_id_0452d9e4_fk_yard_vehicle_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_transaction
+    ADD CONSTRAINT yard_transaction_vehicle_id_0452d9e4_fk_yard_vehicle_id FOREIGN KEY (vehicle_id) REFERENCES public.yard_vehicle(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_transaction yard_transaction_yard_id_d04d9761_fk_yard_yard_list_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_transaction
+    ADD CONSTRAINT yard_transaction_yard_id_d04d9761_fk_yard_yard_list_id FOREIGN KEY (yard_id) REFERENCES public.yard_yard_list(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_user_groups yard_user_groups_group_id_02dc603a_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user_groups
+    ADD CONSTRAINT yard_user_groups_group_id_02dc603a_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_user_groups yard_user_groups_user_id_71cb25fa_fk_yard_user_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user_groups
+    ADD CONSTRAINT yard_user_groups_user_id_71cb25fa_fk_yard_user_id FOREIGN KEY (user_id) REFERENCES public.yard_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_user_user_permissions yard_user_user_permi_permission_id_a94149d3_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user_user_permissions
+    ADD CONSTRAINT yard_user_user_permi_permission_id_a94149d3_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_user_user_permissions yard_user_user_permissions_user_id_c99c02b9_fk_yard_user_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user_user_permissions
+    ADD CONSTRAINT yard_user_user_permissions_user_id_c99c02b9_fk_yard_user_id FOREIGN KEY (user_id) REFERENCES public.yard_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_user yard_user_yard_id_618964e2_fk_yard_yard_list_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_user
+    ADD CONSTRAINT yard_user_yard_id_618964e2_fk_yard_yard_list_id FOREIGN KEY (yard_id) REFERENCES public.yard_yard_list(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: yard_vehicle yard_vehicle_forwarder_id_cf6b0b0d_fk_yard_forwarders_id; Type: FK CONSTRAINT; Schema: public; Owner: yardman_admin
+--
+
+ALTER TABLE ONLY public.yard_vehicle
+    ADD CONSTRAINT yard_vehicle_forwarder_id_cf6b0b0d_fk_yard_forwarders_id FOREIGN KEY (forwarder_id) REFERENCES public.yard_forwarders(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

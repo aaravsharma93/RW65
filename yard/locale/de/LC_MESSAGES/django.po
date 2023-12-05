@@ -1,0 +1,892 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-22 14:16+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Weighing"
+msgstr "Wiegen"
+
+msgid "Masterdata"
+msgstr "Stammdaten"
+
+msgid "Delivery/Weighing Notes"
+msgstr "Lieferung/Wägescheine"
+
+msgid "Evaluation"
+msgstr "Auswertung"
+
+msgid "Help"
+msgstr "Hilfe"
+
+msgid "Material"
+msgstr "Artikel"
+
+msgid "Building Site"
+msgstr "Baustelle"
+
+msgid "Delivery Note"
+msgstr "Lieferschein"
+
+msgid "Weight Unit"
+msgstr "Gewichtseinheit"
+
+msgid "Generate Excel"
+msgstr "CSV Export"
+
+msgid "Select Supplier"
+msgstr "Baustelle auswählen"
+
+msgid "Customer"
+msgstr "Kunde"
+
+msgid "Code"
+msgstr "Kennz"
+
+msgid "Supplier"
+msgstr "Lieferant"
+
+msgid "Forwarders"
+msgstr "Spedition"
+
+msgid "Yard List"
+msgstr "Yard-Liste"
+
+msgid "Site List"
+msgstr "Hofliste"
+
+msgid "Daily List"
+msgstr "Tagesliste"
+
+msgid "Delivery Note Filing"
+msgstr "Ablage von Lieferscheinen"
+
+msgid "Daily Closing"
+msgstr "Tagesabschluss"
+
+msgid "Data Import & Export"
+msgstr "Datenaustausch"
+
+msgid "Standard Evaluation"
+msgstr "Standard-Auswertung"
+
+msgid "Special Evaluation"
+msgstr "Sonderauswertung"
+
+msgid "User"
+msgstr "Benutzer"
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "First Name"
+msgstr "Vorname"
+
+msgid "First name"
+msgstr "Vorname"
+
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "Telephone"
+msgstr "Telefon"
+
+msgid "Weight"
+msgstr "Gewicht"
+
+msgid "Weight (kg)"
+msgstr "Gewicht (kg)"
+
+msgid "First Weighing"
+msgstr "Erstwiegung"
+
+msgid "Second Weighing"
+msgstr "Zweitwiegung"
+
+msgid "Net Weight"
+msgstr "Nettogewicht"
+
+msgid "Scale 1"
+msgstr "Skala 1"
+
+msgid "Scale 2"
+msgstr "Skala 2"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Print"
+msgstr "Drucken"
+
+msgid "Image"
+msgstr "Bild"
+
+msgid "Capture Image"
+msgstr "Bild einfangen"
+
+msgid "Get"
+msgstr "Holen Sie sich"
+
+msgid "E Signature"
+msgstr "Elektronische unterschreiben"
+
+msgid "Signature"
+msgstr "Unterschrift"
+
+msgid "Submit Signature"
+msgstr "Unterschrift bestätigen"
+
+msgid "Clear Signature"
+msgstr "Unterschrift löschen"
+
+msgid "Select ID or Enter New ID"
+msgstr "ID auswählen oder neue ID eingeben"
+
+msgid "Select"
+msgstr "Auswählen"
+
+msgid "Select Material"
+msgstr "Produkt auswählen"
+
+msgid "Select Article"
+msgstr "Artikel auswählen"
+
+msgid "Select2"
+msgstr "auswählen"
+
+msgid "Short Name"
+msgstr "Kurzname"
+
+msgid "Name1"
+msgstr "Name"
+
+msgid "Name2"
+msgstr "Vorname"
+
+msgid "Entry Weight"
+msgstr "Eintrag Gewicht"
+
+msgid "Remaining Weight"
+msgstr "Verbleibendes Gewicht"
+
+msgid "Outgoing Weight"
+msgstr "Ausgehendes Gewicht"
+
+msgid "Group"
+msgstr "Gruppe"
+
+msgid "Vat"
+msgstr "Mehrwertsteuer"
+
+msgid "Minimum Amount"
+msgstr "Mindestbetrag"
+
+msgid "Price"
+msgstr "Preis"
+
+msgid "Discount"
+msgstr "Ermäßigung"
+
+msgid "Edit"
+msgstr "bearbeiten"
+
+msgid "Delete"
+msgstr "löschen"
+
+msgid "Place"
+msgstr "Ort"
+
+msgid "Street"
+msgstr "Straße"
+
+msgid "Pin"
+msgstr "Plz"
+
+msgid "Infotext"
+msgstr "Infotext"
+
+msgid "Vehicle"
+msgstr "Fahrzeug"
+
+msgid "License Plate"
+msgstr "Kennzeichen"
+
+msgid "License Plate 2"
+msgstr "Kennzeichen 2"
+
+msgid "Weight Date"
+msgstr "Tara Datum"
+
+msgid "Weight Time"
+msgstr "Tara Uhrzeit"
+
+msgid "Heading"
+msgstr "Uberschrift"
+
+msgid "Country"
+msgstr "Land"
+
+msgid "Customer Nr."
+msgstr "Kunde Nr."
+
+msgid "Vehicle Weight"
+msgstr "Tara"
+
+msgid "Vehicle Weight 2"
+msgstr "Tara 2"
+
+msgid "Vehicle ID"
+msgstr "Fahrzeug-ID"
+
+msgid "Updated on"
+msgstr "Aktualisiert am"
+
+msgid "Action"
+msgstr "Aktion"
+
+msgid "Delivery Number"
+msgstr "Zustellnummer"
+
+msgid "File Name"
+msgstr "Name der Datei"
+
+msgid "Select Vehicle"
+msgstr "Fahrzeug auswählen"
+
+msgid "Select Customer"
+msgstr "Kunde auswählen"
+
+msgid "Supplier Name"
+msgstr "Name des Lieferanten"
+
+msgid "Area"
+msgstr "Bereich"
+
+msgid "Contact Person"
+msgstr "Kontaktperson"
+
+msgid "First Weight"
+msgstr "Erst - Gewicht"
+
+msgid "Alibi Nr"
+msgstr "Alibi Nr."
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Generate Report"
+msgstr "Bericht generieren"
+
+msgid "From"
+msgstr "Von"
+
+msgid "To"
+msgstr "Bis"
+
+msgid "Unbilled Delivery Notes"
+msgstr "Nicht In Rechnung gestellte Lieferscheine"
+
+msgid "Billed Delivery Notes"
+msgstr "In Rechnung gestellte Lieferscheine"
+
+msgid "Statitics"
+msgstr "Statik"
+
+msgid "Delivery Note Lists"
+msgstr "Lieferschein-Listen"
+
+msgid "weighing slip"
+msgstr "Wiegezettel"
+
+msgid "Time"
+msgstr "Zeit"
+
+msgid "Work"
+msgstr "Arbeit"
+
+msgid "Feed type"
+msgstr "Vorschubtyp"
+
+msgid "Signature of the weigher"
+msgstr "Unterschrift der Waage"
+
+msgid "Driver"
+msgstr "Fahrer"
+
+msgid "Recipient"
+msgstr "Empfänger"
+
+msgid "calculated"
+msgstr "berechnet"
+
+msgid "preset tare"
+msgstr "voreingestellte Tara"
+
+msgid "OVERVIEW"
+msgstr "ÜBERSICHT"
+
+msgid "Clear"
+msgstr "Übersichtlich"
+
+msgid "Company"
+msgstr "Firma"
+
+msgid "Forwarder"
+msgstr "Spediteur"
+
+msgid "Select Forwarder"
+msgstr "Spediteur auswählen"
+
+msgid "Remaining Quantity"
+msgstr "Verbleibende Menge"
+
+msgid "Materials"
+msgstr "Materialien"
+
+msgid "Vehicles"
+msgstr "Fahrzeuge"
+
+msgid "Building Sites"
+msgstr "Baustellen"
+
+msgid "Customers"
+msgstr "Kunden"
+
+msgid "Customer Type"
+msgstr "Kunden-Typ"
+
+msgid "Classification"
+msgstr "Klassifizierung"
+
+msgid "Position"
+msgstr "Position"
+
+msgid "Company Size"
+msgstr "Firmen-Größe"
+
+msgid "Sector"
+msgstr "Branche"
+
+msgid "Suppliers"
+msgstr "Lieferanten"
+
+msgid "Delivery Notes"
+msgstr "Lieferscheine"
+
+msgid "Grouping"
+msgstr "Gruppierung"
+
+msgid "Article"
+msgstr "Artikel"
+
+msgid "Day List"
+msgstr "Tagesliste"
+
+msgid "Material Statistics"
+msgstr "Material-Statistik"
+
+msgid "Vehicle Statistics"
+msgstr "Fahrzeug-Statistik"
+
+msgid "Yield Statistics"
+msgstr "Ertragsstatistik"
+
+msgid "Show Article"
+msgstr "Artikel anzeigen"
+
+msgid "Show Supplier"
+msgstr "Lieferant anzeigen"
+
+msgid "Show Yard"
+msgstr "Werft anzeigen"
+
+msgid "Show Forwarder"
+msgstr "Spediteur anzeigen"
+
+msgid "Show Storage"
+msgstr "Lager anzeigen"
+
+msgid "Language"
+msgstr "Sprache"
+
+msgid "Show Building Site"
+msgstr "Baustelle anzeigen"
+
+msgid "Read Number Plate From Camera"
+msgstr "Nummernschild von Kamera lesen"
+
+msgid "Advanced Search"
+msgstr "Erweiterte Suche"
+
+msgid "Measured values from freely programmable additional equipment. The calibrated measured values can be viewed become possible. The driver of the vehicle is liable for overloading."
+msgstr "Messwerte von frei programmierbaren Zusatzeinrichtungen. Die kalibrierten Messwerte können eingesehen werden, werden möglich. Für Überlastungen haftet der Fahrer des Fahrzeugs."
+
+msgid "Captured Images"
+msgstr "Erfasste Bilder"
+
+msgid "Show entries"
+msgstr "Einträge anzeigen"
+
+msgid "Container"
+msgstr "Container"
+
+msgid "Warehouse"
+msgstr "Lager"
+
+msgid "All Users"
+msgstr "Alle Benutzer"
+
+msgid "Yard list"
+msgstr "Yard-Liste"
+
+msgid "Sign Out"
+msgstr "Abmelden"
+
+msgid "Sign In"
+msgstr "Anmelden"
+
+msgid "Yard"
+msgstr "Yard"
+
+msgid "Role"
+msgstr "Rolle"
+
+msgid "Users"
+msgstr "Benutzer"
+
+msgid "Superuser"
+msgstr "Super Benutzer"
+
+msgid "Technician"
+msgstr "Techniker"
+
+msgid "View Images"
+msgstr "Bilder ansehen"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Second Weight"
+msgstr "Zweit - Gewicht"
+
+msgid "Total Price"
+msgstr "Gesamtpreis"
+
+msgid "Transaction"
+msgstr "Transaktion"
+
+msgid "Incoming Weight"
+msgstr "Eingehendes Gewicht"
+
+msgid "Balance Weight"
+msgstr "Waagegewicht"
+
+msgid "Price 1"
+msgstr "Preis 1"
+
+msgid "Price 2"
+msgstr " Preis 2"
+
+msgid "Price 3"
+msgstr "Preis 3"
+
+msgid "Price 4"
+msgstr "Preis 4"
+
+msgid "Price 5"
+msgstr "Preis 5"
+
+msgid "Type 1"
+msgstr "Typ 1"
+
+msgid "Type 2"
+msgstr "Typ 2"
+
+msgid "Type 3"
+msgstr "Typ 3"
+
+msgid "Type 4"
+msgstr "Typ 4"
+
+msgid "Type 5"
+msgstr "Typ 5"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Avv Num"
+msgstr "Avv num"
+
+msgid "Account"
+msgstr "Konto"
+
+msgid "Cost Centre"
+msgstr "Kostenstelle"
+
+msgid "Unit"
+msgstr "Gerät"
+
+msgid "Min Quantity"
+msgstr "Mindestmenge"
+
+msgid "Revenue Group"
+msgstr "UmsatzGruppe"
+
+msgid "Revenue Account"
+msgstr "Erlöskonto"
+
+msgid "List Price Net"
+msgstr "Listenpreis netto"
+
+msgid "Other Type"
+msgstr "Anderer Typ"
+
+msgid "Free"
+msgstr "Frei"
+
+msgid "Paid"
+msgstr "Bezahlt"
+
+msgid "Other"
+msgstr "Andere"
+
+msgid "Mr"
+msgstr "Herr"
+
+msgid "Mrs"
+msgstr "Frau"
+
+msgid "Dr"
+msgstr "Dr"
+
+msgid "Vehicle Owner"
+msgstr "Fahrzeughalter"
+
+msgid "Driver Name"
+msgstr "Treiber Name"
+
+msgid "Trailor"
+msgstr "Anhänger"
+
+msgid "Trailor Weight"
+msgstr "Anhänger Gewicht"
+
+msgid "Vehicle Weight Id"
+msgstr "Fahrzeuggewicht Id"
+
+msgid "Revenue 1"
+msgstr "Umsatz 1"
+
+msgid "Revenue 2"
+msgstr "Umsatz 2"
+
+msgid "Revenue 3"
+msgstr "Umsatz 3"
+
+msgid "Revenue 4"
+msgstr "Umsatz 4"
+
+msgid "Revenue 5"
+msgstr "Umsatz 5"
+
+msgid "Salutation"
+msgstr "Anrede"
+
+msgid "Surname"
+msgstr "Nachname"
+
+msgid "Permanent Country"
+msgstr "Permanente Land"
+
+msgid "Permanent Place"
+msgstr "Permanente Platz"
+
+msgid "Permanent Street"
+msgstr "Permanente Straße"
+
+msgid "Permanent Pin"
+msgstr "Permanente Plz"
+
+msgid "Website"
+msgstr "Website"
+
+msgid "Fax"
+msgstr "Fax"
+
+msgid "Email1"
+msgstr "Email1"
+
+msgid "Email2"
+msgstr "Email2"
+
+msgid "Email3"
+msgstr "Email3"
+
+msgid "Price Group"
+msgstr "Preisgruppe"
+
+msgid "addition1"
+msgstr "Zusatzfeld1"
+
+msgid "addition2"
+msgstr "Zusatfeld2"
+
+msgid "addition3"
+msgstr "Zusatzfeld3"
+
+msgid "Phone1"
+msgstr "Telefon1"
+
+msgid "Phone2"
+msgstr "Telefon2"
+
+msgid "Phone3"
+msgstr "Telefon3"
+
+msgid "Post Box"
+msgstr "Postfach"
+
+msgid "Special Discount"
+msgstr "Sonderrabatt"
+
+msgid "Delivery Terms"
+msgstr "Lieferbedingungen"
+
+msgid "Dunning"
+msgstr "Mahnwesen"
+
+msgid "Payment Block"
+msgstr "Zahlungssperre"
+
+msgid "Private Person"
+msgstr "Privatperson"
+
+msgid "Document Lock"
+msgstr "Dokumentensperre"
+
+msgid "Debitor Number"
+msgstr "Debitoren-Nummer"
+
+msgid "Invoice Recipient"
+msgstr "Rechnungsempfänger"
+
+msgid "Creditor number"
+msgstr "Kreditorennummer"
+
+msgid "Container Type"
+msgstr "Container Typ"
+
+msgid "Container Weight"
+msgstr "Container Gewicht"
+
+msgid "Volume"
+msgstr "Volumen"
+
+msgid "Stock Designation"
+msgstr "Lager/Bezeichnung"
+
+msgid "Production"
+msgstr "Produktion"
+
+msgid "Reserved"
+msgstr "Reserviert"
+
+msgid "Stock Number"
+msgstr "Lager-Nummer"
+
+msgid "Available"
+msgstr "Verfügbar"
+
+msgid "Stock Item"
+msgstr "Lagerartikel"
+
+msgid "Locked Warehouse"
+msgstr "Verschlossenes Lagerhaus"
+
+msgid "Ordered"
+msgstr "Bestellt"
+
+msgid "Total Stock"
+msgstr "Gesamtbestand"
+
+msgid "Store"
+msgstr "Einlagen"
+
+msgid "Minimum quantity"
+msgstr "Mindestmenge"
+
+msgid "Outsource"
+msgstr "Auslagern"
+
+msgid "Container number"
+msgstr "Containernummer"
+
+msgid "Maximum gross weight"
+msgstr "Maximales Bruttogewicht"
+
+msgid "Tare weight"
+msgstr "Taragewicht"
+
+msgid "Payload container volume"
+msgstr "Nutzlast Containervolumen"
+
+msgid "Next exam"
+msgstr "Nächste Prüfung"
+
+msgid "Waste type"
+msgstr "Abfallart"
+
+msgid "Hazard warnings"
+msgstr "Gefahrenhinweise"
+
+msgid "Storage location"
+msgstr "Lager Ort"
+
+msgid "Warehouse street"
+msgstr "Lager Straße"
+
+msgid "Avv-Number"
+msgstr "Avv-Nummer"
+
+msgid "Update Quantity"
+msgstr "Menge aktualisieren"
+
+msgid "Supplier-Vehicle"
+msgstr "Lieferant-Fahrzeug"
+
+msgid "Project Number"
+msgstr "Projektnummer"
+
+msgid "Yes"
+msgstr "No"
+
+msgid "Created on"
+msgstr "Erstellt am"
+
+msgid "Weight For"
+msgstr "Gewicht für"
+
+msgid "Vehicle.Nr"
+msgstr "Kfz Kennzeichen"
+
+msgid "Vehicle Nr."
+msgstr "Kfz Kennzeichen"
+
+msgid "Customer.Nr"
+msgstr "Kunden. Nr"
+
+msgid "Upload"
+msgstr "Hochladen"
+
+msgid "Date / Time"
+msgstr "Datum / Uhrzeit"
+
+msgid "Address"
+msgstr "Addresse"
+
+msgid "E-mail"
+msgstr "E-Mail"
+
+msgid "Company Email"
+msgstr "Firmen E-Mail"
+
+msgid "Use Camera"
+msgstr "kamera verwenden"
+
+msgid "Use Barrier"
+msgstr "Schranke verwenden"
+
+msgid "Camera"
+msgstr "Kamera"
+
+msgid "Barrier"
+msgstr "Schranke"
+
+msgid "Traffic Light"
+msgstr "Ampel"
+
+msgid "Control"
+msgstr "Steuerung"
+
+msgid "Show PriceGroup"
+msgstr "Preisgruppe anzeigen"
+
+msgid "ID List"
+msgstr "ID Liste"
+
+msgid "Price Per Item"
+msgstr "Barbezahler-Price"
+
+msgid "Show Container"
+msgstr "Container anzeigen"
+
+msgid "Select Container"
+msgstr "Container auswählen"
+
+msgid "Advance Settings"
+msgstr "Erweiterte Einstellungen"
+
+msgid "Back"
+msgstr "Zurück"
+
+msgid "Status"
+msgstr "Richtung"
+
+msgid "Choose Status"
+msgstr "Richtung auswählen"
+
+msgid "Show Material Status"
+msgstr "Material-Richtung anzeigen"
+
+msgid "Select3"
+msgstr "Auswählen"
+
+msgid "Show External Weighing"
+msgstr "Fremdwiegung anzeigen"
+
+msgid "Foreign List"
+msgstr "Fremdwiegungsliste"
+
+msgid "Construction Site"
+msgstr "Baustelle"
+
+msgid "Self Service Section"
+msgstr "Selbstbedienungsbereich"
+
+msgid "Self Service Control"
+msgstr "Selbstbedienungskontrolle"
+
+msgid "Select Self Service user"
+msgstr "Wählen Sie Self-Service-Benutzer"
+
+msgid "SMTP Support"
+msgstr "SMTP-Unterstützung"
+
+msgid "SMTP Credential"
+msgstr "SMTP-Anmeldeinformationen"
+
+msgid "SMTP Form"
+msgstr "SMTP-Formular"
+
+msgid "Export database"
+msgstr "Datenbank exportieren"
+
+msgid "Import Database"
+msgstr "Datenbank importieren"

@@ -1,0 +1,180 @@
+ {% load i18n %}
+ {% load custom_template_filters %}
+ {% block head %}
+ {% load static %}
+ {% endblock%}
+ {% block content %}
+                    <div class="contanier">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-right">
+                                        {% if data %}
+                                        <input type="hidden" value={{data|count}} id="serial">
+                                        {% else %}
+                                        <input type="hidden" value=0 id="serial">
+                                        {% endif %}
+                                        <input type="hidden" value=0 id="data" >
+                                    <button id="new_ent" type="button" class="btn btn-primary"><i class="fas fa-edit ml-2"></i>{% translate "New Entry" %}</button>
+                                </div>
+                        <form class="form-group" method="POST" action="{% url 'material_quality' id %}" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                              <input type="hidden" name="material" id="id" value="{{id}}">
+                              <input type="hidden" name="count" id="count" value=0>
+                            <div id="add">
+                                                {% for i in data %}
+                                <input type="hidden" name="id"  class="saved" value="{{i.id}}">
+                                <div class='row'>   
+                                <div class='col-xl-1 mt-4'>
+                                    <label>S. No.</label>
+                                    <input type="text" class='form-control' value="{{i.id}}" disabled>
+                                </div>     
+                                <div class='col-xl-2 mt-4'>
+                                    <label>Quality</label>
+                                    <select name='qual' class='form-control' id='id_quality'>
+                                    <option value="{{i.quality}}">{{i.get_quality_display}}</option>
+                                    </select> 
+                                </div>
+                                <div class='col-xl-2 mt-4'>
+                                    <label>Humidity</label>
+                                    <select name='humid' class='form-control' id='id_humidity'>
+                                    <option value="{{i.humidity}}">{{i.humidity}}</option>
+
+                                    </select> 
+                                </div>
+                                <div class='col-xl-2 mt-4'>
+                                    <label>Fertilizer</label>
+                                    <select name='ferti' class='form-control' id='id_fertilizer'>
+                                    <option value="{{i.Fertilizer}}">{{i.Fertilizer}}</option>
+                                    </select> 
+                                </div>
+                                <div class='col-xl-2 mt-4'>
+                                    <label>Amount</label>
+                                    {% if i.Amount %}
+                                    <input type='number' name='Amt' value="{{i.Amount}}" class='form-control' id='id_Amount' disabled>
+                                    {% else %}
+                                    <input type='number' name='Amt' class='form-control' id='id_Amount' required>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class='col-xl-1 mt-3'>
+                                    <label></label>
+                                    <button type='button' class=' form-control btn btn-primary mt-4' id=''>Evaluation</button>
+                                </div>
+                                <div class='col-xl-1 mt-3 text-right' colspan='3'>
+                                    <label></label>
+                                    <button type='button' id="delete" value="{{i.id}}" class='form-control btn btn-danger mt-4 delte'>Delete</button>
+                                </div>
+                                
+                                    
+                                </div>
+                                {% endfor %}
+                            </div>
+                                <div class="col-xl-12 col-lg-6 col-md-6 col-sm-12 text-center">
+                                    <button id="submit" type="submit" class="btn btn-primary mr-3 mt-3"><i class="fas fa-save ml-2"></i>{% translate "Save" %}</button>
+                                </div>
+                        </form>
+                    </div>
+
+<script type='text/javascript'>
+
+{% comment %} $(document).ready(function(){
+    quality = $("#id_quality")
+    humidity = $("#id_humidity")
+    fertilizer = $("#id_fertilizer")
+    if($("#id_quality").val() == 1){
+        $("#id_quality option").text('Quality A')
+    } else if($("#id_quality option").val() == 2){
+        $("#id_quality").text('Quality B')
+    } else if($("#id_quality ").val() == 3){
+        $("#id_quality option").text('Quality C')
+    }
+}) {% endcomment %}
+
+$(".delte").click(function(){
+    if(confirm("Do You Really want to Delete this saved Data ?? it can not be undone!!")){
+            that = $(this)
+            id = $(this).val()
+            $.ajax({
+                url:"/material_quality_delete/", 
+                type:'GET',
+                data:{'id':id},
+                success: function(res){
+                    if(res.status == 1){
+                        that.parent('div').parent('div').remove();
+                    }
+                }
+
+            })
+    }
+})
+
+$("#new_ent").click(function(){
+    s = ($("input#serial").val())
+    c = $("input#data").val()
+   
+    text = `<div class='row'>   
+                <div class='col-xl-1 mt-4'>
+                    <label>S. No.</label>
+                    <input type="text" class='form-control' value=${s} disabled>
+                </div>     
+                <div class='col-xl-2 mt-4'>
+                    <label>Quality</label>
+                    <select name='quality${c}' class='form-control' id='id_quality'>
+                    <option value='Quality A'>Quality A</option>
+
+                    <option value='Quality B'>Quality B</option>
+
+                    <option value='Quality C'>Quality C</option>
+
+                    </select> 
+                </div>
+                <div class='col-xl-2 mt-4'>
+                    <label>Humidity</label>
+                    <select name='humidity${c}' class='form-control' id='id_humidity'>
+                    <option value='Good'>Good</option>
+
+                    <option value='Average'>Average</option>
+
+                    <option value='Worse'>Worse</option>
+
+                    </select> 
+                </div>
+                <div class='col-xl-2 mt-4'>
+                    <label>Fertilizer</label>
+                    <select name='fertilizer${c}' class='form-control' id='id_fertilizer'>
+                    <option value='A Grade'>A Grade</option>
+
+                    <option value='B Grade'>B Grade</option>
+
+                    <option value='C Grade'>C Grade</option>
+
+                    </select> 
+                </div>
+                <div class='col-xl-2 mt-4'>
+                    <label>Amount</label>
+                    <input type='number' name='Amount${c}' class='form-control' id='id_Amount' required> 
+                </div>
+                
+                <div class='col-xl-1 mt-3'>
+                    <label></label>
+                    <button type='button' class=' form-control btn btn-primary mt-4' id=''>Evaluation</button>
+                </div>
+                <div class='col-xl-1 mt-3 text-right' colspan='3'>
+                    <label></label>
+                    <button type='button' class='form-control btn btn-primary mt-4' id='remove' >Remove</button>
+                </div>         
+            </div>`
+$("#add").append(text);
+$("input#serial").val(parseInt(s)+1)
+$("input#data").val(parseInt(c)+1)
+$("#submit").prop('name','New');
+$("#count").val(parseInt($("#count").val())+1)
+});
+
+
+$(document).on('click',"#remove",function(e){
+    $(this).parent('div').parent('div').remove();
+    $("#count").val(parseInt($("#count").val())-1)
+})
+</script>
+
+
+{% endblock%}

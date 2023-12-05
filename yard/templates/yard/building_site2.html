@@ -1,0 +1,212 @@
+{% extends 'base2.html' %}
+{% load crispy_forms_tags %}
+{%load i18n%}
+{% block content %}
+<div class="container">
+   <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+   <i class="fas fa-align-justify"></i>
+   </button>
+   <div class="row  border border-top-0 border-left-0 border-right-0 mb-3">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+         <div class="content_text">
+            <p class="mb-0">{% translate "OVERVIEW" %}</p>
+         </div>
+         <div class="heding">
+            <p>{% translate "Building Sites" %}</p>
+         </div>
+      </div>
+   </div>
+   <!--table strat-->
+    <div class="row">
+       <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" >
+          <label>{% translate "Show entries" %}:</label>
+         <select class="form-control w-30" id="showentries">
+            <option>10</option>
+            <option>25</option>
+            <option>50</option>
+            <option>100</option>
+            entries
+         </select>
+       </div>
+       <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+           <label>{% translate "Search" %}:</label>
+           <input class="form-control mr-sm-2" type="text" placeholder="{% translate 'Search' %}" aria-label="Search" id="mysearch">
+       </div>
+    </div>
+    <div class="row">
+      <table class="table table-striped table-hover table-bordered mt-3" width="100%" id="buildingTable">
+         <thead>
+            <tr>
+              <th width="5%">{{form.name.label}}</th>
+              <th width="7%">{{form.short_name.label}}</th>
+              <th width="5%">{{form.place.label}}</th>
+              <th width="5%">{{form.street.label}}</th>
+              <th width="5%">{{form.pin.label}}</th>
+              <th width="5%">{{form.infotext.label}}</th>
+              <th width="5%">{% translate "Action" %}</th>
+            </tr>
+         </thead>
+
+          <tbody class="mt-4">
+            {% for data in dataset %}
+            <tr>
+              <td>{{ data.name }}</td>
+              <td>{{ data.short_name }}</td>
+              <td>{{ data.place }}</td>
+              <td>{{ data.street }}</td>
+              <td>{{ data.pin }}</td>
+              <td>{{ data.infotext }}</td>
+              <td><a id="loadB" href="javascript:loadBuildingSiteDetails('{{ data.id }}')"><i class="fas fa-pencil-alt text-primary  ml-4"></i></a><a class="confirmdelete" href="{% url 'building_site_delete' identifier=data.id  %}"><i class="fas fa-trash-alt ml-2 text-danger"></i></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          </tbody>
+<!--              <tfoot>-->
+<!--                  <tr>-->
+<!--                     <th rowspan="1" colspan="1">-->
+<!--                        <input type="text" class="form-control">-->
+<!--                     </th>-->
+<!--                     <th rowspan="1" colspan="1">-->
+<!--                        <input type="text"class="form-control">-->
+<!--                     </th>-->
+<!--                     <th rowspan="1" colspan="1">-->
+<!--                        <input type="text" class="form-control">-->
+<!--                     </th>-->
+<!--                     <th rowspan="1" colspan="1">-->
+<!--                        <input type="text" class="form-control">-->
+<!--                     </th>-->
+<!--                     <th rowspan="1" colspan="1">-->
+<!--                        <input type="text"class="form-control">-->
+<!--                     </th>-->
+<!--                     <th rowspan="1" colspan="1">-->
+<!--                        <input type="text" class="form-control">-->
+<!--                     </th>-->
+<!--                     <th rowspan="1" colspan="1">-->
+<!--                        <input type="text" class="form-control">-->
+<!--                     </th>-->
+<!--                  </tr>-->
+<!--               </tfoot>-->
+      </table>
+   </div>
+   <!--table end-->
+</div>
+
+<div class="container">
+  <div class="row mb-5">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+       <!-- Material form login -->
+       <div class="card">
+          <div class="row">
+             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <h5 class="card-header info-color white-text py-3">
+                   <div class="panel-heading">
+                      <h4 class="panel-title">
+                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse_18">
+                            <div class="row">
+                               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+                                  <p class="mb-0 pt-2 text-color text_color">{% translate "Building Site" %}</p>
+                                  <button type="button" id="new_entry" class="btn btn-dark" style="float:right;">Neue Eingabe</button>
+                               </div>
+                            </div>
+                         </a>
+                      </h4>
+                   </div>
+                </h5>
+             </div>
+          </div>
+          <div id="collapse_18" class="collapse" >
+             <div class="panel-body">
+                <div class="card-body text-left">
+                   <form class="form-group" method="POST" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <input type="hidden" name="id" id="id">
+                      <div class="md-form mb-3">
+                         <label>{{form.name.label}}</label>
+                         {{form.name}} {{form.name.errors}}
+                         <!-- <input type="Name" class="form-control" name="Name" placeholder="Name"> -->
+                      </div>
+                      <div class="md-form mb-3">
+                         <label>{{form.short_name.label}}</label>
+                         {{form.short_name}} {{form.short_name.errors}}
+                         <!-- <input type="Short Name" class="form-control" name="Short Name" placeholder="Short Name"> -->
+                      </div>
+                      <div class="md-form mb-3">
+                         <label>{{form.place.label}}</label>
+                         {{form.place}} {{form.place.errors}}
+                         <!-- <input type="Place" class="form-control" name="Place" placeholder="Place"> -->
+                      </div>
+                      <div class="md-form mb-3">
+                         <label>{{form.street.label}}</label>
+                         {{form.street}} {{form.street.errors}}
+                         <!-- <input type="Street" class="form-control" name="Street" placeholder="Street"> -->
+                      </div>
+                      <div class="md-form mb-3">
+                         <label>{{form.pin.label}}</label>
+                         {{form.pin}} {{form.pin.errors}}
+                         <!-- <input type="Pin" class="form-control" name="Pin" placeholder="Pin"> -->
+                      </div>
+                      <div class="md-form mb-3">
+                         <label>{{form.infotext.label}}</label>
+                         {{form.infotext}} {{form.infotext.errors}}
+                         <!-- <input type="Infotext" class="form-control" name="Infotext" placeholder="Infotext"> -->
+                      </div>
+                      <button type="submit" id="submit" class="btn btn-primary ml-1"><i class="fas fa-save ml-2"></i> {% translate "Save" %}</button>
+                   </form>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    // DataTable
+    $(document).ready(function() {
+      var table = $('#buildingTable').DataTable(
+         {
+            "bLengthChange": false,
+           initComplete: function () {
+               // Apply the search
+               this.api().columns().every( function () {
+                   var that = this;
+                   console.log(that)
+<!--                   $( 'input', this.footer() ).on( 'keyup change clear', function () {-->
+<!--                       if ( that.search() !== this.value ) {-->
+<!--                           that.search( this.value ).draw();-->
+<!--                       }-->
+<!--                   } );-->
+               } );
+           }
+          });
+
+      $("#buildingTable_filter").hide()
+
+      // custom search filter
+      $('#mysearch').on( 'keyup', function () {
+          table.search( this.value ).draw();
+      } );
+
+      //  custom show entries
+      $('#showentries').change(function() {
+          table.page.len(this.value).draw();
+      } );
+
+ });
+
+ $("#loadB").click(function(){
+    $("#collapse_18").addClass('show')
+  })
+  
+   $("#new_entry").click(function(e){
+      $("#collapse_18").addClass('show')
+    e.preventDefault();
+    $('input').val('');
+    $('select').val('');
+    return false;
+  })
+</script>
+{% endblock %}

@@ -1,0 +1,90 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-19 14:49+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\yard\forms.py:20
+msgid "Password"
+msgstr ""
+
+#: .\yard\forms.py:23
+msgid "Password Confirmation"
+msgstr ""
+
+#: .\yard\forms.py:24
+msgid "Just Enter the same password, for confirmation"
+msgstr ""
+
+#: .\yard\forms.py:26
+msgid "Username"
+msgstr ""
+
+#: .\yard\forms.py:28
+msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+msgstr ""
+
+#: .\yard\forms.py:30
+msgid "A user with that username already exists."
+msgstr ""
+
+#: .\yard\forms.py:33
+msgid "Yard ID"
+msgstr ""
+
+#: .\yard\models.py:10
+msgid "email address"
+msgstr ""
+
+#: .\yard\models.py:11
+msgid "yard ID"
+msgstr ""
+
+#: .\yard\models.py:12
+msgid "first name"
+msgstr ""
+
+#: .\yard\models.py:13
+msgid "last name"
+msgstr ""
+
+#: .\yard\models.py:14
+msgid "date joined"
+msgstr ""
+
+#: .\yard\models.py:15
+msgid "active"
+msgstr ""
+
+#: .\yard\models.py:16
+msgid "staff status"
+msgstr ""
+
+#: .\yard\models.py:24
+msgid "user"
+msgstr ""
+
+#: .\yard\models.py:25
+msgid "users"
+msgstr ""
+
+#: .\yard\templates\base.html:26
+msgid "Weighing"
+msgstr ""
+
+#: .\yard\templates\yard\index.html:55
+msgid "Hello world! This is an HTML5 Boilerplate."
+msgstr "Hallo wereld! Dit is een HTML5 Boilerplate."

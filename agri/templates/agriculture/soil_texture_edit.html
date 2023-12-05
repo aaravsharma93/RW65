@@ -1,0 +1,446 @@
+{% extends 'base2.html' %}
+{% load custom_template_filters %}
+{% load i18n %}
+{% load widget_tweaks %}
+{%block head%}
+{% load replace_func %}
+{% load static %}
+{%endblock%}
+
+
+{% block content %}
+<form id="plant_analysis_form" method="post">
+    {% csrf_token %}
+<div class="container" style="">
+    <div class="row">
+            <div class="col-md-4">
+                <h4 class="font-weight-bold">{{name}}</h4>
+            </div>
+            <div class="col-md-2 ml-auto" style="float: right">
+                <button type="submit" id="btn_save_crop" class="btn btn-success btn-block">Save</button>
+            </div>
+    </div>
+    
+        
+        <div class="row">
+            <div class="col-md-12 bg-white rounded border mt-1">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="long_lat">Location</label>
+                            <input type="hidden" value="{{st.location.long_lat}}" name="long_lat" id="long_lat" required>
+                            <div id="us3" class="mx-auto border" style="width: 100%; height: 300px;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="loc_name">Location Name</label>
+                            <select name="loc_name" id="loc_name" required>
+                                {% for i in loc %}
+                                    {% if i.id == st.location.id %}
+                                        <option value="{{i.id}}" selected>{{i.name}}</option>
+                                    {% else %}
+                                    <option value="{{i.id}}">{{i.name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                            {% for i in loc %}
+                                <input type="hidden" id="loc{{i.id}}" value="{{i.long_lat}}">
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-group">
+                            <button type="button" onclick="location.href = '/crop_location_add?back=sae&id={{st.id}}';" class="btn btn-primary" >Add Location</button>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="collection_datetime">Collection Datetime</label>
+                            <input type="datetime-local" value="{{st.collection_datetime}}" name="collection_datetime" id="collection_datetime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lab_datetime">Laboratory Testing Datetime</label>
+                            <input type="datetime-local" value="{{st.lab_test_datetime}}" name="lab_datetime" id="lab_datetime" >
+                        </div>
+                        <div class="form-group">
+                            <label for="result_datetime">Result Datetime</label>
+                            <input type="datetime-local" value="{{st.result_datetime}}" name="result_datetime" id="result_datetime" >
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="soil_type">Soil Type</label>
+                            <select name="soil_type" id="" class="selectpicker form-control">
+                                {% for i in soil_type %}
+                                    {% if i.id == st.soil_type.id %}
+                                        <option value="{{i.id}}">{{i.name}}</option>
+                                    {% else %}
+                                        <option value="{{i.id}}">{{i.name}}</option>
+                                    {% endif %}    
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="clay_composition">Clay Composition (%)</label>
+                            <input type="number" value="{{st.clay_composition }}" lang="nl" step="0.001" name="clay_composition" id="clay_composition" >
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="sand_composition">Sand Composition (%)</label>
+                            <input type="number" value="{{st.sand_composition}}" step="0.001" name="sand_composition" id="sand_composition" >
+                        </div>
+                        <div class="form-group">
+                            <label for="silt_composition">Silt Composition (%)</label>
+                            <input type="number" value="{{st.silt_composition}}" step="0.001" name="silt_composition" id="silt_composition" >
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h6>SOIL TEXTURE CRITERIAS</h6>
+                <div class="row">
+                    <div class="col-md-12 mx-auto">
+                        <table id="plant_analysis_table" class="nowrap display" style="width: 100%;" cellspacing="0">
+                            <thead>
+                                <tr>              
+                                    <th>No.</th>
+                                    <th>Title</th>
+                                    <th>Value</th>
+                                    <th>Minimum Permissible Value</th>
+                                    <th>Maximum Permissible Value</th>
+                                    <th></th>
+                                    <th></th>
+        
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {% for i in pca %}
+                                <tr id='criteria{{forloop.counter}}'>
+
+                                <td>{{forloop.counter}}</td>
+                                <td>{{ i.title }}</td>
+                                <td>{{ i.value }}</td>
+                                <td>{{ i.min_permissible_value }}</td>
+                                <td>{{ i.max_permissible_value }}</td>
+                                <td><button type='button' class='btn btn-info'><i class='fas fa-edit' data-toggle='modal' data-target='#edit_criteria_modal{{forloop.counter}}'></i></button></td>
+                                <td><button type='button' class='btn btn-danger' onclick="remove_table_row('{{forloop.counter}}')"><i class='far fa-trash-alt'></i></button></td>
+                                </tr>
+                                {% endfor %}
+                            
+                            </tbody>
+                            
+                        </table>
+                        <input type="button" value="Add Row" class="btn btn-primary btn-sm my-2 col-md-2" data-toggle="modal" data-target="#add_criteria">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <input id="title_list" type="hidden" name="title_list">
+        <!-- <datalist id="titles">
+        </datalist> -->
+        <input id="value_list" type="hidden" name="value_list">
+        <!-- <datalist id="values">
+        </datalist> -->
+        <input id="min_val_list" type="hidden" name="min_val_list">
+        <!-- <datalist id="min_vals">
+        </datalist> -->
+        <input id="max_val_list" type="hidden" name="max_val_list">
+        <!-- <datalist id="max_vals">
+        </datalist> -->
+    </form>
+</div>
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="add_criteria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New Criteria</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                <div class="form-group">
+                    <label for="criteria_title">Title</label>
+                    <input type="text" class="form-control" id="criteria_title" required name="criteria_title">
+                </div>
+                <div class="form-group">
+                    <label for="criteria_value">Value</label>
+                    <input type="number" class="form-control" id="criteria_value" min="0" required name="criteria_value">
+                </div>
+                <div class="form-group">
+                    <label for="min_val">Minimum Permissible Value</label>
+                    <input type="number" class="form-control" id="min_val" min="0" required name="min_val">
+                </div>
+                <div class="form-group">
+                    <label for="max_val">Maximum Permissible Value</label>
+                    <input type="number" class="form-control" id="max_val" min="0" required name="max_val">
+                </div>
+                
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary"  onclick="create_criteria()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div id="edit_criteria">
+    {% for i in pca %}
+    <div class="modal fade" id="edit_criteria_modal{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Edit Criteria</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label for="edit_title{{forloop.counter}}">Title</label>
+                        <input type="text" class="form-control" id="edit_title{{forloop.counter}}" value="{{i.title}}" required name="edit_title{{forloop.counter}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_value{{forloop.counter}}">Value</label>
+                        <input type="number" class="form-control" id="edit_value{{forloop.counter}}" min="0" value="{{i.value}}" required name="edit_value{{forloop.counter}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_min_val{{forloop.counter}}">Minimum Permissible Value</label>
+                        <input type="number" value="{{i.min_permissible_value}}" class="form-control" id="edit_min_val{{forloop.counter}}" min="0" required name="edit_min_val{{forloop.counter}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_max_val{{forloop.counter}}">Maximum Permissible Value</label>
+                        <input type="number" value="{{i.max_permissible_value}}" class="form-control" id="edit_max_val{{forloop.counter}}" min="0" required name="edit_max_val{{forloop.counter}}">
+                    </div>
+                    
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary"  onclick="edit_criteria('{{forloop.counter}}')">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+$("#plant_analysis_table").on("draw.dt", function () {
+    $(this).find(".dataTables_empty").parents('tbody').empty();
+    }).DataTable({
+            paging:   false,
+            ordering: true,
+            info:     false,
+            scrollY:  "400px",
+            scrollCollapse: true,
+
+            scrollX: false,
+            searching:false,
+
+        });
+
+
+title_list = []
+value_list = []
+min_val_list = []
+max_val_list = []
+
+
+
+
+function create_criteria(){
+    title = $("#criteria_title").val()
+    value = $("#criteria_value").val()
+    min_val = $("#min_val").val()
+    max_val = $("#max_val").val()
+    if (title.length > 0 && value.length > 0 && min_val.length > 0  && max_val.length > 0){
+                $("#criteria_title").val("");
+                $("#criteria_value").val("");
+                $("#min_val").val("");
+                $("#max_val").val("");
+
+                var rowCount = $('#plant_analysis_table tbody tr').length + 1
+
+                let html = "<tr id='criteria"+rowCount+"'>"
+
+                html +='<td>'+rowCount+"</td>"
+                html +="<td>"+title+"</td>"
+                html +="<td>"+value+"</td>"
+                html +="<td>"+min_val+"</td>"
+                html +="<td>"+max_val+"</td>"
+                html +="<td><button type='button' class='btn btn-info'><i class='fas fa-edit' data-toggle='modal' data-target='#edit_criteria_modal"+rowCount+"'></i></button></td>"
+                html +="<td><button type='button' class='btn btn-danger' onclick=\"remove_table_row("+rowCount+")\"><i class='far fa-trash-alt'></i></button></td>"
+                html += "</tr>"                
+                                    
+                $('#plant_analysis_table > tbody:last-child').append(html);
+
+                title_list.push(title)
+                value_list.push(value)
+                min_val_list.push(min_val)
+                max_val_list.push(max_val)
+
+                $("#title_list").val(title_list)
+                $("#value_list").val(value_list)
+                $("#min_val_list").val(min_val_list)
+                $("#max_val_list").val(max_val_list)
+                
+                $.fn.dataTable.ext.errMode = 'none';
+                $('#add_criteria').modal('toggle');
+                add_criteria_model()
+                    }
+            else{
+                $("#criteria_title").css({"background-color":"#f5573b"});
+            }
+            }
+ 
+            $(document).ready(function(){
+                $('table tbody').find('tr').each(function (i, el) {
+                var $tds = $(this).find('td'),
+                    rowCount = $tds.eq(0).text(),
+                    title = $tds.eq(1).text(),
+                    value = $tds.eq(2).text(),
+                    min_val = $tds.eq(3).text();
+                    max_val = $tds.eq(4).text();
+
+                title_list.push(title)
+                value_list.push(value)
+                min_val_list.push(min_val)
+                max_val_list.push(max_val)
+
+                $("#title_list").val(title_list)
+                $("#value_list").val(value_list)
+                $("#min_val_list").val(min_val_list)
+                $("#max_val_list").val(max_val_list)
+
+            });
+            });
+
+
+  $(document).ready(() =>{
+      getLocation();
+
+      if($("#long_lat").attr("value") !== ""){
+
+          drawShape(JSON.parse($("#long_lat").attr("value")));
+      }
+
+    
+    });
+
+$("#loc_name").selectize();
+
+$('#loc_name').on('change', function() {
+    drawnItems.clearLayers();
+    drawControlEditOnly.remove(my_map);
+    drawControlFull.addTo(my_map);
+
+    $("#long_lat").attr("value","")
+     
+    val = $(this).val();
+    loc = $("#loc"+val).val();
+    $("#long_lat").attr("value", loc)
+    drawShape(JSON.parse($("#long_lat").attr("value")));
+    
+});    
+
+  $("form").keypress(function(e) {
+  //Enter key
+  if (e.which == 13) {
+    return false;
+  }
+});
+
+function remove_table_row(row_id){
+                
+                if(confirm("Do you want to remove Task?")){
+                    $('#criteria'+row_id).remove();
+                    $('#edit_criteria_modal'+row_id).remove();
+                    title_list.splice(row_id-1, 1);
+                    value_list.splice(row_id-1, 1);
+                    min_val_list.splice(row_id-1, 1);
+                    max_val_list.splice(row_id-1, 1);
+
+        }
+    }
+
+
+    function add_criteria_model(){
+                let modal_html = ''
+                $('table tbody').find('tr').each(function (i, el) {
+                var $tds = $(this).find('td'),
+                    rowCount = $tds.eq(0).text(),
+                    title = $tds.eq(1).text(),
+                    value = $tds.eq(2).text(),
+                    min_val = $tds.eq(3).text();
+                    max_val = $tds.eq(4).text();
+
+                    // do something with productId, product, Quantity
+                    modal_html += '<div class="modal fade" id="edit_criteria_modal'+rowCount+'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">'
+                    modal_html += '<div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header">'
+                    modal_html += '<h5 class="modal-title" id="exampleModalLabel">Edit Criteria</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body">'
+                    modal_html += '<div class="form-group"><label for="edit_title'+rowCount+'">Title</label><input type="text" class="form-control" id="edit_title'+rowCount+'" value="'+title+'" required name="edit_title'+rowCount+'"></div>'
+                    modal_html += '<div class="form-group"><label for="edit_value'+rowCount+'">Value</label><input type="number" class="form-control" value="'+value+'" id="edit_value'+rowCount+'" min="0" required name="edit_value'+rowCount+'"></div>'
+                    modal_html += '<div class="form-group"><label for="edit_min_val'+rowCount+'">Minimum Permissible Value</label><input type="number" class="form-control" value="'+min_val+'" id="edit_min_val'+rowCount+'" min="0" required name="edit_min_val'+rowCount+'"></div>'
+                    modal_html += '<div class="form-group"><label for="edit_max_val'+rowCount+'">Maximum Permissible Value</label><input type="number" class="form-control" value="'+max_val+'" id="edit_max_val'+rowCount+'" min="0" required name="edit_max_val'+rowCount+'"></div>'
+                    modal_html += '</div>'
+                    modal_html += '<div class="modal-footer">'
+                    modal_html += '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>'
+                    modal_html += '<button type="button" class="btn btn-primary" onclick=\'edit_criteria("'+rowCount+'")\'>Save</button>'
+                    modal_html += '</div></div></div></div>'
+                    });
+
+                    $("#edit_criteria").html(modal_html)
+                
+            }
+
+function edit_criteria(id){
+    let title = $("#edit_title"+id).val();
+    let value = $("#edit_value"+id).val();
+    let min_val = $("#edit_min_val"+id).val();
+    let max_val = $("#edit_max_val"+id).val();
+    if (title.length > 0 && value.length > 0 && min_val.length > 0  && max_val.length > 0){
+
+    let html ='<td>'+id+"</td>"
+    html +="<td>"+title+"</td>"
+    html +="<td>"+value+"</td>"
+    html +="<td>"+min_val+"</td>"
+    html +="<td>"+max_val+"</td>"
+    html +="<td><button type='button' class='btn btn-info'><i class='fas fa-edit' data-toggle='modal' data-target='#edit_criteria_modal"+id+"'></i></button></td>"
+    html +="<td><button type='button' class='btn btn-danger' onclick=\"remove_table_row("+id+")\"><i class='far fa-trash-alt'></i></button></td>"
+                        
+    $("#criteria"+id).html(html);
+
+    title_list[id-1] = title
+    value_list[id-1] = value
+    min_val_list[id-1] = min_val
+    max_val_list[id-1] = max_val
+
+    $("#title_list").val(title_list)
+    $("#value_list").val(value_list)
+    $("#min_val_list").val(min_val_list)
+    $("#max_val_list").val(max_val_list)
+
+    $.fn.dataTable.ext.errMode = 'none';
+    $('#edit_criteria_modal'+id).modal('toggle');
+    }
+    else{
+        $("#edit_title").css({"background-color":"#f5573b"});
+    }
+    
+}
+ </script>
+
+<script src="{% static 'agri/js/map_control.js'%}"></script>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container-custom">
+        <div class="container nav-margin">
+            <div class="col-md-5 aclist">
+                <div class="row">
+                    <div class="accordion">Vehicle 
+                        <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="vechicle" placeholder="Nummer">
+                    </div>
+                    <div class="panel panel-default">
+                        <form method="POST" enctype="multipart/form-data">  
+                            {% csrf_token %} 
+                            <div class="row">
+                                <div class="col-md-3">
+                                    {{ form|crispy }}
+                                </div>
+                                <br>
+                            </div>
+                            <br>
+                            <button id="submit" type="submit" class="btn btn-primary col-md-3" >Submit</button>
+                        </form> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <li>Home Page - http://www.rw-datanet.com:7000</li>
+    <li>List Page - http://www.rw-datanet.com:7000/list</li>
+    <li>Detail Page - http://www.rw-datanet.com:7000/detail/Bikram(Unique identifier)</li>
+    <li>Update Page - http://www.rw-datanet.com:7000/update/Bikram(Unique identifier)</li>
+    <li>Delete Page - http://www.rw-datanet.com:7000/delete/Bikram(Unique identifier)</li>
+{% endblock %}

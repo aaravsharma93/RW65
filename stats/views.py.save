@@ -1,0 +1,324 @@
+from django.conf import settings
+from django.shortcuts import render
+from django.shortcuts import (get_object_or_404, render, HttpResponseRedirect) 
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from yard.render import Render
+
+from yard.models import *
+from yard.forms import *
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
+from django.core.serializers import serialize
+import json
+from datetime import datetime,date, timedelta
+from django.db.models import Sum
+
+@login_required(redirect_field_name=None)
+def std_evaluation(request):
+	context={}
+	absolute_url = request.build_absolute_uri('?')
+	context["absolute_url"] =  "http://"+request.get_host()
+
+	if request.POST:
+		note_type = request.POST.getlist('note_type')
+		grouping = request.POST.get('grouping')
+		fromdate = request.POST.get('fromdate')
+
+		if fromdate:
+			context['from'] = datetime.strptime(fromdate,"%Y-%m-%d")
+			fromdate = fromdate+" 00:00:00"
+		else:
+			fromdate = str(date.today())+" 00:00:00"
+
+		todate = request.POST.get('todate')
+		if todate:
+			context['to'] =datetime.strptime(todate,"%Y-%m-%d") 
+			todate = todate +" 23:59:59"
+		else:
+			todate=str(date.today())+" 23:59:59"
+
+		article_from = request.POST.get('article_from')
+		article_to = request.POST.get('article_to')
+		print ("Grouping:",grouping)
+		obj = Transaction.objects.filter(created_date_time__range=(fromdate,todate))
+		# obj = Transkation.objects.raw('SELECT *,SUM(net_weight) as ttl FROM yard_transkation WHERE created_date_time BETWEEN %s and %s GROUP BY(article_id)',[fromdate,todate])
+		sum_kg = 0
+		if obj:
+			if grouping=='article':
+				# context["data"] = get_article_groupset(obj)
+				context['date'] = datetime.now()
+				context["data"] = obj
+				context["art_list"] = obj.values_list("article","article__description").distinct()
+				art_sum = []
+				context["art_list"] = [list(i) for i in context["art_list"]]
+				for i in context["art_list"]:
+					i.append(sum(j.net_weight for j in obj if j.article.pk==i[0]))
+				context["art_sum"]= art_sum
+				return Render.render("stats/pdf/article_report.html", context)
+			elif grouping=='art-cus':
+				print ("article customer")
+				context["data"] = obj
+				context['date'] = datetime.now()
+				context["art_list"] = obj.values_list("article","article__description").distinct()
+				context["cus_list"] = obj.values_list("customer","customer__name").distinct()
+				art_sum = []
+				context["art_list"] = [list(i) for i in context["art_list"]]
+				context["cus_list"] = [list(i) for i in context["cus_list"]]
+				context["summ"] = []
+				for i in context["art_list"]:
+					for k in context["cus_list"]:
+						temp = {}
+						for j in obj:
+							summ=0
+							temp["article"] = i[0]
+							temp["customer"] = k[0]
+							# if j.article.pk==i[0] and j.customer.pk==k[0]:
+								# summ=summ+j.net_weight
+							temp["sum"] = sum(j.net_weight for j in obj if j.article.pk==i[0] and j.customer.pk==k[0])
+						context["summ"].append(temp)
+				return Render.render("stats/pdf/art_cus_report.html", context)
+			elif grouping=='cus-art':
+				print ("customer article")
+				context["data"] = obj
+				context['date'] = datetime.now()
+				context["art_list"] = obj.values_list("article","article__description").distinct()
+				context["cus_list"] = obj.values_list("customer","customer__name").distinct()
+				context["art_list"] = [list(i) for i in context["art_list"]]
+				context["cus_list"] = [list(i) for i in context["cus_list"]]
+				context["summ"] = []
+				for i in context["cus_list"]:
+					for k in context["art_list"]:
+						temp = {}
+						for j in obj:
+							summ=0
+							temp["article"] = k[0]
+							temp["customer"] = i[0]
+							# if j.article.pk==i[0] and j.customer.pk==k[0]:
+								# summ=summ+j.net_weight
+							temp["sum"] = sum(j.net_weight for j in obj if j.article.pk==k[0] and j.customer.pk==i[0])
+						context["summ"].append(temp)
+						# context["sum"].append(sum(j.net_weight for j in obj if j.article.pk==i[0] and j.customer.pk==k[0]))
+				return Render.render("stats/pdf/cus_art_report.html", context)
+				context["data"] = obj
+		else:
+			context['error'] = "No Transkations found!"
+			return render(request, "stats/std_evaluation2.html", context)
+	return render(request, "stats/std_evaluation2.html", context)
+
+@login_required(redirect_field_name=None)
+def daily_delivery_list(request):
+	context = {}
+	form = TransactionForm(request.POST or None)
+
+	if request.POST:
+		if 'print_button' in request.POST:
+			context_transaction = transaction_update(request)
+			return Render.render("yard/pdf_template.html", context_transaction)
+		elif 'save_button' in request.POST:
+			id = request.POST.get('id')
+			obj = Transaction.objects.get(id=id)
+			form = TransactionForm(request.POST, instance=obj)
+			if form.is_valid():
+				form.save()
+			else:
+				print("error", form.errors)
+	fromdate = str(date.today()) + " 00:00:00"
+	todate = str(date.today()) + " 23:59:59"
+	context["form"] = form
+	context["dataset"] = Transaction.objects.filter(updated_date_time__range=(fromdate,todate),trans_flag=1, yard = request.user.yard)
+	return render(request, "stats/deliverynotes2.html", context)
+
+@login_required(redirect_field_name=None)
+def deliverynotes(request):
+	context = {}
+	form = TransactionForm(request.POST or None)
+	if request.POST:
+		if 'print_button' in request.POST:
+			context_transaction = transaction_update(request)
+			return Render.render("yard/pdf_template.html", context_transaction)
+		elif 'date_selection' in request.POST:
+			fromdate = request.POST.get('fromdate')
+			if fromdate:
+				context['from'] = datetime.strptime(fromdate, "%Y-%m-%d")
+				fromdate = fromdate + " 00:00:00"
+			else:
+				fromdate = str(date.today() - timedelta(days=7)) + " 00:00:00"
+
+			todate = request.POST.get('todate')
+			if todate:
+				context['to'] = datetime.strptime(todate, "%Y-%m-%d")
+				todate = todate + " 23:59:59"
+			else:
+				todate = str(date.today()) + " 23:59:59"
+
+			context["form"] = form
+			context["dataset"] = Transaction.objects.filter(updated_date_time__range=(fromdate, todate),trans_flag=2, yard = request.user.yard)
+			return render(request, "stats/deliverynotes2.html", context)
+
+		else:
+			id = request.POST.get('id')
+			if id:
+				obj = Transaction.objects.get(id=id)
+				form = TransactionForm(request.POST, instance=obj)
+				if form.is_valid():
+					form.save()
+				else:
+					print("error", form.errors)
+
+	# else:
+	# 	context["form"] = form
+	# 	context["dataset"] = Transkation.objects.all()
+	# 	return render(request, "stats/deliverynotes.html", context)
+
+	fromdate = request.POST.get('fromdate')
+	if fromdate:
+		context['from'] = datetime.strptime(fromdate, "%Y-%m-%d")
+		fromdate = fromdate + " 00:00:00"
+	else:
+		fromdate = str(date.today() - timedelta(days=7)) + " 00:00:00"
+
+	todate = request.POST.get('todate')
+	if todate:
+		context['to'] = datetime.strptime(todate, "%Y-%m-%d")
+		todate = todate + " 23:59:59"
+	else:
+		todate = str(date.today()) + " 23:59:59"
+
+	context["form"] = form
+	context["dataset"] = Transaction.objects.filter(updated_date_time__range=(fromdate,todate), trans_flag=2, yard = request.user.yard)
+	return render(request, "stats/deliverynotes2.html", context)
+
+#API for loading details from ajax to editform
+@login_required(redirect_field_name=None)
+def deliverynote_detail(request, identifier):
+	try:
+		obj = Transaction.objects.get(id=identifier)
+	except:
+		obj=None
+	if obj:
+		data = model_to_dict(obj)
+	else:
+		data={}
+	return JsonResponse(data)
+
+#@login_required(redirect_field_name=None)
+def view_images_base64(request,identifier):
+	try:
+		obj = images_base64.objects.get(transaction_id=identifier)
+	except:
+		obj=None
+	if obj:
+		serialized_obj = serialize('json', [ obj, ])
+		data = json.loads(serialized_obj)[0]['fields']
+		return JsonResponse(data)
+	else:
+		return JsonResponse({'status':False,'msg':'No Images'})
+
+
+@login_required(redirect_field_name=None)
+def transaction_update(request):
+	context = {}
+	absolute_url = request.build_absolute_uri('?')
+	context["absolute_url"] = absolute_url
+	# form = TranskationForm(request.POST or None)
+
+	if request.POST:
+		id = request.POST.get('id')
+		try:
+			obj = Transaction.objects.get(id=id)
+			form = TransactionForm(request.POST, instance=obj)
+			if form.is_valid():
+				form.save()
+				context["dataset"] = obj
+			else:
+				print("error", form.errors)
+		except:
+			obj = None
+	return context
+
+@login_required(redirect_field_name=None)
+def special_evaluation(request):
+	context={}
+	absolute_url = request.build_absolute_uri('?')
+	context["absolute_url"] =  "http://"+request.get_host()
+
+	if request.POST:
+		note_type = request.POST.getlist('note_type')
+		stat_type = request.POST.get('stat_type')
+		fromdate = request.POST.get('fromdate')
+		todate = request.POST.get('todate')
+
+		if fromdate:
+			context['from'] = datetime.strptime(fromdate,"%Y-%m-%d")
+			fromdate = fromdate+" 00:00:00"
+		else:
+			fromdate = str(date.today())+" 00:00:00"
+
+		if todate:
+			context['to'] =datetime.strptime(todate,"%Y-%m-%d") 
+			todate = todate +" 23:59:59"
+		else:
+			todate=str(date.today())+" 23:59:59"
+			
+		obj = Transaction.objects.filter(created_date_time__range=(fromdate,todate))
+		# obj = Transkation.objects.raw('SELECT *,SUM(net_weight) as ttl FROM yard_transkation WHERE created_date_time BETWEEN %s and %s GROUP BY(article_id)',[fromdate,todate])
+		sum_kg = 0
+		if obj:
+			if stat_type=='material' or 'vehicle' or 'supplier' or 'customer':
+				# context["data"] = get_article_groupset(obj)
+				context['stat_type'] = stat_type
+				context['date'] = datetime.now()
+				context["data"] = obj
+				context["summ"]= sum(j.net_weight for j in obj)
+				return Render.render("stats/pdf/material_stat.html", context)
+		else:
+			context['error'] = "No Transkations found!"
+	# 	article_from = request.POST.get('article_from')
+	# 	article_to = request.POST.get('article_to')
+	# 	obj = Transaction.objects.filter(created_date_time__range=(fromdate,todate))
+	return render(request, "stats/special_evaluation2.html", context)
+
+@login_required(redirect_field_name=None)
+def daily_closing(request):
+	context={}
+	absolute_url = request.build_absolute_uri('?')
+	context["absolute_url"] =  "http://"+request.get_host()
+	fromdate = str(date.today())+" 00:00:00"
+	todate = str(date.today()) +" 23:59:59"
+	trans = Transaction.objects.filter(trans_flag=1, yard = request.user.yard)
+	# trans = Transaction.objects.filter(created_date_time__range=(fromdate,todate),trans_flag=1)
+	if len(trans)>0:
+		trans.update(trans_flag=2)
+		message = str(len(trans))+" Transcations Updated"
+	else:
+		message = "No transcations found!"
+	return JsonResponse({'status':True,'msg':message})
+
+
+@login_required(redirect_field_name=None)
+def site_list(request):
+	context = {}
+	form = TransactionForm(request.POST or None)
+	context["form"] = form
+	context["dataset"] = Transaction.objects.filter(trans_flag=0, yard = request.user.yard)
+	return render(request, "stats/site_list.html", context)
+
+@login_required
+# @user_passes_test(lambda u: u.is_superuser,redirect_field_name=None)
+def site_list_delete(request, identifier):
+    context ={}
+    obj = get_object_or_404(Transaction, id = identifier)
+    obj.delete()
+    return HttpResponseRedirect("/stats/site_list")
+
+
+@login_required(redirect_field_name=None)
+def deliverynotes1(request):
+	context = {}
+	form = TransactionForm(request.POST or None)
+	context["form"] = form
+	context["dataset"] = Transaction.objects.all()
+	return render(request,'stats/deliverynotes2.html',contex

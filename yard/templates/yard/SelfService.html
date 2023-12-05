@@ -1,0 +1,222 @@
+{% extends 'base2.html' %}
+{% load i18n %}
+{%block head%}
+{% load static %}
+{%endblock%}
+{% block content %}
+  <h4>{% translate "Self Service Section" %}</h4>
+    <div class="row" style="padding: 50px; border: 2px solid black; border-radius: 3%; margin: 30px;">
+      <form class="col s12">
+        <div class="row" style="width: 200px;padding-bottom: 30px;margin: 0 auto">
+          <label style="padding-bottom: 1px">{% translate "Select Self Service user" %}</label>
+          <select class="user_control form-control" data-placeholder="Select User" name="ss_user">
+                <option></option>
+              {% for user in ss_users %}
+                  <option value="{{ user.id }}">{{ user.name }}</option>
+              {% endfor %}
+          </select>
+
+        </div>
+
+        
+
+        <div class="row">
+            <div class="col" style="width: 200px;">
+            <label>{% translate "Customers" %}</label>
+            <select class="field_control form-control" id="customers_select" name="customer" multiple="multiple" style="width: 170px;">
+
+            </select>
+          </div>
+
+{#          <div class="col" style="padding-top: 27px;">#}
+{#            <p>#}
+{#              <input id="customer" type="checkbox" class="filled-in" />#}
+{#              <label for="customer">Disable</label>#}
+{#            </p>#}
+{#          </div>#}
+
+          <div class="col" style="padding-top: 27px;">
+            <button type="button" id="customers_button" class="btn btn-primary">Save</button>
+
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="col" style="width: 200px;">
+            <label>{% translate "Vehicles" %}</label>
+            <select class="field_control form-control" name="vehicles" multiple="multiple" id="vehicles_select" style="width: 170px;">
+            </select>
+          </div>
+
+{#          <div class="col" style="padding-top: 27px;">#}
+{#            <p>#}
+{#              <input id="Vehicles" type="checkbox" class="filled-in" />#}
+{#              <label for="Vehicles">Disable</label>#}
+{#            </p>#}
+{#          </div>#}
+          <div class="col" style="padding-top: 27px;">
+            <button type="button" id="vehicles_button" class="btn btn-primary">Save</button>
+
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="col" style="width: 200px;">
+            <label>{% translate "Materials" %}</label>
+            <select class="field_control form-control" name="materials" id="articles_select" multiple="multiple" style="width: 170px;">
+            </select>
+          </div>
+
+{#          <div class="col" style="padding-top: 27px;">#}
+{#            <p>#}
+{#              <input id="Materials" type="checkbox" class="filled-in" />#}
+{#              <label for="Materials">Disable</label>#}
+{#            </p>#}
+{#          </div>#}
+          <div class="col" style="padding-top: 27px;">
+            <button type="button" id="articles_button" class="btn btn-primary">Save</button>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" style="width: 200px;">
+            <label>{% translate "Construction Site" %}</label>
+            <select class="field_control form-control" id="building_sites_select" name="sites" multiple="multiple"  style="width: 170px;">
+            </select>
+          </div>
+
+{#          <div class="col" style="padding-top: 27px;">#}
+{#            <p>#}
+{#              <input id="Construction" type="checkbox" class="filled-in" />#}
+{#              <label for="Construction">Disable</label>#}
+{#            </p>#}
+{#          </div>#}
+          <div class="col" style="padding-top: 27px;">
+            <button type="button" id="building_sites_button" class="btn btn-primary">Save</button>
+
+          </div>
+        </div>
+        <div class="row">
+            <div class="col" style="width: 200px;">
+            <label>{% translate "Suppliers" %}</label>
+            <select class="field_control form-control" id="suppliers_select" name="suppliers" multiple="multiple" style="width: 170px;">
+            </select>
+          </div>
+
+{#          <div class="col" style="padding-top: 27px;">#}
+{#            <p>#}
+{#              <input id="Suppliers" type="checkbox" class="filled-in" />#}
+{#              <label for="Suppliers">Disable</label>#}
+{#            </p>#}
+{#          </div>#}
+
+          <div class="col" style="padding-top: 27px;">
+            <button type="button" id="suppliers_button" class="btn btn-primary">Save</button>
+
+          </div>
+        </div>
+      <div class="row">
+            <div class="col" style="width: 200px;">
+            <label>{% translate "Containers" %}</label>
+            <select class="field_control form-control" id="containers_select" name="containers" multiple="multiple" style="width: 170px;">
+            </select>
+          </div>
+
+{#          <div class="col" style="padding-top: 27px;">#}
+{#            <p>#}
+{#              <input id="Suppliers" type="checkbox" class="filled-in" />#}
+{#              <label for="Suppliers">Disable</label>#}
+{#            </p>#}
+{#          </div>#}
+
+          <div class="col" style="padding-top: 27px;">
+            <button type="button" id="containers_button" class="btn btn-primary">Save</button>
+
+          </div>
+        </div>
+      </form>
+    </div>
+
+  {% endblock content %}
+{% block scripts %}
+    <script type="text/javascript">
+    var fields = {
+        "articles":"name",
+        "customers":"name1",
+        "building_sites":"name",
+        "vehicles":"license_plate",
+        "suppliers":"name",
+        "containers": "name"
+    }
+    field_value_request = async (value) =>{
+        let response = await $.ajax(`/ss_get_fields/${value}`);
+        return response;
+    }
+    get_all_field_values = async () =>{
+        let response = await $.ajax("/get_field_values/");
+        return response;
+    }
+    get_user_field_values = async (value) => {
+        let response = await field_value_request(value);
+        console.log(response);
+        return response
+    }
+
+    let save_ss_field = async (values_list,field,user_id) =>{
+        let response = $.ajax("/ss_update_field/",{
+            method:"PUT",
+            data: JSON.stringify({
+                "field_type":field,
+                "user":user_id,
+                "values":values_list
+            })
+        });
+        return response;
+    }
+
+    $(document).ready(() => {
+
+        $(".user_control").on("change",async function (e) {
+            let all_field_values = await get_all_field_values();
+            let selected_fields = await get_user_field_values(this.value);
+            for (let field of Object.keys(fields)){
+                $(`#${field}_select`).val(null).trigger('change');
+                for(let all_field_ele of all_field_values[field]){
+                    let is_selected = false;
+                    selected_fields[field].forEach((item,index) => {
+                        if(item.pk === all_field_ele.pk){
+                            is_selected = true;
+                        }
+                    });
+                    if(is_selected){
+                        var newOption = new Option(all_field_ele.fields[fields[field]], all_field_ele.pk, false, true);
+                    }
+                    else {
+                        var newOption = new Option(all_field_ele.fields[fields[field]], all_field_ele.pk, false, false);
+                    }
+                    $(`#${field}_select`).append(newOption).trigger('change');
+            }}
+
+        });
+        for (let field of Object.keys(fields) ){
+            $(`#${field}_button`).on("click",async function (e) {
+            {#let response = await save_ss_field()#}
+            let values = $(`#${field}_select`).select2('data');
+            values = values.map(v => v.id);
+            let user = $(".user_control").select2('data');
+            console.log(values);
+            console.log(user);
+            let updated_fields = await save_ss_field(values,field,user[0].id)
+        });
+        }
+
+        $(".field_control").select2({
+            placeholder: 'Select option'
+        });
+         $(".user_control").select2({
+             placeholder: 'Select option'
+         });
+    });
+  </script>
+{% endblock %}
+

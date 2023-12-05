@@ -1,0 +1,531 @@
+{% extends 'base2.html' %}
+{% load i18n %}
+{%block head%}
+{% load static %}
+{%endblock%}
+{% block content %}
+<form method="POST" id="form_home"  name="myForm" enctype="multipart/form-data" >
+   {% csrf_token %}
+   <div class="container mb-4 MaxWidth-100">
+      <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+         <i class="fas fa-align-justify"></i>
+      </button>
+         <div class="row   border-top-0 border-left-0 border-right-0 mb-3">
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12  pl-0 pr-0">
+               {% if messages %}
+						{% for message in messages %}
+						<div id="msg" class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+						{% endfor %}
+                  {% endif %}
+                  <div class="content_text">
+                     <p class="mb-0">{% trans 'OVERVIEW' %}</p>
+                  </div>
+                  <div class="heding">
+                     <p>{% trans 'Weighing' %}</p>
+                  </div>
+                  <hr>
+               </div>
+               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pl-0 pr-0">
+                  <div class="row">
+                     <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <input type="hidden" name="ident" id="id_selected_combi">
+                        <input type="hidden" name="trans_id" id="trans_id" value="">
+                         <input type="hidden" name="customer_price_group" id="customer_price_group" value="">
+                        <select name="id" id='id_ident' class="form-control select2" onchange="populateCombinationDetails($(this).val())">
+                           <option value='0'>{% trans "Select ID or Enter New ID" %}</option>
+                              {%for i in combination_list%}
+                              <option value={{i.pk}}>{{i.fields.ident}}</option>
+                              {%endfor%}
+                        </select>
+                     </div>
+                        <div class="col-xl-3 col-lg-2 col-md-6 col-sm-12 col-12">
+                          <button id="clear_ident" title="Eingabe in Wiegemaske leeren" class="btn btn-primary ml-1 mr-0">leeren</button>
+                        </div>
+                  </div>
+               </div>
+{#                Vehicle Div #}
+                <div class="card mt-3">
+                  <div id="collapse12" >
+                  {% comment %} <div id="collapse12" class="{% if vehicle_list|length > 0 %} show_field {% else %} hide_field {% endif %}" > {% endcomment %}
+                     <div class="panel-body">
+                        <div class="NewCardBoxClrDesign">
+                           <div class="row">
+                              <div class="col-xl-12 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+                                       <span class="text_color">{% trans "Vehicle" %}</span>
+                                       <button type="button" class="float-right NewPaddingOnbtn iconBtn1" id="vehiclePopup"><i class="fa fa-search-plus" aria-hidden="true"></i>{% trans '' %}</button>
+                                       </div>
+                                    </div>
+                              <div class="col-xl-12 col-lg-6 col-md-6 col-sm-12 col-12">
+                                 <div class="form-inline">
+                                       <div class="form-group mb-2 col-xl-2 p-0  text-right">
+                                          <label class="OnlyForInlineform mb-2 mr-2">{% trans "Code" %}.&nbsp;1</label>
+                                       </div>
+                                       <div class="form-group mb-2 col-xl-6 p-0 FlexFlowChng">
+                                          <input type="hidden"  id="vehicle_id" class="fahrzeuge" name="vehicle">
+                                          <select id="id_vehicle" name="id_vehicle" style="text-transform:uppercase" class="form-control select2 col-xl-12 ml-2" onchange="populateVehicleDetails($(this).val())" >
+                                             <option value='0' style="text-transform:uppercase">{% trans "Select Vehicle" %}</option>
+                                                {%for i in vehicle_list%}
+                                                   <option value={{i.pk}} >{{i.fields.license_plate}}</option>
+                                                {%endfor%}
+                                          </select>
+                                    </div>
+                                    
+                                    <div class="col-xl-2 ml-2 p-0">
+                                       <button id="read_camera" class="btn btn-primary mb-2 ml-2 " title="Kennz. 1 automatisch erkennen" tabindex='-1'>Get</button>
+                                    </div>
+                                 </div>
+
+                                 <div class="form-inline">
+                                 <div class="form-group mb-2 col-xl-2 p-0">
+                                       <label class="pr-1 mt-0" >{% trans "Vehicle Weight" %}&nbsp;(kg)</label>
+                                 </div>
+                                 <div class="form-group mb-2 col-xl-6 p-0">
+                                       <input type="text" onkeydown="return event.key != 'Enter';" class="col-md-5 AddHeightinInputbox" id="vehicle_weight" name="vehicle_weight" placeholder="{% trans 'Vehicle Weight' %}">
+                                     <div class="col-md-1" style="padding-right: 0px; padding-left: 0px;margin-left: 18px;">
+                                       <button type='button' id="btn_tara" class="btn btn-primary mb-1 " title="Wiegung mit / ohne Tara" tabindex='-1'>Ohne</button>
+                                       <input type='hidden' id='tara_date' name="tara_date" value='0'>
+                                    </div>
+                                 
+                                    
+                                 </div>
+                                 </div>
+
+                           </div>
+                           
+
+
+                        </div>
+                          
+                        </div>
+                     </div>
+                  </div>
+               <div class="card mt-3">
+               <div id="collapse18" >
+               {% comment %} <div id="collapse18" class="collapse {% if customer_list|length > 0 %} show {% else %} hide {% endif %}"> {% endcomment %}
+                  <div class="panel-body">
+                     <div class="card-body NewCardBoxClrDesign">
+                        <div class="row">
+                           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-left">
+                                       <span class=" text_color">{%if request.session.customer %}{% trans request.session.customer %} {%else%}{% trans "Customer" %}{%endif%}</span>
+                                        <button type="button" id="customerPopup" class="float-right NewPaddingOnbtn iconBtn1"><i class="fa fa-search-plus" aria-hidden="true"></i>{% trans '' %}</button>
+                                    </div>
+                                 </div>
+
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                  <div class="form-inline">
+                  <div class="form-group row mb-2 p-0 col-xl-2">
+                     <label for="" id="customer_salutation" class="OnlyForInlineform mb-2 mr-2">{% trans "Name1" %}</label>
+                     </div>
+                         <div class="form-group mb-2 col-xl-6 p-0 FlexFlowChng">
+                         <input type="hidden" name="customer" id="customer_id" value="">
+
+                           <select id='id_customer' name = "id_customer" class="form-control select2 col-xl-12" onchange="populateCustomerDetails($(this).val())">
+
+                           <option value='0'>{%if request.session.customer %}{{request.session.customer}} &nbsp;{% trans 'Select2' %} {% else %}{% trans 'Select Customer' %}{%endif%} </option>
+                              {%for i in customer_list%}
+                           <option value={{i.pk}}>{{i.fields.name1}}</option>
+                              {%endfor%}
+                           </select>
+                        </div>
+</div>
+               </div>
+     </div>
+                    
+                   
+                     </div>
+                  </div>
+               </div>
+         <div class="card mt-3">
+           
+               <div id="collapse-32" class="collapse show" >
+                  <div class="panel-body">
+                     <div class="card-body NewCardBoxClrDesign">
+                        <div class="row">
+                           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-left">
+                                 <span class="text_color">{%if request.session.supplier %}{{ request.session.supplier }} {%else%}{% trans 'Supplier' %}{%endif%}</span>
+                                 <button type="button" id="supplierPopup" class="float-right NewPaddingOnbtn iconBtn1" data-toggle="modal"><i class="fa fa-search-plus" aria-hidden="true"></i>{% trans '' %}</button>
+                           </div>
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+                        <div class="form-inline">
+                           <div class="form-group row mb-2 p-0 col-xl-2">
+                              <label class="col-sm-1 col-form-label paddingL-3">{% trans 'Name1' %}</label>
+                           </div>
+                           <div class="form-group mb-2 col-xl-6 p-0 FlexFlowChng">
+                                 <select id="id_supplier"  name="id_supplier" class="form-control select2 col-xl-12" onchange="populateSupplierDetails($(this).val())">
+                                    <option value='0'>{%if request.session.supplier %}{{ request.session.supplier }} &nbsp;{% trans 'Select2' %} {%else%}{% trans 'Select Supplier' %}{%endif%}</option>
+                                       {%for i in supplier_list%}
+                                    <option value={{i.pk}}>{{i.fields.supplier_name}}</option>
+                                       {%endfor%}
+                                 </select>
+                                 <input type="hidden"  name="supplier" id="supplier_id" class="lieferanten">
+                           </div>
+                        </div>
+                        </div>
+                     </div>
+                  </div> 
+               </div>
+            </div>
+         
+                       <div class="card mt-3">
+              
+               <div id="collapse-24" class="collapse show" >
+                  <div class="panel-body">
+                     <div class=" text-left">
+                        <div class="md-form mb-1">
+                           <div id="card_back" class="">
+                              <div class="tab-content" id="myTabContent">
+                                 <div class="tab-pane fade show active" id="scale1" role="tabpanel" aria-labelledby="scale1-tab">
+                                    <div class="card-body CardPadding-All-1 NewCardBoxClrDesign">
+                                         <p class="text_color mb-0">
+                                          {% trans "Weight" %}
+                                       </p>
+
+
+<div class="row">
+    <div class="kg text-center mt-1">
+     <input id="id_date"  type='hidden'>
+    <input id="id_time" type='hidden'>
+    <input id="id_alibi_num" type='hidden'>
+   </div>
+        <div class="col-sm-4">
+         <div class="wetbox1">
+            <button class="wetbox2" id="btn-firstweight" title="Erstwiegung ausführen und alle Werte in Hofliste speichern" name="btn_firstweight">{% trans "First Weighing" %}</button>
+              <input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="wetbox3" id="firstweight" name="first_weight" value="0000" tabindex='-1' readonly>
+
+            <label class="">kg</label>
+            <input id="trans-flag" type="hidden" name="trans_flag" >
+            <input id="datetime_firstw" type="hidden"  name="firstw_date_time" value="2000-01-01T00:00:00" >
+            <input id="alibi_firstw" type="hidden"  name="firstw_alibi_nr" value="0000" >
+            <input id="stat_vehicle_weight" type="hidden" value="0" name="vehicle_weight_flag">
+         </div>
+        </div>
+        <div id="text_card1" class="col-sm-4">
+          
+           <div class="wetbox1">
+            <button class="wetbox2" title="Zweitewiegung ausführen und Liferschein ausdruckren" id="btn-secondweight">{% trans "Second Weighing" %}</button>
+  <input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="wetbox3" id="secondweight" name="second_weight" value="0000" tabindex='-1' readonly>
+  <label class="">kg</label>
+                              <input type="hidden" name="vehicle_second_weight_flag" value ="0" id="stat_vehicle_second_weight">
+                              <input id="datetime_secondw" type="hidden"  name="secondw_date_time" value="2000-01-01T00:00:00">
+                              <input id="alibi_secondw" type="hidden"  name="secondw_alibi_nr" value="0000">
+
+         </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="wetbox1">
+<button id="btn-netweight" title="Nettogewicht" class="wetbox2">{% trans "Net Weight" %}</button>
+<input type="text" class="wetbox3" id="netweight" value="0000" name="net_weight" tabindex='-1' readonly>
+<label class="">kg</label>
+         </div>
+        </div>
+     </div>
+
+
+
+
+                                    </div>
+                                 </div>
+                           
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>        <input type="hidden" value="20/7204" name="yardman">
+               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pl-0">
+         <button type="submit" class="btn btn-primary mt-3" name="save_button" id="btn-index-save" hidden><i class="fas fa-save ml-2"></i> {% trans 'Save' %}</button>
+         <button type="submit" title="Wiegeschein drucken" class="btn btn-primary ml-2 mt-3" id="btn-print" name="print_button"><i class="fas fa-print"></i> {% trans 'Print' %}</button>
+         <button type="button" title="Hofliste anzeigen" class="btn btn-primary mt-3" id="btn-hofliste" ><i class="fas fa-save ml-2"></i> {% trans 'Site List' %}</button>
+         <button type="button" title="Gewicht händisch / automatisch wählen" class="btn btn-primary mt-3" id="btn_hand" > Handeingabe</button>
+         {% if ew.status %}
+         <button type="button" title="Fremdweiegung anzeigen" class="btn btn-dark mt-3" id="btn_ew" > Fremdwiegung</button>
+         {% endif %}
+         <input type="hidden" value="0" id="btn_ew_input" name="foreign">
+         <input type="hidden" value="0" id="select_from_hofliste">
+         
+      </div>        
+
+            
+            </div>
+               <!-- Material form login -->
+            
+            
+          
+        <!--     </div> -->
+            <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12 col-12">
+               <div class="resp-container">
+                  <div class="row "> 
+                    {% comment %} <iframe class="responsive-iframe" id="iframe_data"  src="http://www.rw-datanet.com:8001/" frameborder="0" allow="accelerometer" allowfullscreen></iframe> {% endcomment %}
+                     <iframe class="responsive-iframe" id="iframe_data"  src="/scaleview" frameborder="0" allow="accelerometer" allowfullscreen></iframe>
+
+                  </div>
+               </div>
+                 
+            
+               <div class="card mt-3">
+               <div id="collapse6" >
+                  {% comment %} <div id="collapse6" class="collapse {% if article_list|length > 0 %} show {% else %} hide {% endif %}" > {% endcomment %}
+                     <div class="panel-body">
+                        <div class="card-body NewCardBoxClrDesign">
+                           <div class="row">
+                              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-left">
+                                 <span class="text_color">{%if request.session.article %}{{ request.session.article }} {%else%}{% trans 'Material' %}{%endif%}</span>
+                                 <button type="button" id="materialPopup" class="float-right NewPaddingOnbtn iconBtn1"><i class="fa fa-search-plus" aria-hidden="true"></i>{% trans '' %}</button>
+                              </div>
+                           </div>
+
+                           <div class="form-group row mb-0">
+                              <label for="" class="col-sm-1 col-form-label paddingL-3">{% trans 'Name' %}</label>
+                              <div class="col-sm-4">
+                              <input type="hidden" name="article" id="article_id" class="artikel" >
+                              <input type="hidden" class="form-control" id="article_group" name="article_group" value="">
+                                 <select id="id_article" name="id_article" class="form-control select2 col-xl-12" onchange="populateArticleDetails($(this).val())">
+                                    <option value='0'>{%if request.session.article %} {{ request.session.article }}   {% trans 'Select2' %} {%else%} {% trans 'Select Material' %} {%endif%}</option>
+                                    {% comment %} <option value='0'>{% trans 'Select Material' %}</option> {% endcomment %}
+                                       {%for i in article_list%}
+                                    <option value={{i.pk}}>{{i.fields.name}}</option>
+                                       {%endfor%}
+                                 </select>
+                              </div>
+                              
+                           </div>
+                              
+                           <div class="form-group row mb-2">
+                           {% if i_o.status == 1%}
+                              <label for='' class="row-sm-3 col-form-label paddingL-4"> {% trans 'Status' %} </label>
+                              <div class='col-sm-3'>
+                                 <select id='status' name='status' class='form-control' required style="font-size:15px;">
+                                 <option selected value > {% trans "Select3" %}</option>
+                                 <option value='0'> Eingang</option>
+                                 <option value='1'> Ausgang </option>
+                                 </select>
+                              </div>
+                              {% endif %}
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            
+
+               {% if contr.status == 1 %}
+            <div class="card mt-3">
+              <div id="collapse6" >
+               {% comment %} <div id="collapse6" class="collapse {% if container_list|length > 0 %} show {% else %} hide {% endif %}" > {% endcomment %}
+                  <div class="panel-body">
+                     <div class="card-body NewCardBoxClrDesign">
+                        <div class="row">
+                           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-left">
+                                 <span class="text_color">{% trans 'Container' %}</span> <input type="checkbox" id="contr_on" name="contr_on" style="display:none;" value='false'>
+                              <button type="button" id="materialPopup" class="float-right NewPaddingOnbtn iconBtn1"><i class="fa fa-search-plus" aria-hidden="true"></i>{% trans '' %}</button>
+                           </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+
+                           <label for="" class="col-sm-2 col-form-label paddingL-3">{% trans 'Name' %}</label>
+                  
+                           <div class="col-sm-3">
+                           <input type="hidden"  id="container_id" class="container" name="container">
+                           <select id="id_container" name="id_container" class="form-control select2" onchange="populateContainerdetails($(this).val())">
+                              <option value='0'>{% trans 'Select Container' %}</option>
+                                    {%for i in container_list%}
+                              <option value={{i.pk}}>{{i.fields.name}}</option>
+                                    {%endfor%}
+                           </select>
+                           </div>
+
+                           <label for="" class="row-sm-2 col-form-label ml-2 paddingL-4">{% trans 'Container Type' %}</label>
+                           <div class="col-sm-3 ml-4">
+                              <input type="text" onkeydown="return event.key != 'Enter';" class="form-control" placeholder="Container Typ" name="contr_type" id="contr_type" >
+                           </div>
+                        </div>
+                        <div class="form-group row mb-0 mt-2">
+
+                           <label for="" class="row-sm-2 col-form-label paddingL-4">{% trans 'Container Group' %}</label>
+                           <div class="col-sm-3 mt-0">
+                              <input type="text" onkeydown="return event.key != 'Enter';" class="form-control" placeholder="Container group" name="contr_group" id="contr_group" >
+                           </div>
+
+                           <label for="" class="row-sm-2 col-form-label paddingL-3 mt-4">{% trans 'Container Weight' %}</label>
+                           <div class="col-sm-3 mt-0">
+                              <input type="text" onkeydown="return event.key != 'Enter';" class="form-control" placeholder="Container Gewicht" name="contr_weight" id="contr_weight" >
+                           </div>
+               
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+                  {% endif %}
+
+
+         
+         </div>
+      </div>
+   </div>
+        
+       <!--   </div>
+      </div> -->
+   <!--FORM-->
+</form>
+<div id="MyPopup" class="modal fade modal-custom bd-example-modal-lg" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content p-4">
+         <div class="modal-header modal-header-custom">
+            <h4 class="modal-title">
+            </h4>
+            <button type="button" class="close" data-dismiss="modal">
+            &times;</button>
+         </div>
+         <div class="modal-body">
+         </div>
+         <div class="modal-footer">
+            <input type="button" id="btnClosePopup" value="Close" class="btn btn-secondary" />
+         </div>
+      </div>
+   </div>
+</div>
+<div id="myModal" class="modal fade modal-custom bd-example-modal-lg" role="dialog">
+   <div class="modal-dialog  modal-lg">
+      <div class="modal-content  p-4">
+         <div class="modal-body">
+            <img class="img-responsive" src="" style="width:100%"/>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<script  src="{% static 'yard/js/jquery.min.js'%}"></script>
+<script src="{% static 'yard/js/self_service_index.js'%}"></script>
+{#    <script src="{% static 'yard/js/self_service_custom.js'%}"></script>#}
+<script>
+
+// collapse button 
+$("[data-toggle='collapse'] [data-toggle='modal']").click(function(event) {
+    event.stopPropagation();
+    var thisModal = $(this).attr('data-target');
+    $(thisModal).modal('show');
+});
+
+ setTimeout(function(){
+  if ($('#msg').length > 0) {
+    $('#msg').remove();
+  }
+}, 10000)
+
+{% comment %} $("#btn-secondweight").click(function (e){
+
+   e.preventDefault();
+
+   var first = $("#firstweight").val();
+   var second = $("#secondweight").val();
+   var net = $("#netweight").val();
+   var conf = confirm(
+      `Erstwiegung = ${first}
+      Zweitweigung = ${second}
+      Nettogewicht = ${net} 
+      
+      Do you want to Print ?`
+      )
+   if (conf == true){
+      $("#btn-print").click();
+   }
+}); {% endcomment %}
+
+ $("#save_comb").click(function(){
+      form = document.getElementById('form_home');
+      form.target = '_self';
+      form.submit();
+   });
+
+$(function(){
+   $("#article_price").css('pointer-events',"none");
+         $("#article_price").css('background-color','#dadada')
+         $("#article_price").prop('readonly',true)
+         $("#article_price").prop('tabindex','-1')
+})
+   $("#item_price").change(function(){
+      if ($(this).prop('checked') == true){
+         $("#article_price").css('pointer-events',"all");
+         $("#article_price").css('background-color','#fff')
+         $("#article_price").prop('readonly',false)
+         $("#article_price").prop('tabindex','0')
+         $("#show_price").val('true')
+      } else {
+         $("#article_price").css('pointer-events',"none");
+         $("#article_price").css('background-color','#dadada')
+         $("#article_price").prop('readonly',true)
+         $("#article_price").prop('tabindex','-1')
+         $("#show_price").val('false')
+      }
+   })
+
+   $("#btn_eing").click(function(){
+      console.log($(this).text())
+      
+   })
+</script>
+
+{%endblock%}
+
+                                 
+
+ 
+
+                          
+           
+
+
+
+
+                           
+
+                           
+
+                           
+
+
+                           
+
+
+                           
+                    
+                   
+              
+
+
+          
+
+
+
+
+            
+            
+            
+          
+
+           
+
+
+               
+
+
+
+
+
+                              
+
+
+                      
+
+         

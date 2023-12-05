@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row">
+  <div class="col-md-10 col-lg-10 col-xl-10">
+    <table class="table table-sm table-striped table-bordered aclist" >
+      <thead class="thead-dark">
+        <tr>
+          <th>{{form.name.label}}</th>
+          <th>{{form.short_name.label}}</th>
+          <th>{{form.place.label}}</th>
+          <th>{{form.street.label}}</th>
+          <th>{{form.pin.label}}</th>
+          <th>{{form.infotext.label}}</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      {% for data in dataset %}
+      <tbody>
+        <tr>
+          <td>{{ data.name }}</td>
+          <td>{{ data.short_name }}</td>
+          <td>{{ data.place }}</td>
+          <td>{{ data.street }}</td>
+          <td>{{ data.pin }}</td>
+          <td>{{ data.infotext }}</td>
+          <td><a href="javascript:loadBuildingSiteDetails('{{ data.id }}')">Edit</a> <a class="confirmdelete" href="{% url 'building_site_delete' identifier=data.id  %}">Delete</a></td>
+        </tr>
+      </tbody>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+<div class="row">
+  <br/>
+  <br/>
+</div>
+<div class="row">
+  <div class="col-md-6 col-lg-6 col-xl-6 edit-form">
+    <div class="accordion active">
+      BuildingSite
+<!--       <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="vechicle" placeholder="Nummer"> -->
+    </div>
+    <div class="panel panel-default" style="max-height: 250px;">
+        <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <input type="hidden" name="id" id="id">
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.name.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.name}}{{ form.name.errors}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.short_name.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.short_name }}{{ form.short_name.errors }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.place.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.place}}{{ form.place.errors}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.street.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.street }}{{ form.street.errors }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.pin.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{form.pin}}{{form.pin.errors}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.infotext.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.infotext }}{{ form.infotext.errors }}
+            </div>
+          </div>
+            <div class="row ipt1">
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <button id="submit" type="submit" class="cus-button-1" >Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

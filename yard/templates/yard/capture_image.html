@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{%block head%}
+  {%load static%}
+{%endblock%}
+{% block content %}
+<script src="{% static 'yard/js/capturedImage.js'%}"></script>
+<img id="img_captured1" alt="Captured image" width="400" height="275" hidden>
+<img id="img_captured2" alt="Captured image" width="400" height="275" hidden>
+<img id="img_captured3" alt="Captured image" width="400" height="275" hidden>
+<img id="img_loading" alt="Loading Image" width="400" height="275" src="{% static 'yard/images/loading.gif'%}" hidden>
+<button id="btn_capture2" hidden>Capture Image 2</button>
+<button id="btn_capture3" hidden>Capture Image 3</button>
+{%endblock%}
+

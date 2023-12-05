@@ -1,0 +1,658 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-26 19:16+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+msgid "Weighing"
+msgstr "Взвешивание"
+
+msgid "Masterdata"
+msgstr "Основные данные"
+
+msgid "Delivery/Weighing Notes"
+msgstr "Доставка/взвешивание накладных"
+
+msgid "Evaluation"
+msgstr "Оценка"
+
+msgid "Help"
+msgstr "Помощь"
+
+msgid "Material"
+msgstr "Материал"
+
+msgid "Building Site"
+msgstr "Строительная площадка"
+
+msgid "Delivery Note"
+msgstr "транспортная накладная"
+
+msgid "Customer"
+msgstr "Клиент"
+
+msgid "Supplier"
+msgstr "Поставщик"
+
+msgid "Forwarders"
+msgstr "Форвардеры"
+
+msgid "Yard List"
+msgstr "Дворовая ведомость"
+
+msgid "Site List"
+msgstr "Список объектов"
+
+msgid "Daily List"
+msgstr "Ежедневный список"
+
+msgid "Delivery Note Filing"
+msgstr "Папка накладной"
+
+msgid "Daily Closing"
+msgstr "Ежедневное закрытие"
+
+msgid "Data Import & Export"
+msgstr "Импорт и экспорт данных"
+
+msgid "Standard Evaluation"
+msgstr "Стандартная оценка"
+
+msgid "Special Evaluation"
+msgstr "Специальная оценка"
+
+msgid "User"
+msgstr "Пользователь"
+
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "First Name"
+msgstr "Имя"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Telephone"
+msgstr "Телефон"
+
+msgid "Weight"
+msgstr "Вес"
+
+msgid "First Weighing"
+msgstr "Первое взвешивание"
+
+msgid "Second Weighing"
+msgstr "Второе взвешивание"
+
+msgid "Net Weight"
+msgstr "Вес нетто"
+
+msgid "Scale 1"
+msgstr "Шкала 1"
+
+msgid "Scale 2"
+msgstr "Шкала 2"
+
+msgid "Save"
+msgstr "Сохранить "
+
+msgid "Print"
+msgstr "Печать "
+
+msgid "Capture Image"
+msgstr "Захватить изображение"
+
+msgid "Get"
+msgstr "Получить"
+
+msgid "Select ID or Enter New ID"
+msgstr "Выберите ID или введите новый ID"
+
+msgid "Select"
+msgstr "Выберите"
+
+msgid "Short Name"
+msgstr "Короткое имя"
+
+msgid "Entry Weight"
+msgstr "Вес входа"
+
+msgid "Remaining Weight"
+msgstr "Остаточный вес"
+
+msgid "Outgoing Weight"
+msgstr "Исходящий вес"
+
+msgid "Group"
+msgstr "Группа"
+
+msgid "Vat"
+msgstr "Ват"
+
+msgid "Minimum Amount"
+msgstr "Минимальная сумма"
+
+msgid "Price"
+msgstr "Цена"
+
+msgid "Discount"
+msgstr "Скидка"
+
+msgid "Edit"
+msgstr "Редактирование"
+
+msgid "Delete"
+msgstr "Удалить"
+
+msgid "Place"
+msgstr "Разместить"
+
+msgid "Street"
+msgstr "Улица"
+
+msgid "Pin"
+msgstr "Пин"
+
+msgid "Infotext"
+msgstr "Инфотекст"
+
+msgid "Vehicle"
+msgstr "Автомобиль"
+
+msgid "License Plate"
+msgstr "Лицензионный знак"
+
+msgid "License Plate 2"
+msgstr "Лицензионный знак 2"
+
+msgid "Country"
+msgstr "Страна"
+
+msgid "Vehicle Weight"
+msgstr "Масса автомобиля"
+
+msgid "Vehicle ID"
+msgstr "удостоверение личности транспортного средства"
+
+msgid "Updated on"
+msgstr "Обновлённый"
+
+msgid "Action"
+msgstr "Действие"
+
+msgid "Delivery Number"
+msgstr "Номер доставки"
+
+msgid "File Name"
+msgstr "Имя файла"
+
+msgid "Supplier Name"
+msgstr "Имя поставщика"
+
+msgid "Area"
+msgstr "Территория"
+
+msgid "Contact Person"
+msgstr "Контактное лицо"
+
+msgid "First Weight"
+msgstr "Первый вес"
+
+msgid "Alibi Nr"
+msgstr "Алиби Нр"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Generate Report"
+msgstr "Сгенерировать отчет"
+
+msgid "From"
+msgstr "С"
+
+msgid "To"
+msgstr "На"
+
+msgid "Uncharged Delivery Notes"
+msgstr "Незаряженные накладные"
+
+msgid "Invoiced Delivery Notes"
+msgstr "Счет-фактура на доставку"
+
+msgid "Statitics"
+msgstr "Статистика"
+
+msgid "Delivery Note Lists"
+msgstr "Списки доставки"
+
+msgid "weighing slip"
+msgstr "весовой бюллетень"
+
+msgid "Time"
+msgstr "Время"
+
+msgid "Work"
+msgstr "Работа"
+
+msgid "Feed type"
+msgstr "Тип корма"
+
+msgid "Signature of the weigher"
+msgstr "Подпись весов"
+
+msgid "Driver"
+msgstr "Водитель"
+
+msgid "Recipient"
+msgstr "Получатель"
+
+msgid "calculated"
+msgstr "просчитанный"
+
+msgid "preset tare"
+msgstr "запрограммированная тара"
+
+msgid "OVERVIEW"
+msgstr "ОБЗОР"
+
+msgid "Clear"
+msgstr "Чисто"
+
+msgid "Company"
+msgstr "Компания"
+
+msgid "Forwarder"
+msgstr "Экспедитор"
+
+msgid "Remaining Quantity"
+msgstr "Остаточное количество"
+
+msgid "Materials"
+msgstr "Материалы"
+
+msgid "Vehicles"
+msgstr "Транспортные средства"
+
+msgid "Building Sites"
+msgstr "Строительные объекты"
+
+msgid "Customers"
+msgstr "Клиенты"
+
+msgid "Customer Type"
+msgstr "Тип заказчика"
+
+msgid "Classification"
+msgstr "Классификация"
+
+msgid "Position"
+msgstr "Позиция"
+
+msgid "Company Size"
+msgstr "Размер компании"
+
+msgid "Sector"
+msgstr "Сектор"
+
+msgid "Suppliers"
+msgstr "Поставщики"
+
+msgid "Delivery Notes"
+msgstr "Накладные"
+
+msgid "Grouping"
+msgstr "Группировка"
+
+msgid "Article"
+msgstr "Статья"
+
+msgid "Day List"
+msgstr "Список дней"
+
+msgid "Material Statistics"
+msgstr "Статистика материалов"
+
+msgid "Vehicle Statistics"
+msgstr "Статистика автотранспорта"
+
+msgid "Yield Statistics"
+msgstr "Статистика урожайности"
+
+msgid "Show Article"
+msgstr "Показать статью"
+
+msgid "Show Supplier"
+msgstr "Показать Поставщик"
+
+msgid "Show Yard"
+msgstr "Выставочный двор"
+
+msgid "Show Forwarder"
+msgstr "Показать форвардер"
+
+msgid "Show Storage"
+msgstr "Показать Хранение"
+
+msgid "Show Building Site"
+msgstr "Показать строительную площадку"
+
+msgid "Language"
+msgstr "Язык"
+
+msgid "Read Number Plate From Camera"
+msgstr "Чтение номерной пластины с камеры"
+
+msgid "Advanced Search"
+msgstr "Расширенный поиск"
+
+msgid "Measured values from freely programmable additional equipment. The calibrated measured values can be viewed become possible. The driver of the vehicle is liable for overloading."
+msgstr "Измеренные значения от свободно программируемого дополнительного оборудования. Возможен просмотр откалиброванных измеренных значений. Водитель транспортного средства несет ответственность за перегрузку."
+
+msgid "Captured Images"
+msgstr "Захваченные изображения"
+
+msgid "Show entries"
+msgstr "Показать записи"
+
+msgid "Container"
+msgstr "Контейнер"
+
+msgid "Warehouse"
+msgstr "Склад"
+
+msgid "All Users"
+msgstr "Все пользователи"
+
+msgid "Yard list"
+msgstr "Дворовой список"
+
+msgid "Sign Out"
+msgstr "Выход"
+
+msgid "Sign In"
+msgstr "Вход в систему"
+
+msgid "Yard"
+msgstr "Двор"
+
+msgid "Role"
+msgstr "Роль"
+
+msgid "Users"
+msgstr "Пользователи"
+
+msgid "Superuser"
+msgstr "Суперпользователь"
+
+msgid "Technician"
+msgstr "Техник"
+
+msgid "View Images"
+msgstr "Просмотреть изображения"
+
+msgid "Cancel"
+msgstr "Отменить"
+
+msgid "Second Weight"
+msgstr "Второй Вес"
+
+msgid "Total Price"
+msgstr "Общая цена"
+
+msgid "Transaction"
+msgstr "Сделка"
+
+msgid "Incoming Weight"
+msgstr "Входящий вес"
+
+msgid "Balance Weight"
+msgstr "Балансовый вес"
+
+msgid "Price 1"
+msgstr "Цена 1"
+
+msgid "Price 2"
+msgstr "Цена 2"
+
+msgid "Price 3"
+msgstr "Цена 3"
+
+msgid "Price 4"
+msgstr "Цена 4"
+
+msgid "Price 5"
+msgstr "Цена 5"
+
+msgid "Type 1"
+msgstr "Тип 1"
+
+msgid "Type 2"
+msgstr "Тип 2"
+
+msgid "Type 3"
+msgstr "Тип 3"
+
+msgid "Type 4"
+msgstr "Тип 4"
+
+msgid "Type 5"
+msgstr "Тип 5"
+
+msgid "Type"
+msgstr "Введите ."
+
+msgid "Avv Num"
+msgstr "Avv Номер"
+
+msgid "Account"
+msgstr "аккаунт"
+
+msgid "Cost Center"
+msgstr "Центр затрат"
+
+msgid "Unit"
+msgstr "Единица"
+
+msgid "Min Quantity"
+msgstr "Мин-количество"
+
+msgid "Revenue Group"
+msgstr "Группа выручки"
+
+msgid "Revenue Account"
+msgstr "Доходный счет"
+
+msgid "List Price Net"
+msgstr "Чистая цена по прейскуранту"
+
+msgid "Other Type"
+msgstr "Другой тип"
+
+msgid "Free"
+msgstr "Бесплатный"
+
+msgid "Paid"
+msgstr "Платный"
+
+msgid "Other"
+msgstr "Другое"
+
+msgid "Mr"
+msgstr "мистер"
+
+msgid "Mrs"
+msgstr "мисс"
+
+msgid "Dr"
+msgstr "Доктор"
+
+msgid "Owner"
+msgstr "Владелец"
+
+msgid "Driver Name"
+msgstr "Имя водителя"
+
+msgid "Trailor Weight"
+msgstr "Трейлорный вес"
+
+msgid "Vehicle Weight Id"
+msgstr "Идентификация веса автомобиля"
+
+msgid "Revenue 1"
+msgstr "Доход 1"
+
+msgid "Revenue 2"
+msgstr "Доход 2"
+
+msgid "Revenue 3"
+msgstr "Доход 3"
+
+msgid "Revenue 4"
+msgstr "Доход 4"
+
+msgid "Revenue 5"
+msgstr "Доход 5"
+
+msgid "Salutation"
+msgstr "Приветствие"
+
+msgid "Surname"
+msgstr "Фамилия"
+
+msgid "Permanent Country"
+msgstr "Постоянное государство"
+
+msgid "Permanent Place"
+msgstr "Постоянное место"
+
+msgid "Permanent Street"
+msgstr "Постоянное улица"
+
+msgid "Permanent Pin"
+msgstr "Постоянное Пин"
+
+msgid "Website"
+msgstr "Веб-сайт"
+
+msgid "Fax"
+msgstr "Факс"
+
+msgid "Email1"
+msgstr "электронная почта 1"
+
+msgid "Email2"
+msgstr "электронная почта 2"
+
+msgid "Email3"
+msgstr "электронная почта 3"
+
+msgid "Price Group"
+msgstr "Ценовая группа"
+
+msgid "Addition1"
+msgstr "Добавление 1"
+
+msgid "Addition2"
+msgstr "Добавление 2"
+
+msgid "Addition3"
+msgstr "Добавление 3"
+
+msgid "Phone1"
+msgstr "Телефон 1"
+
+msgid "Phone2"
+msgstr "Телефон 2"
+
+msgid "Phone3"
+msgstr "Телефон 3"
+
+msgid "Post Box"
+msgstr "Почтовый ящик"
+
+msgid "Special Discount"
+msgstr "Специальная скидка"
+
+msgid "Delivery Terms"
+msgstr "Условия поставки"
+
+msgid "Dunning"
+msgstr "Даннинг"
+
+msgid "Payment Block"
+msgstr "Блок оплаты"
+
+msgid "Private Person"
+msgstr "Частное лицо"
+
+msgid "Document Lock"
+msgstr "Блокировка документов"
+
+msgid "Debitor Number"
+msgstr "Номер дебитора"
+
+msgid "Invoice Recipient"
+msgstr "Получатель счёта-фактуры"
+
+msgid "Creditor number"
+msgstr "номер кредитора"
+
+msgid "Container Type"
+msgstr "Тип контейнера"
+
+msgid "Volume"
+msgstr "Том"
+
+msgid "Stock Designation"
+msgstr "Назначение запасов"
+
+msgid "Production"
+msgstr "Производство"
+
+msgid "Reserved"
+msgstr "Зарезервирован"
+
+msgid "Stock Number"
+msgstr "Номер запаса"
+
+msgid "Available"
+msgstr "Имеется на вебсайте ."
+
+msgid "Stock Item"
+msgstr "Складская позиция"
+
+msgid "Locked Warehouse"
+msgstr "Закрытый склад"
+
+msgid "Ordered"
+msgstr "Заказал ."
+
+msgid "Total Stock"
+msgstr "Общий запас"
+
+msgid "Store"
+msgstr "Магазин"
+
+msgid "Outsource"
+msgstr "Аутсорсинг"
+

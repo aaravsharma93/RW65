@@ -1,0 +1,154 @@
+{% extends 'base2.html' %}
+{% load crispy_forms_tags %}
+{%load i18n%}
+{% load static %}
+{% block content %}
+      <div class="container">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+          <i class="fas fa-align-justify"></i>
+        </button>
+        <div class="row  border border-top-0 border-left-0 border-right-0 mb-3">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="content_text">
+              <p class="mb-0">{% translate 'OVERVIEW' %}</p>
+            </div>
+            <div class="heding">
+              <p>{% translate 'Special Evaluation' %}</p>
+            </div>
+          </div>
+        </div>
+        <!--table strat-->
+       <!--table end-->
+      {%if error%}
+        <div class="alert alert-danger" role="alert">
+          {{error}}
+        </div>
+      {%endif%}
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+       <div class="card p-3">
+         <div class="card-header text-left mt-4>
+           <div class="panel-heading">
+             <h4 class="panel-title">
+               <a data-toggle="collapse" data-parent="#accordion" href="#collapse321">
+
+                 <div class="row">
+                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-left">
+                     <p class="mb-0 pt-2 text_color" > {% translate 'Special Evaluation' %}</p>
+                   </div>
+                 </div>
+               </a>
+             </h4>
+           </div>
+          
+         </div>
+       </div>
+      </div>
+    </div>
+    <div class="container">
+        <div claas="card mt-3">
+          <div class="panel-body">
+              <form class="form-group" method="POST" id="sp_form" enctype="multipart/form-data" name="form1" >
+                {% csrf_token %} 
+                <div class="row">               
+                  <div class="col-12">
+                    <div class="mt-4 borde border-top border-right border-bottom border-left">
+                    <div class="row m-0">
+                      <div class="col-sm-6 col-12 pt-2 pb-2">
+                          <label class="label">{% if request.session.customer%} {{request.session.customer}} {%else%} {% translate 'Customer' %} {%endif%} </label>
+                          <select id="sp_cust" class="form-control select2" name="customer" aria-label="default select">
+                            <option value='0'>{%if request.session.customer %}{{request.session.customer}} &nbsp;{% trans 'Select2' %} {% else %}{% trans 'Select Customer' %}{%endif%} </option>
+                            {% for i in customer %}
+                            <option value='{{i.pk}}'>{{i.name1}}</option>
+                            {% endfor %}
+                          </select>
+                      </div>
+                      <div class="col-sm-6 col-12 pt-2 pb-2">
+                          <label class="label">{% if request.session.vehicle%} {{request.session.vehicle}} {%else%} {% translate 'Vehicle' %} {%endif%} </label>
+                          <select id="sp_veh" class="form-control select2" name="vehicle" aria-label="default select">
+                            <option value='0'>{%if request.session.vehicle %}{{request.session.vehicle}} &nbsp;{% trans 'Select2' %} {% else %}{% trans 'Select Vehicle' %}{%endif%} </option>
+                            {% for i in vehicle %}
+                            <option value='{{i.pk}}'>{{i.license_plate}}</option>
+                            {% endfor %}
+                          </select>
+                      </div>
+                      <div class="col-sm-6 col-12 pt-2 pb-2">
+                          <label class="label">{% if request.session.supplier%} {{request.session.supplier}} {%else%} {% translate 'Supplier' %} {%endif%} </label>
+                          <select id="sp_sup" class="form-control select2" name="supplier" aria-label="default select">
+                            <option value='0'>{%if request.session.supplier %}{{request.session.supplier}} &nbsp;{% trans 'Select2' %} {% else %}{% trans 'Select Supplier' %}{%endif%} </option>
+                            {% for i in supplier %}
+                            <option value='{{i.pk}}'>{{i.supplier_name}}</option>
+                            {% endfor %}
+                          </select>
+                      </div>
+                      <div class="col-sm-6 col-12 pt-2 pb-2">
+                          <label class="col-sm-2">{% if request.session.article%} {{request.session.article}} {%else%} {% translate 'Material' %} {%endif%} </label>
+                          <select id="sp_art" class="form-control select2 " name="article" >
+                            <option value='0'>{%if request.session.article %}{{request.session.article}} &nbsp;{% trans 'Select2' %} {% else %}{% trans 'Select Article' %}{%endif%} </option>
+                            {% for i in article %}
+                            <option value='{{i.pk}}'>{{i.name}}</option>
+                            {% endfor %}
+                            </select>
+                      </div>
+                    </div>
+                  <hr>
+                  <div class="row m-0">
+                    <div class="col-sm-6 col-12">
+                      <div class="row">
+                      <div class="col-sm-12 col-12">
+                        <p class="pt-0 pb-0">
+                          {% translate 'Date' %}
+                        </p>                    
+                      </div>
+                      <div class="col-sm-12 col-12">
+                        <div class="row">
+                          <div class="col-12">
+                            <input type="date" class="form-control"  id='from-date' name="fromdate">   
+                          </div>
+                          <div class="col-12 pt-2 pb-2 text-center">
+                            {% translate 'To' %}
+                          </div>
+                          <div class="col-12">
+                            <input type="date" class="form-control" id="to-date" name="todate">   
+                          </div>
+                        </div> 
+                      </div>
+                      <div class="col-sm-12 col-12 my-3">
+                        <button type="submit" class="btn btn-primary mb-2" name="excel" id="excel"><i class="fas fa-th-list"></i> {% translate 'Generate Excel' %}</button>
+                        <button type="submit" class="btn btn-primary mb-2 ml-1" name="pdf" id="pdf"><i class="fas fa-print"></i> {% translate 'Generate Report' %}</button>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+            
+              </div>
+              {% comment %} </div> {% endcomment %}
+              </form>
+            </div>
+          </div>
+        </div>
+          </div>
+      </div>
+    </div>
+        
+        <script  src="{% static 'yard/js/jquery.min.js'%}"></script>
+<script src="{% static 'yard/js/index.js'%}"></script>
+<script>
+            $("#pdf").click(function(){
+              $("#sp_form").prop('target','_blank')
+            })
+
+            $('#sp_form').on('submit',function(){
+              c = $("#sp_cust").val();
+              v = $("#sp_veh").val();
+              s = $("#sp_sup").val();
+              a = $("#sp_art").val();
+              
+              if ( c == '0' && v == '0' && s == '0' && a == '0'){
+                alert('Bitte wählen Sie eine aus der Liste aus')
+                return false
+              }
+            })
+</script>
+  {% endblock %}

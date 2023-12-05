@@ -1,0 +1,193 @@
+{% extends 'base2.html' %}
+{% load crispy_forms_tags %}
+{%load i18n%}
+{% block content %}
+<!-- /#sidebar-wrapper -->
+<div class="container">
+  <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+  <i class="fas fa-align-justify"></i>
+  </button>
+  <div class="row  border border-top-0 border-left-0 border-right-0 mb-3">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="content_text">
+        <p class="mb-0">{% translate 'OVERVIEW' %}</p>
+      </div>
+      <div class="heding">
+        <p>{% translate 'Containers' %}</p>
+      </div>
+    </div>
+  </div>
+  <!--table strat-->
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" >
+      <label>{% translate "Show entries" %}:</label>
+      <select class="form-control w-30" id="showentries">
+        <option>10</option>
+        <option>25</option>
+        <option>50</option>
+        <option>100</option>
+        entries
+      </select>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+      <label>{% translate "Search" %}:</label>
+      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="mysearch">
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered mt-3 building_site" width="100%" id="supplierTable">
+      <thead>
+        <tr>
+          <th>{% translate "Action" %}</th>
+          <th>{{form.name.label}}</th>
+          <th>{{form.container_type.label}}</th>
+          <th>{{form.group.label}}</th>
+          <th>{{form.container_weight.label}}</th>
+          <th>{{form.volume.label}}</th>
+        </tr>
+      </thead>
+      <tbody class="mt-4">
+        {% for data in dataset %}
+        <tr>
+          <td><a href="javascript:loadContainerDetails('{{ data.id }}')" class="fas fa-pencil-alt text-primary  ml-4"></a><a class="confirmdelete" href="{% url 'container_delete' identifier=data.id  %}" class="fas fa-trash-alt ml-1 text-danger"></a></td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.container_type }}</td>
+          <td>{{ data.group }}</td>
+          <td>{{ data.container_weight }}</td>
+          <td>{{ data.volume }}</td>
+          </tr>
+        {% endfor %}
+      <tfoot hidden>
+        <tr>
+          <th rowspan="1" colspan="1">
+            <input type="text" class="form-control">
+          </th>
+          <th rowspan="1" colspan="1">
+            <input type="text" class="form-control">
+          </th>
+          <th rowspan="1" colspan="1">
+            <input type="text" class="form-control">
+          </th>
+          <th rowspan="1" colspan="1">
+            <input type="text"class="form-control">
+          </th>
+          <th rowspan="1" colspan="1">
+            <input type="text" class="form-control">
+          </th>
+          <th rowspan="1" colspan="1">
+            <input type="text" class="form-control">
+          </th>
+        </tr>
+      </tfoot>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--table end-->
+<div class="container">
+  <div class="row mb-5">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+      <!-- Material form login -->
+      <div class="card">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <h5 class="card-header info-color white-text py-3">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse_18">
+                    <div class="row">
+                      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+                        <p class="mb-0 pt-2 text-color text_color">{% translate 'Container' %}</p>
+                      </div>
+                    </div>
+                  </a>
+                </h4>
+              </div>
+            </h5>
+          </div>
+        </div>
+<!--first forms satrat-->
+<div id="collapse321" class="collapse show" >
+  <div class="panel-body">
+    <div class="contanier">
+      <form method="POST" enctype="multipart/form-data" class="form-group">
+        {% csrf_token %}
+        <input type="hidden" name="id" id="id">
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 text-left mt-4">
+            <div>
+              <label>{{form.name.label}}</label>
+              {{ form.name}}{{ form.name.errors}}
+            </div>
+            <div>
+              <label>{{form.container_type.label}}</label>
+              {{form.container_type}} {{form.container_type.errors}}
+            </div>
+            <div>
+              <label>{{form.volume.label}}</label>
+              {{ form.volume }} {{ form.volume.errors}}
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 text-left mt-4">
+            <div>
+              <label>{{form.group.label}}</label>
+              {{form.group}} {{form.group.errors}}                           
+            </div>
+            <div>
+              <label>{{form.container_weight.label}}</label>
+              {{ form.container_weight }} {{ form.container_weight.errors}}
+            </div>
+            <div>
+              <label>{{form.last_site.label}}</label>
+              {{ form.last_site }} {{ form.last_site.errors}}
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 text-left mt-4">
+          <button  id="submit" type="submit" class="btn btn-primary"><i class="fas fa-save ml-2"></i> {% translate "Save" %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  // DataTable
+  $(document).ready(function() {
+    var table = $('#example').DataTable(
+       {
+          "bLengthChange": false,
+         initComplete: function () {
+             // Apply the search
+             this.api().columns().every( function () {
+                 var that = this;
+                 $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                     if ( that.search() !== this.value ) {
+                         that.search( this.value ).draw();
+                     }
+                 } );
+             } );
+         }
+        });
+  
+    $("#example_filter").hide()
+  
+    // custom search filter
+    $('#mysearch').on( 'keyup', function () {
+        table.search( this.value ).draw();
+    } );
+  
+    //  custom show entries
+    $('#showentries').change(function() {
+        table.page.len(this.value).draw();
+    } );
+  
+  });
+  
+</script>
+{% endblock %}

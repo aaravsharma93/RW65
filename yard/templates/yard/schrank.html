@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+{%load i18n%}
+{%block head%}
+{%load static%}
+{%endblock%}
+<head>
+  <!-- Required meta tags -->
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  
+  <link rel="stylesheet" href="{% static 'yard/css/bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'yard/css/style.css'%}">
+  <link rel="stylesheet" href="{% static 'yard/css/jquery.dataTables.min.css'%}">
+  <link rel="stylesheet" href="{% static 'yard/css/all.min.css'%}">
+  <link rel="stylesheet" href="{% static 'yard/css/select2.min.css'%}">
+
+  <title>Schranke/Ampel</title>
+
+  <style>
+    .w {
+    width: 150px !important;
+  }
+  .s {
+    width: 80px !important;
+  }
+  </style>
+  
+  </head>
+
+<body>
+
+<div class="form-control">
+<h1 style="text-align:center; align-items:center;"> {% translate "Control" %} </h1>
+</div>
+{% if schrank.barrier == 1 %}
+<div class="form-row ml-4 mt-4" style="text-align:center;position:relative;"> 
+<button type='button'  class="btn btn-primary btn-lg w">{% translate "Barrier" %}</button>
+<button type='button' id='s_on' value='' class="btn btn-secondary s ml-3 s_on"> Auf </button>
+<button type='button' id='s_off' value='' class="btn btn-secondary s ml-3 s_off"> Zu </button>
+</div>
+{% endif %}
+{% if ampel.status == 1%}
+<div class="form-row ml-4 mt-4" style="text-align:center;position:relative;"> 
+<button type='button'  class="btn btn-primary btn-lg w ">{% translate "Traffic Light" %}</button>
+<button type='button' id='tl_on' value='' class="btn btn-success s ml-3 tl_on"> Grün </button>
+<button type='button' id='tl_off' value='' class="btn btn-danger s ml-3 tl_off"> Rot </button>
+</div>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+<script src="{% static 'yard/js/jquery-3.2.1.slim.min.js'%}"></script>
+<script src="{% static 'yard/js/popper.min.js'%}"></script>
+<script src="{% static 'yard/js/jquery.min.js'%}"></script>
+<script src="{% static 'yard/js/jquery.dataTables.min.js'%}"></script>
+<script src="{% static 'yard/js/bootstrap4.min.js'%}"></script>
+<script src="{% static 'yard/js/custom.js'%}"></script>
+<script src="{% static 'yard/js/index.js'%}"></script>
+<script src="{% static 'yard/js/all.min.js'%}"></script>
+<script src="{% static 'yard/js/select2.min.js'%}"></script>
+<script src="{% static 'yard/js/select2-4.0.6-rc.min.js'%}"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+{%load i18n%}
+{%block head%}
+{%load static%}
+{%endblock%}
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="shortcut icon" type="image/png" href="{% static 'display/images/favicon.png' %}" />
+  <link rel="stylesheet" href="{% static 'yard/css/bootstrap4.min.css'%}">
+  <link rel="stylesheet" href="{% static 'yard/css/style.css'%}">
+  <!-- <link rel="stylesheet" href="{% static 'yard/css/jquery-datables-min.css.css'%}"> -->
+  {% comment %} <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'yard/css/jquery.dataTables.min.css'%}">
+  {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'yard/css/all.min.css'%}">
+  {% comment %} <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'yard/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static 'yard/css/utils.css'%}">
+
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+    <!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script> -->
+
+   <script src="{% static 'agri/js/leaflet.js' %}"></script>
+   
+   <link rel="stylesheet" type="text/css" href="{% static 'display/css/pull-push.css' %}" />
+   <link rel="stylesheet" type="text/css" href="{% static 'display/fonts/gilroyFonts.css' %}" />
+   <link rel="stylesheet" type="text/css" href="{% static 'display/css/style.css' %}" />
+   <link rel="stylesheet" type="text/css" href="{% static 'display/css/main-style.css' %}" />
+   <link rel="stylesheet" type="text/css" href="{% static 'display/css/responsive.css' %}" />
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+      
+      <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+
+      <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
+  
+      <link rel="stylesheet" type="text/css" href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css">
+      <link rel="stylesheet"  type="text/css" href="{% static 'agri/css/selectize.css' %}" /> 
+     
+      <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+      <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <title> {% translate "Yard Management System" %} </title>
+  
+  
+  {% block style %}
+  {% endblock %}
+  <style> 
+
+ul#select2-id_vehicle-results {
+    text-transform: uppercase;
+}
+
+span#select2-id_vehicle-container {
+    text-transform: uppercase;
+}
+
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button,#article_price{
+  -webkit-appearance:none;
+}
+
+</style>
+
+{% comment %} <link
+rel="stylesheet"
+href="https://fonts.googleapis.com/icon?family=Material+Icons"
+/>
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css"
+/> {% endcomment %}
+
+</head>
+
+<body>
+  {% if off %}
+  <div class="mainHomePage">
+  {% else %}
+  <div>
+  {% endif %}
+  <div id="wrapper" class="toggled">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+      <nav id="sidebar">
+        <div class="sidebar-header text-center pt-3">
+          <img src="{% static 'display/images/logo.png'%}" alt="">
+        </div>
+        <ul class="list-unstyled components">
+        {% if request.user.role != "selfservice" %}
+          <li>
+            <a href="/">{% translate "Weighing" %}</a>
+          </li>
+          <li class="submenu">
+            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"><i class="ic_Menu"><img src="{% static 'display/images/ic_BaseData.png' %}"></i> {% translate "Masterdata" %}</a>
+            <ul class="collapse list-unstyled" id="pageSubmenu">
+              <li><a href="/stats/site_list">{% translate "Site List" %}</a></li>
+              <li><a href="/stats/daily_delivery_list">{% translate "Daily List" %}</a></li>
+              {% if ew.status %}
+              <li><a href="/foreign_list">{% translate "Foreign List" %}</a></li> {% endif %}
+              <li><a href="/comb_list">{% translate "ID List" %}</a></li>
+              <li><a href="/article">{%if request.session.article %}{{ request.session.article }} {%else%}{% translate "Material" %}{%endif%}</a></li>
+              <!-- <li><a href="/building_site">{% translate "Building Site" %}</a></li> -->
+              
+              <li><a href="/vehicle">{% translate "Vehicle" %}</a></li>
+<!--              <li><a href="/delivery_note">Delivery Note</a></li>-->
+              <li><a href="/customer">{%if request.session.customer %}{{ request.session.customer }}n {%else%}{% translate "Customers" %}{%endif%}</a></li>
+              <li><a href="/supplier">{%if request.session.supplier %}{{ request.session.supplier }} {%else%}{% translate "Supplier" %}{%endif%}</a></li>
+              <li><a href="/forwarders">{% translate "Forwarders" %}</a></li>
+
+              <li><a href="/warehouse">{% translate "Warehouse" %}</a></li>
+              <li><a href="/silo">{% translate "Silo" %}</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="/contracts/">{% translate "Contracts" %}</a>
+          </li>
+          <li class="submenu">
+            <a href="#Submenu" data-toggle="collapse" aria-expanded="false"><i class="ic_Menu"><img src="{% static 'display/images/icDelivery.png' %}"></i> {% translate "Delivery/Weighing Notes" %}</a>
+            <ul class="collapse list-unstyled" id="Submenu">
+              <li><a href="/stats/deliverynotes">{% translate "Delivery Notes" %}</a></li>
+              
+              <!-- <li><a href="#">{% translate "Site List" %}</a></li> -->
+             
+<!--              <li><a href="#">{% translate "Delivery Note Filing" %}</a></li>-->
+              <li><a href="javascript:daily_close();">{% translate "Daily Closing" %}</a></li>
+              {% if request.user.role != 'operator' %}
+              <li><a href="/admin" target="_blank" >Datenaustausch</a></li>
+              {% endif %}
+                <li><a href="/stats/data_dump/">{% translate "Export Database" %}</a></li>
+                <li><a href="#" id="import_data">{% translate "Import Database" %}</a></li>
+            </ul>
+          </li>
+          <li class="">
+            <a href="/agriculture_home"><i class="ic_Menu"><img src=""></i> {% translate "Agriculture" %}</a>
+          </li>
+          <li class="submenu">
+            <a href="#page" data-toggle="collapse" aria-expanded="false"><i class="ic_Menu"><img src=""></i> {% translate "Evaluation" %}</a>
+            <ul class="collapse list-unstyled" id="page">
+              <li><a href="/stats/std_evaluation">{% translate "Standard Evaluation" %}</a></li>
+              <li><a href="/stats/special_evaluation">{% translate "Special Evaluation" %}</a></li>
+            </ul>
+          </li>
+
+          {% if schrank.barrier == 1 or ampel.status == 1 %}
+              <li>
+                <a href="/schrank" target="_blank"><i class="ic_Menu"><img src="{% static 'display/images/ic_Toweigh_Ac.png' %}"></i> {% translate "Control" %}</a>
+             </li>
+              {% endif %}
+
+          <li class="submenu">
+            <a href="#user" data-toggle="collapse" aria-expanded="false"><i class="ic_Menu"><img src="{% static 'display/images/ic_user.png' %}"></i> {%if request.user.name %}{{request.user.name}}{%else%}{{request.user.email}} {%endif%} </a>
+            <ul class="collapse list-unstyled" id="user">
+              {% if request.user.role != 'operator' %}
+              <li><a href="/settings">{% translate "Settings" %}</a></li>
+              {% comment %} <li><a href="/adv_set">{% translate "Advance Settings"|truncatechars:10 %}</a></li> {% endcomment %}
+              {% endif %}
+               {% if request.user.is_superuser %} 
+              <li><a href="/users_list">{% translate "All Users" %}</a></li>
+                   <li><a href="/ss_users">{% translate "Self Service Control" %}</a></li>
+              <li><a href="/yard_list">{% translate "Yard list" %}</a></li>
+               {% endif %}
+               <li><a href="/user_edit">{% translate "Users" %}</a></li> 
+              {% if request.user.is_authenticated %}
+              <li><a href="/sign_out">{% translate "Sign Out" %}</a></li>
+              {% else %}
+              <li><a href="/sign_in">{% translate "Sign In" %}</a></li>
+              {% endif %}
+            </ul>
+          </li>
+          <li class="submenu"><a href="/copy" target="_blank">Urheberrecht</a></li>
+        </ul>
+        {% else %}
+            <li>
+                <a href="/ss_home/">{% translate "Weighing" %}</a>
+            </li>
+            <li><a href="/sign_out">{% translate "Sign Out" %}</a></li>
+      {% endif %}
+        
+        <li style="position:fixed;overlay:none;">
+          RW65 v1.1   
+        </li>
+      </nav>
+
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <div id="content">
+      {% block content %}
+
+      {% endblock %}
+  </div>
+  </div>  
+  </div>
+      
+  <!-- Wrapper End -->
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  {% comment %} <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> {% endcomment %}
+    <script src="{% static 'yard/js/jquery-3.2.1.slim.min.js'%}"></script>
+  {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> {% endcomment %}
+    <script src="{% static 'yard/js/popper.min.js'%}"></script>
+  {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> {% endcomment %}
+  <script src="{% static 'yard/js/jquery.min.js'%}"></script>
+  {% comment %} <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> {% endcomment %}
+  <script src="{% static 'yard/js/jquery.dataTables.min.js'%}"></script>
+  {% comment %} <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> {% endcomment %}
+  <script src="{% static 'yard/js/bootstrap4.min.js'%}"></script>
+
+  <script src="{% static 'yard/js/custom.js'%}"></script>
+  <script src="{% static 'yard/js/all.min.js'%}"></script>
+  {% comment %} <script src="{% static 'yard/js/index.js'%}"></script> {% endcomment %}
+  {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script> {% endcomment %}
+  <script src="{% static 'yard/js/select2.min.js'%}"></script>
+  <script src="{% static 'yard/js/select2-4.0.6-rc.min.js'%}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js" integrity="sha512-pF+DNRwavWMukUv/LyzDyDMn8U2uvqYQdJN0Zvilr6DDo/56xPDZdDoyPDYZRSL4aOKO/FGKXTpzDyQJ8je8Qw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+
+
+    $("#menu-toggle").click(function (e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+
+
+    $(document).ready(function() {
+    var url = window.location.href
+    var parts = url.split("/")
+    if (parts.length > 4 && parts[4] !=''){
+    var route = parts.slice(3, 5);
+    $('a[href="/'+route[0]+'/'+route[1]+'"]').parent('li').addClass('active');
+    $('li.active').parent('ul').addClass('show');
+    }
+    else {
+      var route = parts[3]
+      $('a[href="/'+route+'"]').parent('li').addClass('active');
+      $('li.active').parent('ul').addClass('show');
+      }
+    });
+
+    // var barChartDemo = new Chart(cbx, {
+    //   options: {
+    //     animation: false
+    //   }
+    // });
+    // setInterval(function () {
+    //   addData(5);
+    // }, 5000);
+  </script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('input:not(:checkbox)').addClass('form-control');
+      $('#sidebarCollapse').on('click', function () {
+        $('#sidebar-wrapper').toggleClass('active');
+      });
+    });
+    
+     $('tr').click(function(){
+    $('tr td').css({ 'background-color' : ''});
+    $('td', this).css({ 'background-color' : '#d4f7ff' });
+  });
+
+  $(document).ready(function(){
+  $("#articleTable_previous").text('Zurück');
+  $("#articleTable_next").text('vor');
+})
+
+  </script>
+{% block scripts %}
+{% endblock %}
+<!-- <script>
+  $('.select2').select2();
+</script> -->
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+{% extends 'base2.html' %}
+{% load crispy_forms_tags %}
+{%load i18n%}
+{%block head%}
+  {%load static%}
+{%endblock%}
+{% block content %}
+      <div class="container">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+          <i class="fas fa-align-justify"></i>
+           </button>
+             <div class="row  border border-top-0 border-left-0 border-right-0 mb-3">
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="content_text">
+              <p class="mb-0">{% translate 'OVERVIEW' %}</p>
+            </div>
+            <div class="heding ">
+              <p>{% translate 'Capture Image' %}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--------------Buttons-->
+      
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+
+              <div class="col p-0 border d-flex align-content-center flex-wrap h-100 d-inline-block">
+                <img id="img_loading1" src="{% static 'yard/images/loading.gif'%}" alt="" class="img-fluid">
+<!--                <img id="img_captured1" alt="Captured image" width="400" height="275" class="img-fluid" hidden>-->
+              </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+             <div class="col p-0 border d-flex align-content-center flex-wrap h-100 d-inline-block">
+                <img id="img_loading2" src="{% static 'yard/images/loading.gif'%}" alt="" class="img-fluid">
+<!--                <img id="img_captured2" alt="Captured image" width="400" height="275" class="img-fluid"  >-->
+                <button type="button" class="btn btn-primary mx-auto" id="btn_capture2"><i class="fas fa-camera"></i>Capture
+                  Image</button>
+              </div>
+          </div>
+         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+            <div class="col p-0 border d-flex align-content-center flex-wrap h-100 d-inline-block">
+              <img id="img_loading3" src="{% static 'yard/images/loading.gif'%}" alt="" class="img-fluid">
+<!--              <img id="img_captured3" alt="Captured image" width="400" height="275" class="img-fluid" >-->
+              <button type="button" class="btn btn-primary mx-auto" id="btn_capture3"><i class="fas fa-camera"></i> Capture
+                Image</button>
+            </div>
+          </div>
+          </div>
+        </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'yard/js/capturedImage.js'%}"></script>
+ {% endblock %}

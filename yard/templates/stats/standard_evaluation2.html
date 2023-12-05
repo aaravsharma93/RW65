@@ -1,0 +1,130 @@
+{% extends 'base2.html' %}
+{% load crispy_forms_tags %}
+{%load i18n%}
+{% block content %}
+      <div class="container">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+          <i class="fas fa-align-justify"></i>
+        </button>
+        <div class="row  border border-top-0 border-left-0 border-right-0 mb-3">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="content_text">
+              <p class="mb-0">{% translate 'OVERVIEW' %}</p>
+            </div>
+            <div class="heding">
+              <p>{% translate 'Standard Evaluation' %}</p>
+            </div>
+          </div>
+        </div>
+        <!--table strat-->
+       <!--table end-->
+      {%if error%}
+        <div class="alert alert-danger" role="alert">
+          {{error}}
+        </div>
+      {%endif%}
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+       <div class="card p-3">
+         <div class="card-header text-left">
+           <div class="panel-heading">
+             <h4 class="panel-title">
+               <a data-toggle="collapse" data-parent="#accordion" href="#collapse321">
+
+                 <div class="row">
+                   <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-left">
+                     <p class="mb-0 pt-2 text_color" > {% translate 'Standard Evaluation' %}</p>
+                   </div>
+                 </div>
+               </a>
+             </h4>
+           </div>
+          
+         </div>
+       </div>
+      </div>
+    </div>
+    <div class="contanier">
+      <form class="form-group std_evalution" method="POST" enctype="multipart/form-data" name="form1" target="_blank">
+        {% csrf_token %} 
+     <div class="row">
+       <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 pt-4">
+         <div class="p-3 height_Full borde border-top border-right border-bottom border-left ">
+           <p class="">{% translate 'Standard Evaluation' %}</p>
+           <div class="pb-3">
+              <div class="form-check">
+                {% comment %} <input type="radio" class="form-check-input mt-3 " name="se" id="exampleCheck1"> {% endcomment %}
+                <input type="radio" id="material" class="form-check-input mt-3" name="stat_type" value="material"  checked="True">
+                <label class="form-check-label ml-2" for="material">{% if request.session.article %} {{request.session.article}}-Statistik{%else%}{% translate 'Material Statistics' %} {%endif%}</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" class="form-check-input mt-3" id="vehicle" name="stat_type" value="vehicle">
+                <label class="form-check-label ml-2" for="vehicle">{% if request.session.vehicle %} {{request.session.vehicle}}-Statistik{%else%}{% translate 'Vehicle Statistics' %} {%endif%}</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" class="form-check-input mt-3" id="customer" name="stat_type" value="customer">
+                <label class="form-check-label ml-2" for="customer">{% if request.session.customer %} {{request.session.customer}} {%else%}{% translate 'Customer' %} {%endif%}</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" class="form-check-input mt-3" id="supplier" name="stat_type" value="supplier" >
+                <label class="form-check-label ml-2" for="supplier">{% if request.session.supplier %} {{request.session.supplier}} {%else%}{% translate 'Supplier' %} {%endif%}</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" class="form-check-input mt-3" id="supplier-vehicle" name="stat_type" value="supplier-vehicle">
+                <label class="form-check-label ml-2" for="supplier-vehicle">{% if request.session.supplier %} {{request.session.supplier}} {%else%}{% translate 'Supplier' %} {%endif%} - {% translate 'Vehicle' %}</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" class="form-check-input mt-3"  id="yield-per-area" name="stat_type" value="yield-per-area">
+                <label class="form-check-label ml-2" for="yield-per-area"> {% translate 'Yield Statistics' %}</label>
+              </div>
+            </div>
+          </div>
+          
+         </div>
+
+         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 pt-4">
+          <div class="p-3 height_Full borde border-top border-right border-bottom border-left">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-12">
+                <p class="pt-3">{% translate 'Date' %}</p>
+              </div>
+              <div class="col-md-12 col-sm-12 col-12 pt-2">
+                <div class="row">
+                  <div class="col-12">
+                    <input type="date" class="form-control"  id='from-date' name="fromdate">   
+                  </div>
+                  <div class="col-12 pt-1 pb-1 text-center">
+                    {% translate 'To' %}
+                  </div>
+                  <div class="col-12">
+                    <input type="date" class="form-control" id="to-date" name="todate">   
+                  </div>
+                </div> 
+            </div>
+            <div class="col-12 pt-2 my-3">
+              <button type="submit" class="btn btn-primary ml-1" id="submit"><i class="fas fa-print"></i> {% translate 'Generate Report' %}</button>
+            </div>
+          </div>
+        </div>
+       </div>
+         {% comment %} <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mt-4 pt-3 borde border-top border-right border-bottom border-left "> {% endcomment %}
+           {% comment %} <div class="row">
+             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+              <p>{% translate 'Delivery Note Lists' %}</p>
+             </div>
+             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input mt-3" id="daylist" name="note_type" value="daylist" checked="True">
+                <label class="form-check-label ml-2" for="daylist"> {% translate 'Day List' %}</label>
+              </div>
+            </div> {% endcomment %}
+           {% comment %} </div>        {% endcomment %}
+        </div>
+        
+       </div>
+            </form>
+            
+          </div>
+      </div>
+        
+  {% endblock %}

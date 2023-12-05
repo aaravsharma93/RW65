@@ -1,0 +1,64 @@
+{% load i18n %}
+{%block head%}
+  {%load static%}
+
+{%endblock%}
+{% block content %}
+
+<div class="row" >  
+<div class="col-12">
+      <form class="form-group" method="POST" action="{% url 'auto_capture' %}" enctype="multipart/form-data">
+          <div class="row" >
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">    
+                    <div class=" text-right">
+                      
+                    {% csrf_token %}
+                      <div class="md-form mt-2 mb-4">
+                        <div class="mb-3">{% translate 'First Weighing'%}</div>
+                      </div>
+                      <hr>
+                      <div class="md-form mt-1 mb-4">
+                        <div class="mb-3">{% translate 'Second Weighing' %}</div>
+                      </div>
+                    </div><hr>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                  <div class=" text-left">
+                    <div class="md-form mb-2">
+                      <div class="mb-2">
+                        <input type="checkbox" name="fw_cam_1" id="camera_1" {% if fw.cam1 == 1 %} checked {% endif%}><button type='button' class="btn btn-new ml-2" style="opacity: 1;background-color: #ef6d21;"disabled>Cam-1</button>
+                        <input type="checkbox" name="fw_cam_2" id="camera_2" class="ml-3" id="camera_1" {% if fw.cam2 == 1 %} checked {% endif%}><button type='button' class="btn btn-new ml-2" style="opacity: 1;background-color: #ef6d21;"disabled>Cam-2</button>
+                        <input type="checkbox" name="fw_cam_3" id="camera_3" class="ml-3"id="camera_1" {% if fw.cam3 == 1 %} checked {% endif%}><button type='button' class="btn btn-new ml-2" style="opacity: 1;background-color: #ef6d21;"disabled>Cam-3</button>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="md-form mb-2">
+                      <input type="checkbox" name="sw_cam_1" id="camera_1" {% if sw.cam1 == 1 %} checked {% endif%}><button type='button' class="btn btn-new ml-2" style="opacity: 1;background-color: #ef6d21;"disabled>Cam-1</button>
+                      <input type="checkbox" name="sw_cam_2" id="camera_2" class="ml-3" {% if sw.cam2 == 1 %} checked {% endif%} ><button type='button' class="btn btn-new ml-2" style="opacity: 1;background-color: #ef6d21;"disabled>Cam-2</button>
+                      <input type="checkbox" name="sw_cam_3" id="camera_3" class="ml-3" {% if sw.cam3 == 1 %} checked {% endif%} ><button type='button' class="btn btn-new ml-2" style="opacity: 1;background-color: #ef6d21;"disabled>Cam-3</button>
+                    </div>
+                  </div><hr>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center">
+        <button type="submit" class="btn btn-primary text-right">Save</button>
+        
+        </div>
+        </div>
+        </form>
+</div>        
+</div>
+<script type="text/javascript">
+
+$('input#camera_1').on('change', function() {
+    $('input#camera_1').not(this).prop('checked', false);
+    });
+
+$('input#camera_2').on('change', function() {
+    $('input#camera_2').not(this).prop('checked', false);
+    });
+
+$('input#camera_3').on('change', function() {
+    $('input#camera_3').not(this).prop('checked', false);
+    });
+
+{% endblock%}

@@ -1,0 +1,12 @@
+{
+    "apps": [{
+        "name": "yardman_app_rw66",
+        "script": "manage.py",
+        "args": ["runserver", "0:8888"],
+        "instances": "1",
+        "wait_ready": true,
+        "autorestart": true,
+        "max_restarts": 10,
+        "interpreter" : "/home/woehrl/miniforge3/envs/yardman_env/bin/python"
+    }]
+}

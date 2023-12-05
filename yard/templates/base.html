@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Yard Management</title>
+        {%block head%}
+        {%load static%}
+        {%endblock%}
+        {%load i18n%}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'yard/css/bootstrap.min.css'%}">
+        <link rel="stylesheet" href="{% static 'yard/css/custom.css'%}">
+        <link rel="stylesheet" href="{% static 'yard/css/jquery.dataTables.min.css'%}">
+        <link rel="stylesheet" href="{% static 'yard/css/select2.min.css'%}">
+        <script src="{% static 'yard/js/jquery.min.js'%}"></script>
+        <script src="{% static 'yard/js/jquery.dataTables.min.js'%}"></script>
+        <script src="{% static 'yard/js/bootstrap.min.js'%}"></script>
+        <script src="{% static 'yard/js/select2.min.js'%}"></script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-sm navbar-custom bg-primary">
+              <a class="navbar-brand" href="/">
+                <img class="nav-flag" src="{% static 'yard/images/german_flag.jpg'%}">
+              </a>
+  <!--           {% if language == "en-us" %}
+            {% else %}
+              <a class="navbar-brand" href={% url 'Change' lang='en-us' %}><img class="nav-flag" src="{% static 'yard/images/usa_flag.jpg'%}"></a>
+            {% endif %} -->
+            <ul class="nav navbar-nav navbar-center">
+              <li class=""><a href="/">{% translate "Weighing" %} </a></li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  Masterdata
+                  <!-- Data Administration -->
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/article">{%if request.session.material %}{{ request.session.material }} {%else%}Material{%endif%}</a></li>
+                    <li><a href="/building_site">Building Site</a></li>
+                    <li><a href="/vehicle">Vehicle</a></li>
+                    <li><a href="/delivery_note">Delivery Note</a></li>
+                    <li><a href="/customer">{%if request.session.customer %}{{ request.session.customer }} {%else%}Customer{%endif%}</a></li>
+                    <li><a href="/supplier">{%if request.session.supplier %}{{ request.session.supplier }} {%else%}Supplier{%endif%}</a></li>
+                    <li><a href="/forwarders">Forwarders</a></li>
+                    <!-- <li><a href="/transkation">Transkation</a></li> -->
+                    <li><a href="/yard_list">Yard List</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                  Delivery/Weighing slips
+                  <!-- Data Administration -->
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/stats/deliverynotes">Delivery Notes</a></li>
+                    <li><a href="">Court list</a></li>
+                    <li><a href="/stats/daily_delivery_list">Daily list</a></li>
+                    <li><a href="">Delivery note filing</a></li>
+                    <li><a href="">Daily closing</a></li>
+                    <li><a href="/admin">Data Import & Export</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Evaluation
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/stats/std_evaluation">Standard Evaluation</a></li>
+                    <li><a href="/stats/special_evaluation">Special Evaluation</a></li>
+                </ul>
+              </li>
+              <li><a href="/settings">Help</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">User
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/settings">Settings</a></li>
+                    <li><a href="#">Option2</a></li>
+                    <li><a href="#">Option3</a></li>
+                </ul>
+              </li>
+            </ul>
+        </nav>
+            <div id="container1" class="container-custom">
+                    
+        {% block content %}
+
+        {% endblock %}
+    </div>
+    </body>
+    <script src="{% static 'yard/js/custom.js'%}"></script>
+    
+    <style>
+      .container1 {
+        position: relative;
+        width: 70%;
+        overflow: hidden;
+        padding-top: 75%; 
+      }
+      
+      .responsive-iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+      </style>
+
+</html>

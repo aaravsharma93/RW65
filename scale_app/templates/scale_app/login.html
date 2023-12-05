@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Scale View</title>
+		{%block head%}
+			{%load static%}
+		{%endblock%}
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% comment %} <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'scale_app/css/custom.css'%}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> {% endcomment %}
+
+		<link rel="stylesheet" href="{% static 'scale_app/css/bootstrap.min.css'%}">
+        <link rel="stylesheet" href="{% static 'scale_app/css/custom.css'%}">
+		<link rel="stylesheet" href="{% static 'display/css/main-style.css'%}">
+
+		<script src="{% static 'scale_app/js/jquery.min.js'%}"></script>
+		<script src="{% static 'scale_app/js/bootstrap.min.js'%}"></script>
+	</head>
+	<style>
+		.container-custom{
+			background-color: #ece9e9;
+		}
+		body{
+			background-color: #ece9e9;
+		}
+		.row1{
+			background-color: #000;
+			color:white;
+		}
+		.f1{
+			font-size: 20pt;
+		}
+		.f2{
+			font-size: 15pt;
+		}
+		.row2{
+			background-color: #f1a456eb;
+		}
+		.bdr-top{
+			border-top: 1px solid black;
+		}
+		.f5{
+			font-size: 100pt;
+		}
+		.btn-row{
+			padding:10px; 
+		}
+		.btn-sqr{
+			width: 50px !important;
+			height: 50px !important;
+			font-size: 10px;
+			margin: 5px;
+		}
+		.f-black{
+			color:black;
+		}
+		.btn-warning{
+			background-color: 	#aa4224;
+		}
+		
+	
+	</style>
+	
+	<body>
+		<div id="container" class="container container-custom">
+			<div class="row">&nbsp;</div>
+			<div class="panel panel-default">
+				<div class="panel-heading flexHead">
+					Enter Password 
+					<div>
+						<a href="/scaleview" class="">
+							<button class="pull-right Btn_Link">Back</button>
+						</a>
+					</div>
+				</div>
+        		<div class="row">&nbsp;</div>
+        		<form method="post" class="form-group" url="login/">
+        			{% csrf_token %}
+        			<div class="row">
+        				<div class="col-lg-2 col-md-2 col-xl-2 col-sm-1 col-xs-1">
+        				</div>
+        				<div class="col-lg-6 col-md-6 col-xl-6 col-sm-10 col-xs-10 f1">
+		        			<!-- <input type="hidden" name="username" value="admin">
+		        			<input type="password" name="password"> -->
+								<!--label for="id_username" class="label">Username:</label-->
+								<input type="text" name="username" maxlength="150" placeholder="Username" class="form-control" style="margin-bottom: 15px;">
+								{% comment %} 
+								<input type="hidden" name="username" maxlength="150" required="" id="id_username" class="form-control"> {% endcomment %}
+								
+								<!--label for="id_password" class="label">Password:</label-->
+								<input type="password" name="password" maxlength="128" placeholder="Password" required="" id="id_password" class="form-control" style="margin-bottom: 15px;">
+							<div class="row">
+								<div class="col-sm-12 center">
+									<button type="submit" name="login" value="Login" class="center btn btn-primary" style="margin-bottom: 15px;">Authenticate</button>
+								</div>
+							</div>		        			
+        				</div>
+        				<div class="col-lg-2 col-md-2 col-xl-2  col-sm-1 col-xs-1">
+        				</div>
+        				</div>
+        			</div>
+        		</form>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+	});
+
+	</script>
+</html>
+

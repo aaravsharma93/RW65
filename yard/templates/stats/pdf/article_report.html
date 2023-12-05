@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {%block head%}
+    {%load static%}
+    {%load custom_template_filters%}
+    {%endblock%}
+    {%load custom_template_filters%}
+    <meta charset="utf-8">
+    <title>Statitics</title>
+    <style>
+      table { -pdf-keep-with-next: true; }
+      p { margin: 0; -pdf-keep-with-next: true; }
+      p.separator { -pdf-keep-with-next: false; font-size: 6pt; }
+      table { page-break-inside:auto }
+    </style>
+  </head>
+  <body>
+    <div class="a4_sheet">
+      <img src="{{absolute_url}}/static/yard/images/operator_logo.png" style="width:200px;height:100px;" align="right"><br><br>
+      <div></div>
+      <div>&nbsp;</div>
+      <div style="width:100%;">
+        <div style="width:50%;padding-right: 10px;padding-left: 10px;">
+          <label style="text-align: right;padding-right:10px;">
+          DATE:&nbsp;&nbsp;{{date|date:"d.m.Y"}}</label>
+          <div><br></div>
+        </div>
+        <div style="width:50%;padding-right: 10px;padding-left: 10px;">
+          FROM:&nbsp;&nbsp;{{from|date:"d.m.Y"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TO:&nbsp;&nbsp;{{to|date:"d.m.Y"}}
+        </div>
+      </div>
+      <div>&nbsp;</div>
+      <div><br></div>
+      <div style="width:100%;padding-top:10px;">
+         {%for j in art_list%}
+        <div><label><b>{{j.0}}-{{j.1}}</b></label></div>
+        <table style="width:100%;border-collapse: collapse;text-align: center;">
+          <tr style="border-bottom: dotted;border-color: black">
+            <td>Lfd.Nr</td>
+            <td>License Plate</td>
+            <td>Date / Time</td>
+            <td>SUM Kg</td>
+          </tr>
+          {%for i in data%}
+          {%if i.article.pk == j.0 %}
+          <tr >
+            <td>{{i.id}}</td>
+            <td>{{i.vehicle}}</td>
+            <td style="text-align: center;">{{i.created_date_time|date:"d.m.y/H:s"}}</td>
+            <td>{{i.net_weight}}</td>
+          </tr>
+          {%endif%}
+          {%endfor%}
+          <tr >
+            <td></td>
+            <td></td>
+            <td>SUM:</td>
+            <td style="text-align: center;">{{j.2}}&nbsp;Kg</td>
+          </tr>
+        </table>
+        <br>
+        {%endfor%}
+      </div>
+    </div>
+  </body>
+</html>

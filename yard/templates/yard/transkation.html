@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row">
+  <div class="col-md-10 col-lg-10 col-xl-10">
+    <table class="table table-sm table-striped table-bordered aclist" >
+      <thead class="thead-dark">
+        <tr>
+          <th>{{form.trans_date.label}}</th>
+          <th>{{form.trans_time.label}}</th>
+          <th>{{form.fahrzeuge_id.label}}</th>
+          <th>{{form.artikel_id.label}}</th>
+          <th>{{form.kunden_id.label}}</th>
+          <th>{{form.Baustellen_id.label}}</th>
+          <th>{{form.summe_kg.label}}</th>
+          <th>{{form.gesamtpreis.label}}</th>
+          <th>{{form.net_kg.label}}</th>
+          <th>{{form.lfd_nr.label}}</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      {% for data in dataset %}
+      <tbody>
+        <tr>
+          <td>{{ data.trans_date }}</td>
+          <td>{{ data.trans_time }}</td>
+          <td>{{ data.fahrzeuge_id }}</td>
+          <td>{{ data.artikel_id }}</td>
+          <td>{{ data.kunden_id }}</td>
+          <td>{{ data.Baustellen_id }}</td>
+          <td>{{ data.summe_kg }}</td>
+          <td>{{ data.gesamtpreis }}</td>
+          <td>{{ data.net_kg }}</td>
+          <td>{{ data.lfd_nr }}</td>
+          <td><a href="javascript:loadTranskationDetails('{{ data.id }}')">Edit</a> <a class="confirmdelete" href="{% url 'transkation_delete' identifier=data.id  %}">Delete</a></td>  
+        </tr>
+      </tbody>
+      {% endfor %} 
+    </table>
+  </div>
+</div>
+<div class="row">
+  <br/>
+  <br/>
+</div>
+<div class="row">
+  <div class="col-md-6 col-lg-6 col-xl-6 edit-form">
+    <div class="accordion active">
+      Transkation 
+<!--       <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="vechicle" placeholder="Nummer"> -->
+    </div>
+    <div class="panel panel-default" style="max-height: 390px;">
+        <form method="POST" enctype="multipart/form-data">  
+        {% csrf_token %} 
+            <input type="hidden" name="id" id="id">
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.trans_date.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.trans_date}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.trans_time.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.trans_time}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.fahrzeuge_id.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.fahrzeuge_id}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.artikel_id.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.artikel_id }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.kunden_id.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.kunden_id }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.Baustellen_id.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.Baustellen_id}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.summe_kg.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.summe_kg }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.gesamtpreis.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.gesamtpreis }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.net_kg.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.net_kg }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.lfd_nr.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.lfd_nr }}
+            </div>
+          </div>
+            <div class="row ipt1">
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <button id="submit" type="submit" class="cus-button-1" >Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

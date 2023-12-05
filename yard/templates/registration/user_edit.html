@@ -1,0 +1,169 @@
+{% extends 'base2.html' %}
+{% load crispy_forms_tags %}
+{%load i18n%}
+{% block content %}
+<div class="container">
+   <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+   <i class="fas fa-align-justify"></i>
+   </button>
+   <div class="row  border border-top-0 border-left-0 border-right-0 mb-3">
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+         <div class="content_text">
+            <p class="mb-0">{% translate "OVERVIEW" %}</p>
+         </div>
+         <div class="heding">
+            <p>{% translate "Users" %}</p>
+         </div>
+      </div>
+   </div>
+   {% if messages %}
+						{% for message in messages %}
+            <div class="row mt-4">
+						<div id="msg" class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div></div>
+						{% endfor %}
+                  {% endif %}
+   <!--table strat-->
+   <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered mt-3" width="100%">
+         <thead>
+            <tr>
+              <th width="5%">{{form.name.label}}</th>
+              <th width="7%">{{form.email.label}}</th>
+              <th width="7%">{{form.address.label}}</th>
+              <th width="7%">{{form.telephone.label}}</th>
+              <th width="7%">{{form.yard.label}}</th>
+              <th width="7%">{{form.role.label}}</th>
+              {% comment %} <th width="7%">{% translate "Superuser" %}</th>
+              <th width="7%">{% translate "Staff" %}</th> {% endcomment %}
+              <th width="5%">{% translate "Action" %}</th>
+            </tr>
+         </thead>
+          <tbody class="mt-4">
+            <tr>
+              <td>{{ dataset.name }}</td>
+              <td>{{ dataset.email }}</td>
+              <td>{{ dataset.address }}</td>
+              <td>{{ dataset.telephone }}</td>
+              <td>{{ dataset.yard }}</td>
+              <td>{{ dataset.role }}</td>
+              {% comment %} <td>{{ dataset.is_superuser }}</td>
+              <td>{{ dataset.is_staff }}</td> {% endcomment %}
+              <td><a href="javascript:loadUserEditDetails('{{ dataset.id }}')"><i class="fas fa-pencil-alt text-primary  ml-4"></i></a>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+   </div>
+   <!--table end-->
+</div>
+
+<div class="container">
+  <div class="row mb-5">
+    <div class="col-sm-12 col-12">
+       <!-- Material form login -->
+       <div class="card mt-3">
+          <div class="row">
+             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <h5 class="card-header info-color white-text py-3">
+                   <div class="panel-heading">
+                      <h4 class="panel-title">
+                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse_18">
+                           <p class="mb-0 pt-2 text-color text_color">{% translate "User" %}</p>
+                         </a>
+                      </h4>
+                   </div>
+                </h5>
+             </div>
+          </div>
+          
+          <div id="collapse_18" class="collapse show" >
+             <div class="panel-body">
+                <div class="card-body text-left">
+                   <form class="form-group" method="POST" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <input type="hidden" name="id" id="id">
+                      <div class="row">
+                         <div class="col-sm-6 col-12">
+                           <div class="md-form mb-3">
+                              <label>{{form.name.label}}</label>
+                              {{form.name}} {{form.name.errors}}
+                           </div>
+                         </div>
+                         <div class="col-sm-6 col-12">
+                           <div class="md-form mb-3">
+                              <label>{{form.email.label}}</label>
+                              {{form.email}} {{form.email.errors}}
+                           </div>
+                         </div>
+                         <div class="col-sm-6 col-12">
+                           <div class="md-form mb-3">
+                              <label>{{form.address.label}}</label>
+                              {{form.address}} {{form.address.errors}}
+                           </div>
+                         </div>
+                         <div class="col-sm-6 col-12">
+                           <div class="md-form mb-3">
+                              <label>{{form.telephone.label}}</label>
+                              {{form.telephone}} {{form.telephone.errors}}
+                           </div>
+                         </div>
+                         <div class="col-sm-6 col-12">
+                           <button type="submit" id="submit" class="btn btn-primary ml-1"><i class="fas fa-save ml-2"></i> {% translate "Save" %}</button>
+                         </div>
+                      </div>
+                      
+                  </form>
+                  
+                  <form class="form-group" action="{% url 'sign' %}" method="POST" enctype="multipart/form-data"> {% csrf_token%}
+                        <div class="row">
+                           <div class="col-sm-6 col-12">
+                              <div class="md-form mb-4 custom-file">
+                                 <label class="custom-file-label col-form-label" id="label_signature" >{% translate 'Signature' %}</label>
+                                 <input style="cursor:pointer;" type="file" accept='image/*' name="signature" id="id_signature" class="custom-file-input col-sm-6 col-form-label"> 
+                              </div>
+                           </div>
+                           <div class="col-sm-12 col-12">
+                              <button type="submit" id="save_sign" class="btn btn-primary mt-3"><i class="fas fa-save ml-2"></i> {% translate "Upload" %}</button>
+                              <button type="button" id="e_sign" class="btn btn-primary ml-3 mt-3"><i class="fas fa-save ml-2"></i> {% translate "E Signature" %}</button>
+                           </div>
+                        </div>
+                     </form>
+      <div id="MyPopup" class="modal fade modal-custom bd-example-modal-lg" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content p-4">
+         <div class="modal-header modal-header-custom">
+            <h4 class="modal-title">
+            </h4>
+            <button type="button" class="close" data-dismiss="modal">
+            &times;</button>
+         </div>
+         <div class="modal-body">
+         </div>
+         <div class="modal-footer">
+            <input type="button" id="btnClosePopup" value="Schließen" class="btn btn-secondary" />
+         </div>
+      </div>
+   </div>
+</div>
+{% comment %} <div id="myModal" class="modal fade modal-custom bd-example-modal-lg" role="dialog">
+   <div class="modal-dialog  modal-lg">
+      <div class="modal-content  p-4">
+         <div class="modal-body">
+            <img class="img-responsive" src="" style="width:100%"/>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
+</div> {% endcomment %}
+
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

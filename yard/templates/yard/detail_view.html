@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <div class="main"> 
+        <li>Identifier : {{ data.identifier }}</li>
+        <li>carrier : {{ data.carrier }}</li>
+        <li>group : {{ data.group }}</li>
+        <li>land : {{ data.land }}</li>
+        <li>phone : {{ data.phone }}</li>
+        <li>weight_1 : {{ data.weight_1 }}</li>
+        <li>weight_2 : {{ data.weight_2 }}</li>
+        <li>weight_3 : {{ data.weight_3 }}</li>
+        <li>max_weight : {{ data.max_weight }}</li>
+        <li>myvehicle : {{ data.myvehicle }}</li>
+        <li>countvehicle : {{ data.countvehicle }}</li>
+        <li>forwarders : {{ data.forwarders }}</li>
+        <li>weight_date : {{ data.weight_date }}</li>
+        <li>weight_time : {{ data.weight_time }}</li>
+        <li>weight_id : {{ data.weight_id }}</li>
+        <li>taken : {{ data.taken }}</li>
+    </div> 
+
+{% endblock %}

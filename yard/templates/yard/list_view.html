@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="main"> 
+    <table class="table table-sm table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Identifier</th>
+                <th>carrier</th>
+                <th>group</th>
+                <th>land</th>
+                <th>phone</th>
+                <th>weight_1</th>
+                <th>weight_2</th>
+                <th>weight_3</th>
+                <th>max_weight</th>
+                <th>myvehicle</th>
+                <th>countvehicle</th>
+                <th>forwarders</th>
+                <th>weight_date</th>
+                <th>weight_time</th>
+                <th>weight_id</th>
+                <th>taken</th>
+            </tr>
+        </thead>
+        {% for data in dataset %}
+        <tbody>
+            <tr>
+                <td>{{ data.identifier }}</td>
+                <td>{{ data.carrier }}</td>
+                <td>{{ data.group }}</td>
+                <td>{{ data.land }}</td>
+                <td>{{ data.phone }}</td>
+                <td>{{ data.weight_1 }}</td>
+                <td>{{ data.weight_2 }}</td>
+                <td>{{ data.weight_3 }}</td>
+                <td>{{ data.max_weight }}</td>
+                <td>{{ data.myvehicle }}</td>
+                <td>{{ data.countvehicle }}</td>
+                <td>{{ data.forwarders }}</td>
+                <td>{{ data.weight_date }}</td>
+                <td>{{ data.weight_time }}</td>
+                <td>{{ data.weight_id }}</td>
+                <td>{{ data.taken }}</td>
+            </tr>        
+        </tbody>    
+        {% endfor %} 
+    </table>
+</div> 
+
+{% endblock %}

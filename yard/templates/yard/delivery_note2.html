@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  {%block head%}
+  {%load static%}
+{%endblock%}
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="{% static 'yard/css/style.css'%}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <title>Delivery Note</title>
+</head>
+
+<body>
+  <div id="wrapper" class="toggled">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+      <nav id="sidebar">
+        <div class="sidebar-header text-center pt-3">
+          <img src="{% static 'yard/images/logo.png'%}" alt="">
+        </div>
+        <ul class="list-unstyled components">
+          <li class="active">
+            <a href="/">Weighing</a>
+          </li>
+          <li class="submenu">
+            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Masterdata</a>
+            <ul class="collapse list-unstyled" id="pageSubmenu">
+              <li><a href="/article">Material</a></li>
+              <li><a href="/building_site">Building Site</a></li>
+              <li><a href="/vehicle">Vehicle</a></li>
+              <li><a href="/delivery_note">Delivery Note</a></li>
+              <li><a href="/customer">Kunde</a></li>
+              <li><a href="/supplier">Baustelle</a></li>
+              <li><a href="/forwarders">Forwarders</a></li>
+              <li><a href="/yard_list">Yard list</a></li>
+            </ul>
+          </li>
+          <li class="submenu">
+            <a href="#Submenu" data-toggle="collapse" aria-expanded="false">Delivery/Weighing slips</a>
+            <ul class="collapse list-unstyled" id="Submenu">
+              <li><a href="/stats/deliverynotes">Delivery Notes</a></li>
+              <li><a href="#">Court list</a></li>
+              <li><a href="/stats/daily_delivery_list">Daily list</a></li>
+              <li><a href="#">Delivery note filing</a></li>
+              <li><a href="#">Daily closing</a></li>
+              <li><a href="/admin">Data import & Export</a></li>
+            </ul>
+          </li>
+          <li class="submenu">
+            <a href="#page" data-toggle="collapse" aria-expanded="false">Evaluation</a>
+            <ul class="collapse list-unstyled" id="page">
+              <li><a href="/stats/std_evaluation">Standard Evaluation</a></li>
+              <li><a href="#">Special Evaluation</a></li>
+            </ul>
+          </li>
+          <li class="submenu">
+            <a href="#user" data-toggle="collapse" aria-expanded="false">User</a>
+            <ul class="collapse list-unstyled" id="user">
+              <li><a href="/settings">settings</a></li>
+              <li><a href="#">Option2</a></li>
+              <li><a href="#">Option3</a></li>
+            </ul>
+          </li>
+
+          <li>
+            <a href="#">Help</a>
+          </li>
+
+        </ul>
+      </nav>
+
+    </div>
+    <!-- /#sidebar-wrapper -->
+    <div id="content">
+      <div class="container">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+          <i class="fas fa-align-justify"></i>
+        </button>
+        <div class="row  border border-top-0 border-left-0 border-right-0 mb-3">
+          <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <div class="content_text">
+              <p class="mb-0">OVERVIEW</p>
+            </div>
+            <div class="heding">
+              <p>Weighing</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <div class="row">
+          <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12">
+             <div class="form-group">
+                <div class='input-group date' id='datetimepicker6'>
+                  <label class="mt-2 mr-3">Date</label>
+                   <input type='date' class="form-control" />
+                   <span class="input-group-addon">
+                   <span class="glyphicon glyphicon-calendar"></span>
+                   </span>
+                </div>
+             </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12">
+             <div class="form-group">
+                <div class='input-group date' id='datetimepicker7'>
+                  <label class="mt-2 mr-3">To</label>
+                   <input type='date' class="form-control" />
+                   <span class="input-group-addon">
+                   <span class="glyphicon glyphicon-calendar"></span>
+                   </span>
+                </div>
+             </div>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12">
+            <button type="submit" class="btn btn-primary">Filter</button>
+          </div>
+        </div>
+       </div>
+      <!--datepicker-->
+
+
+        <!--table strat-->
+        <div class="row">
+        <table class="table table-striped table-bordered mt-3 Delivery_site" width="100%">
+          <thead>
+            <tr>
+              <th width="5%">Lfd Nr</th>
+              <th width="7%">	File Name</th>
+              <th width="5%"></th>
+              <th width="5%">Action</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <!--table end-->
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <!-- Material form login -->
+          <div class="card">
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <h5 class="card-header info-color white-text py-3">
+                  <div class="panel-heading">
+                    <h4 class="panel-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse1313">    
+                        <div class="row">
+                          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <p class="mb-0 pt-2 text-color text_color float-left">Delivery Note</p>
+                          </div>
+                          </div>    
+                      </a>
+                    </h4>
+                  </div>
+                </h5>
+              </div>
+            </div>
+        
+         <!--first forms satrat-->
+         <div id="collapse1313" class="collapse" >
+          <div class="panel-body">
+          <div class="contanier">
+            <form class="form-group">             
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 text-left mt-4">
+                <div>
+                  <label>Lfd Nr</label>
+                  <input type="Lfd Nr" class="form-control" id="Lfd Nr" placeholder="Lfd Nr">
+                </div>
+                <div>
+                  <label>File Name</label>
+                  <input type="File Name" class="form-control" id="File Name" placeholder="File Name">
+                </div>
+              <button type="button" class="btn btn-primary mt-2"><i class="fas fa-save ml-2"></i> Save</button>
+             </div>
+          </form>
+          </div>
+           </div>
+           </div>
+           </div>
+      
+  <!-- Wrapper End -->
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+  <script>
+
+    $("#menu-toggle").click(function (e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+
+
+    var barChartDemo = new Chart(cbx, {
+      options: {
+        animation: false
+      }
+    });
+    setInterval(function () {
+      addData(5);
+    }, 5000);
+  </script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#sidebarCollapse').on('click', function () {
+        $('#sidebar-wrapper').toggleClass('active');
+      });
+    });
+  </script>
+  
+<script>
+  $('.select2').select2();
+</script>
+</body>
+
+</html>

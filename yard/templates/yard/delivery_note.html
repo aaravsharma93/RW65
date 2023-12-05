@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row">
+  <div class="col-md-10 col-lg-10 col-xl-10">
+    <table class="table table-sm table-striped table-bordered aclist" >
+      <thead class="thead-dark">
+        <tr>
+          <th>{{form.lfd_nr.label}}</th>
+          <th>{{form.file_name.label}}</th>
+          <th>{{form.note_date.label}}</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      {% for data in dataset %}
+      <tbody>
+        <tr>
+          <td>{{ data.lfd_nr }}</td>
+          <td>{{ data.file_name }}</td>
+          <td>{{ data.note_date }}</td>
+          <td><a href="javascript:loadDeliveryNoteDetails('{{ data.id }}')">Edit</a> <a href="{% url 'delivery_note_delete' identifier=data.id  %}">Delete</a></td>
+        </tr>
+      </tbody>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+<div class="row">
+  <br/>
+  <br/>
+</div>
+<div class="row">
+  <div class="col-md-6 col-lg-6 col-xl-6 edit-form">
+    <div class="accordion active">
+      Delivery Note
+<!--       <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="vechicle" placeholder="Nummer"> -->
+    </div>
+    <div class="panel panel-default" style="max-height: 142px;">
+        <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <input type="hidden" name="id" id="id">
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.lfd_nr.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.lfd_nr}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.file_name.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.file_name }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.note_date.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.note_date }}
+            </div>
+          </div>
+            <div class="row ipt1">
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <button id="submit" type="submit" class="cus-button-1" >Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

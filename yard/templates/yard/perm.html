@@ -1,0 +1,89 @@
+{% extends 'base2.html' %}
+{% load crispy_forms_tags %}
+{%load i18n%}
+{% block content %}
+     <input type="hidden" id="cache_smtp_creds" value="">
+    <div class="container">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+          <i class="fas fa-align-justify"></i>
+        </button>
+        <div class="row  border border-top-0 border-left-0 border-right-0 mb-3">
+            <div class=" col-md-6 col-sm-6">
+                <div class="content_text">
+                <p class="mb-0">{% translate "OVERVIEW" %}</p>
+                </div>
+                <div class="heding">
+                <p>{% translate "Advance Settings" %}</p>
+                </div>
+            </div>
+        </div>
+    <!---------------------------------------------------------------->
+    <!-- {{form.errors}} -->
+        {% comment %} <div class="card"> {% endcomment %}
+            <div class="row">
+                <div class="col-sm-6">
+                    <h5 class="card-header info-color white-text py-3">
+                    <div class="panel-heading">
+                    <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse_18">
+
+                        <div class="row">
+                            <div class="col-sm-7 text-left">
+                            <p class="mb-0 pt-2 text-color text_color">{% translate "Advance Settings" %}</p>
+                            </div>
+                        </div>
+
+                    </a>
+                    </h4>
+                    </div>
+                    </h5>
+                </div>
+            </div>
+
+            <div class="col-sm-6"></div>
+                <div id="collapse_18" class="collapse show" >
+                    <div class="panel-body">  
+                        {% comment %} <div class="card-body text-left"> {% endcomment %}
+                            <form class="form-group" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                
+                            <div class="row">
+                                <div class="col-sm-2" style="text-align:right;">
+                                    <div class="sm-form mt-3">
+                                    <label>{% trans 'Login Code' %} ?</label>
+                                    </div>
+                                    <div class="sm-form mt-2">
+                                    <label>{% trans 'Password' %} ?</label>
+                                    </div>
+                                </div>
+             
+                                <div class="col-sm-3">
+                                    <div class="row mt-lg-3">
+                                    <input type="text" name="login_code" maxlength="10" id="login_code" class="form-control" value="{{request.session.code}}" readonly>
+                                    </div>
+                                    <div class="row mt-lg-3">
+                                    <input type="password" name="login_password" maxlength="10" id="login_password" class="form-control" required placeholder="passwort">
+                                    </div>
+                                    <div class="row mt-lg-3">
+                                    <button id="submit" type="submit" class="btn btn-primary"><i class="fas fa-save ml-2"></i> {% translate "Save" %}</button>
+                                    <a href="/settings"><button type="button" class="btn btn-secondary ml-3"><i class="fa fa-undo ml-2"></i> {% translate "Back" %}</button></a>
+                                    </div>
+                                    {% if messages %}
+						{% for message in messages %}
+            <div class="row mt-4">
+						<div id="msg" class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div></div>
+						{% endfor %}
+                  {% endif %}
+                                </div>
+                                
+                            </div> 
+                            
+                        </div>
+                        </form>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+{% endblock %} 

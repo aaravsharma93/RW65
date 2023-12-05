@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+       {%block head%}
+          {%load static%}
+        {%endblock%}
+        {% load i18n %}
+        {% load l10n %}
+      {%load custom_template_filters%}
+      <meta charset="utf-8">
+      <title>Delivery Note</title>
+      <style>
+          .Row {
+    display: table;
+    width: 100%; /*Optional*/
+    table-layout: fixed; /*Optional*/
+    border-spacing: 40px; /*Optional*/
+}
+          .Column {
+            display: table-cell;
+              border-left: 10px;
+        }
+        table { -pdf-keep-with-next: true; }
+         p { margin: 0; -pdf-keep-with-next: true; }
+         p.separator { -pdf-keep-with-next: false; font-size: 6pt; }
+      </style>
+   </head>
+   <body>
+      <div class="a4_sheet">
+         <div class="row" style="padding-top:20%;">
+            <br><br><br>
+            <table border="1" style="width:100%">
+               <tr style="height: 100px;">
+                  <td colspan="3" style="width:50%;text-align:left;padding-left:5px;font-size: 14pt;height:50%">
+                     
+                     {% for head in logo %}
+                     {{head.heading}}<br>
+                     {% endfor %} <br>  
+                     {% comment %} <b>{%if request.session.customer %}{% trans request.session.customer %} {%else%}{% trans "Customer" %}{%endif%}:</b><br> {{context}} {% endcomment %}
+                     <b>{{customer}}:</b><br> {{context}}
+                     
+                     {{dataset.customer.salutation}} 
+                     
+                     {{ dataset.customer.name1|space }} {% if dataset.customer.name2 %} {{ dataset.customer.name2|space }} {% endif %} <br>
+
+                     {% if dataset.customer.description is not None %}
+                     {{ dataset.customer.description|space }}<br>
+                     {%endif%}
+
+                     {% if dataset.customer.street is not None %}
+                     {{ dataset.customer.street|space }}<br>
+                     {%endif%}
+
+                     {% if dataset.customer.pin is not None %}
+                     {{ dataset.customer.pin|space }}
+                     {%endif%}
+                     
+                     {% if dataset.customer.place is not None %}
+                      {{ dataset.customer.place|space }}<br>
+                      {%endif%}
+                  </td>
+                  <td colspan="3" style="text-align:center;">
+                   {% for img in logo %}
+                   {% if img.logo.url is not None %}
+                   <img src="{{ img.logo.url }}" style="width:200%;height:10%;"/>
+                   {% endif %}
+                  {% endfor %}
+
+                  </td>
+               </tr>
+               <tr style="height: 80px;">
+                  <td style="font-size:10pt;text-align:center;width:25%;padding-left:2px;">
+                     <b>Wiegeschein<br>
+                     Lieferschein</b> 
+                  </td>
+                  <td style="padding-left:5px;text-align:center;">
+                     lfd. Nr<br><br>
+                     {{ dataset.id }}
+                  </td>
+                  <td style="padding-left:5px;text-align:center;" >
+                     Datum <br><br>
+                     {% comment %} {{ dataset.created_date_time|date:"d.m.y" }} {% endcomment %}
+                     {{ dataset.secondw_date_time|date:"d.m.y" }}
+                  </td>
+                  <td style="padding-left:5px;text-align:center;">
+                     Uhrzeit<br><br>
+                     {% comment %} {{ dataset.created_date_time|time:"H:i" }} {% endcomment %}
+                     {{ dataset.secondw_date_time|time:"H:i" }}
+                  </td>
+                  <td style="padding-left:5px;text-align:center;">
+                     Werk<br><br>
+                     -----
+                  </td>
+                  <td style="padding-left:5px;text-align:center;">
+                     Zufuhrart<br><br>
+                     -----
+                  </td>
+               </tr>
+               <tr style="height: 100px;">
+               {% if io.status == 1 %}
+                  <td colspan="2" style="width:50%;font-size:12pt;padding-left:5px;">
+                     Ab-/Beladestelle Baustelle: <br><br>
+                     {{ dataset.supplier.supplier_name|space }} <br>
+                     {{ dataset.supplier.street|space }} <br>
+                     {{ dataset.supplier.pin|space }} {{ dataset.supplier.place|space }} <br>
+                  </td>
+                  <td colspan="1" style="width:50%;text-align:center;font-size:11pt;padding-bottom:2px;">
+                  Richtung : {% if dataset.status == "0" %}
+                              <br><br> Eingang 
+                           {% elif dataset.status == '1' %}
+                              <br><br> Ausgang 
+                           {% else %}
+                              <br><br><br>
+                           {% endif %}
+                  </td>
+                  {% else %}
+                  <td colspan="3" style="width:50%;font-size:12pt;padding-left:5px;">
+                     Ab-/Beladestelle Baustelle: <br><br>
+                     {{ dataset.supplier.supplier_name|space }} <br>
+                     {{ dataset.supplier.street|space }} <br>
+                     {{ dataset.supplier.pin|space }} {{ dataset.supplier.place|space }} <br>
+                  </td>
+                  {% endif %}
+                  <td colspan="3" style="width:50%;font-size:12pt;padding-left: 5px">
+                     Kennzeichen Nr. 1 : &nbsp;{{ dataset.vehicle.license_plate|upper }} <br><br>
+                     Kennzeichen Nr. 2 : &nbsp;{{ dataset.vehicle.license_plate2|upper }}<br>
+                  </td>
+               </tr>
+            </table>
+         </div>
+         <div class="row">
+            <table style="height:100px;width:100%;">
+            {% if show_container == 'true' %}
+               <tr style="height:31px;padding-top:5px;border-bottom:1px solid black">
+                  <td colspan="2" style="font-size:15px;border-left: 1px solid black;padding-left: 5px;text-align:left" > Container-Name : {{dataset.container|upper}} </td>
+                  <td colspan="2" style="font-size:15px;text-align:left;">Type : {{dataset.container.container_type}}</td>
+                  <td colspan='2' style="font-size:15px;text-align:left;">Weight : {{dataset.container.container_weight|unlocalize}} kg</td>
+                  
+                  <td style="border-right: 1px solid black;"></td>
+               </tr>
+               {% endif %}
+               <tr style="height:30px;font-size:10pt;padding-top:5px;border-top: 1px solid black;border-bottom: 1px solid black;">
+                  <td style="border-left: 1px solid black;"></td>
+                  <td >Datum</td>
+                  <td style="">Uhrzeit</td>
+                  <td style="width:5%;"></td>
+                  <td >Gewicht</td>
+                  <td >{{article}}</td>
+                  <td style="border-right: 1px solid black;">AlibiNr.</td>
+               </tr>
+               
+               <tr style="height:30px;padding-top:5px;">
+                  <td style="font-size:15px;border-left: 1px solid black;padding-left:5px;" >{% trans "First Weighing" %}</td>
+                  <td style="font-size:15px;">{{ dataset.firstw_date_time|date:"d.m.y" }}</td>
+                  <td style="font-size:15px;">{{ dataset.firstw_date_time|time:"H:i" }}</td>
+                  <td style="font-size:15px;">{% if dataset.vehicle_weight_flag == 1 %} PT {% elif dataset.vehicle_weight_flag == 2 %} H {%endif%}</td>
+                  {% if showt.status == 1 %}
+                  <td style="font-size:15px;">{{ dataset.first_weight }}&nbsp;kg</td>
+                  {% else %}
+                  <td style="font-size:15px;">{{ dataset.first_weight|convert_to_tonne|unlocalize}} &nbsp;t</td>
+                  {% endif %}
+                  <td style="font-size:15px;"></td>
+                  <td style="border-right: 1px solid black;">{{ dataset.firstw_alibi_nr }}</td>
+               </tr> 
+               <tr style="height:30px;padding-top:5px;">
+                  <td style="font-size:15px;border-left: 1px solid black;padding-left: 5px" >{% trans "Second Weighing" %} </td>
+                  <td style="font-size:15px;">{{ dataset.secondw_date_time|date:"d.m.y" }}</td>
+                  <td style="font-size:15px;width:10%;"> {{ dataset.secondw_date_time|time:"H:i" }}</td>
+                  <td style="font-size:15px;width:5%;">{% if dataset.vehicle_second_weight_flag %}{% if dataset.vehicle_second_weight_flag == 1 %} PT {% elif dataset.vehicle_second_weight_flag == 2 %} H {%endif%} {%endif%}</td>
+                  {% if showt.status == 1 %}
+                  <td style="font-size:15px;">{{ dataset.second_weight }}&nbsp;kg</td>
+                  {% else %}
+                  <td style="font-size:15px;">{{ dataset.second_weight|convert_to_tonne|unlocalize}} &nbsp;t</td>
+                  {% endif %}
+                  <td style="font-size:15px;"></td>
+                  <td style="border-right: 1px solid black;"> {{ dataset.secondw_alibi_nr }}</td>
+               </tr>
+               <tr style="height:30px;padding-top:5px;border-bottom:1px solid black">
+                  <td colspan="3" style="font-size:15px;border-left: 1px solid black;padding-left: 5px" >{% trans "Net Weight" %}</td>
+                  <td style="font-size:15px;">E</td>
+                  {% if showt.status == 1 %}
+                  <td style="font-size:15px;">{{ dataset.net_weight }}&nbsp;kg</td>
+                  {%else%}
+                  <td style="font-size:15px;">{{dataset.net_weight|convert_to_tonne|unlocalize}} &nbsp;t</td>
+                  {%endif%}
+                  <td style="font-size:15px;">{{dataset.article.name|space}}</td>
+                  <td style="border-right: 1px solid black;"></td>
+               </tr> {% if show_price == 'true' %}
+               <tr style="height:30px;padding-top:5px;border-bottom:1px solid black">
+                  <td colspan="3" style="font-size:15px;border-left: 1px solid black;padding-left: 10px;text-align:right" >Barbezahler-Price : </td>
+                  <td style="font-size:15px;text-align:right;">&nbsp;€&nbsp;</td>
+                  <td style="font-size:15px;text-align:left;">{{dataset.total_price|unlocalize}}</td>
+                  <td style="font-size:15px;"></td>
+                  <td style="border-right: 1px solid black;"></td>
+               </tr>
+               {% endif %}
+               
+            </table>
+            {% if images.image1 or images.image2 or images.image3 %}
+            <br>
+            <span style="font-size:12px;border-left: 1px solid black;padding-left: 5px">
+            Bilder : </span>
+            {% endif %}
+         </div>
+         <br>
+
+        <div class="Row">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          {% if images.image1 %}
+              {% with absolute_url|add:images.image1.url as url_string1 %}
+                  <div class="Column"><img style="width:200px;height: 200px" src="{{ url_string1|to_base64 }}" alt="">&nbsp;&nbsp;&nbsp;</div>
+              {% endwith %}
+          {% endif %} 
+        {% if images.image2 %}
+            {% with absolute_url|add:images.image2.url as url_string2 %}
+                <div class="Column"><img style="width:200px;height: 200px" src="{{ url_string2|to_base64 }}" alt="">&nbsp;&nbsp;&nbsp;</div>
+            {% endwith %}
+        {% endif %}
+        {% if images.image3 %}
+            {% with absolute_url|add:images.image3.url as url_string3 %}
+                <div class="Column"><img style="width:200px;height: 200px" src="{{ url_string3|to_base64 }}" alt="">&nbsp;&nbsp;&nbsp;</div>
+            {% endwith %}
+        {% endif %}
+        {% if images.image1 or images.image2 or images.image3 %}
+        <br><br><br><br><br><br><br><br><br>
+        {% else %}
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        {% endif %}
+        </div>
+          <br>
+          <div class="row">
+            <table border="1" style="height:100px;width:100%">
+               <tr style="height:25px;padding-top:5px;text-align:center;">
+                  <td style="padding-left: 5px">Unterschrift des Wägers</td>
+                  <td style="padding-left: 5px">Unterschrift des Fahrers</td>
+                  <td style="padding-left: 5px">Unterschrift des Empfängers
+                  </td>
+               </tr>
+               <tr >
+                  <td style="height:25px;font-size:15pt;padding-bottom:5px;text-align:center;"><img src="{{sign.signature.url}}" style="width:100%;height:10%;"/><br> {{user_name}}</td>
+                  <td > </td>
+                  <td ></td>
+               </tr>
+            </table>
+         </div>
+         <div class="row">
+         <br>
+            E: errechnet, PT: Preset Tara (voreingegebens Tara) H: Handeingabe. <br>
+            Messwerte aus frei programmierbarer Zusatzeinrichung. Die geeichten Messwerte können eingesehen werden.
+            Fur Überladungen haftet der Fahrzeuglenker.
+         </div>
+      </div>
+      <input type="hidden" value="20/7204" name="customer code">
+   </body>
+</html>

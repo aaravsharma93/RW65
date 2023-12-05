@@ -1,0 +1,476 @@
+{% extends 'base2.html' %}
+{% load crispy_forms_tags %}
+{%load i18n%}
+{% block content %}
+     <input type="hidden" id="cache_smtp_creds" value="">
+      <div class="container">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+          <i class="fas fa-align-justify"></i>
+        </button>
+        <div class="row  border border-top-0 border-left-0 border-right-0 mb-3">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="content_text">
+              <p class="mb-0">{% translate "OVERVIEW" %}</p>
+            </div>
+            <div class="heding">
+              <p>{% translate "Advance Settings" %}</p>
+            </div>
+          </div>
+        </div>
+    <!---------------------------------------------------------------->
+    <!-- {{form.errors}} -->
+    <div class="card">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <h5 class="card-header info-color white-text py-3">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse_18">
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+                      <p class="mb-0 pt-2 text-color text_color">{% translate "Advance Settings" %}</p>
+                    </div>
+                  </div>
+                </a>
+              </h4>
+            </div>
+          </h5>
+        </div>
+      </div>
+
+      <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12"></div>
+      <div id="collapse_18" class="collapse show" >
+        <div class="panel-body">  
+           <div class="card-body text-left">
+          <form class="form-group" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+              
+            <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="md-form mb-3">
+              <label>{% trans 'Use Camera' %} ?</label>
+            </div>
+            <div class="md-form mb-3">
+              <label>{% trans 'Use Barrier' %} ?</label>
+            </div>
+            <div class="md-form mb-3">
+              <label>{% trans 'Traffic Light' %} ?</label>
+            </div>
+            <input type="hidden" value="20/7204" name="yardman">
+                {% comment %} <div class="md-form mb-3">
+                    <label>{{ form.company_email.label }}</label>
+                </div>
+                <div class="md-form mb-3">
+                    <label>{{ form.smtp_support.label }}</label>
+                </div> {% endcomment %}
+            </div>
+             
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+    
+            <div class="row mt-2">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                  <label><input id="check" type="checkbox" name="check_yes" {% if camera.yes == 1%} checked {% endif %}> {% trans 'Yes' %}</label>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                  <label><input id="check" type="checkbox" name="check_No" {% if camera.yes == 0 %} checked {% endif %}> {% trans 'No' %}</label>
+                </div>
+                <div class="row mt-2 col-sm-2">
+                  <input type="number" name="total_camera" id="total_camera" style="display:none;" min="1" max="3" placeholder="Total Cameras" value="{{camera.number}}"  class="form-control">
+                </div>
+            </div>
+            <div class="row mt-3">
+                   <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                  <label><input id="schrank" type="checkbox" name="schrank_yes" {% if barr.barrier == 1 %} checked {% endif %} > {% trans 'Yes' %}</label>
+                  </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                  <label><input id="schrank" type="checkbox" name="schrank_no" {% if barr.barrier == 0 %} checked {% endif %} > {% trans 'No' %}</label>
+                  </div>
+                  {% comment %} <div class="row mt-2 col-sm-2">
+                <input type="number" name="total_shrank" id="total_shrank"  style="display:none;" min="1" max="4" placeholder="Total Shranke" value={{barr.count}} class="form-control">
+                      </div> {% endcomment %}
+            </div>
+            <div class="row mt-3">
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                  <label><input id="t_light" type="checkbox" name="tl_yes" {% if ampel.status == 1 %} checked {% endif %} > {% trans 'Yes' %}</label>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                  <label><input id="t_light" type="checkbox" name="tl_no" {% if ampel.status == 0 %} checked {% endif %}> {% trans 'No' %}</label>
+                  </div>
+            </div>
+            
+          </div> 
+            <button id="submit" type="submit" class="btn btn-primary ml-4"><i class="fas fa-save ml-2"></i> {% translate "Save" %}</button>
+            <button id="submit" type="submit" name="clear" class="btn btn-primary ml-4"><i class="fas fa-save ml-2"></i> {% translate "Clear" %}</button>
+            </div>
+            <hr style="height:4px;">
+          </form>
+           {% comment %} <div class="custom-file md-form mb-3 ml-3">
+            <form method='post' action="{% url 'logo' %}" enctype="multipart/form-data"> {% csrf_token%}
+            <div class="row">
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="row mt-1">
+                      <input  type="file" accept='image/*' class="custom-file-input col-sm-12 col-form-label " id="customFile" name="logo">
+                      <label class="custom-file-label col-sm-12 col-form-label"  id="labelCustomFile" for="customFile">Bild für Logo auswählen</label>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="row mt-3">
+                      <button type="submit" name="save_logo" class="btn btn-primary ml-4"><i class="fas fa-save ml-2"></i> {% translate "Upload" %} </button>
+                </div>
+              </div>
+            </div>
+            <div class="row" >
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                <div class="row mt-4">
+                      <input type='text' class="col-sm-12 col-form-label" id='heading' name='heading' placeholder="current" value="{% for h in heading %} {{h.heading}} {% endfor %}">
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+              <div class="row mt-4">
+                  <button type="submit" id="save_heading" name="save_heading" class="btn btn-primary ml-4"><i class="fas fa-save ml-2"></i> {% translate "Save" %} </button>
+                  </div>
+              </div>
+            </div>
+            </form>
+          </div> {% endcomment %}
+          {% if messages %}
+						{% for message in messages %}
+            <div class="row mt-4">
+						<div id="msg" class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div></div>
+						{% endfor %}
+                  {% endif %}
+                  
+           </div></div></div></div>
+    <br>
+    <br>
+    <div id="smtp_div" class="card">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <h5 class="card-header info-color white-text py-3">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse_19">
+
+                      <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 text-left">
+                          <p class="mb-0 pt-2 text-color text_color">{% translate "SMTP Form" %}</p>
+                        </div>
+                        </div>
+
+                    </a>
+                  </h4>
+                </div>
+              </h5>
+            </div>
+          </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12"></div>
+      <div id="collapse_19" class="collapse show" >
+        <div class="panel-body">
+           <div class="card-body text-left">
+               <form class="form-group" id="smtp_form" method="POST">
+               {% csrf_token %}
+               <input type="hidden" name="id" id="id">
+               <div class="row">
+                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                       <div class="md-form mb-3">
+                            <h4>SMTP Credential</h4>
+                       </div>
+                       <div class="md-form mb-3">
+                            <label>{{smtp_form.host.label}}</label>
+                       </div>
+                       <div class="md-form mb-3">
+                            <label>{{smtp_form.port.label}}</label>
+                       </div>
+                       <div class="md-form mb-3">
+                            <label>{{smtp_form.username.label}}</label>
+                       </div>
+                       <div class="md-form mb-4">
+                            <label>{{smtp_form.sender_address.label}}</label>
+                       </div>
+                       <div class="md-form mb-4">
+                            <label>{{smtp_form.password.label}}</label>
+                       </div>
+
+                   </div>
+               <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="row mt-3">
+                    </div>
+                <div class="row mt-4">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+{#                        <input required type='text' value="{{ smtp_form.host }}" class="col-sm-12 col-form-label" id='smtp_host' name='host' placeholder="Host">#}
+                        {{ smtp_form.host }}
+                    </div>
+                </div>
+                   <div class="row mt-4">
+                       <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+{#                        <input required type='number' class="col-sm-12 col-form-label" id='smtp_port' name='port' placeholder="Port">#}
+                           {{ smtp_form.port }}
+                    </div>
+                   </div>
+                <div class="row mt-4">
+                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+{#                        <input required type='text' class="col-sm-12 col-form-label" id='smtp_user' name='username' placeholder="Username">#}
+                       {{ smtp_form.username }}
+                    </div>
+                </div>
+                   <div class="row mt-4">
+                       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+{#                        <input required type='password' class="col-sm-12 col-form-label" id='smtp_pass' name='password' placeholder="Password">#}
+                           {{ smtp_form.sender_address }}
+                    </div>
+                   </div>
+                   <div class="row mt-4">
+                       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+{#                        <input required type='password' class="col-sm-12 col-form-label" id='smtp_pass' name='password' placeholder="Password">#}
+                           {{ smtp_form.password }}
+                    </div>
+                   </div>
+            </div>
+                   <br>
+                   <button id="test_smtp" class="btn btn-primary ml-3"><i class="fas fa-save ml-2"></i> {% translate "Test SMTP" %}</button>
+                   <button id="save_smtp" type="submit" class="btn btn-primary ml-3"><i class="fas fa-save ml-2"></i> {% translate "Save SMTP" %}</button>
+               </div>
+           </form>
+           </div>
+        </div>
+      </div>
+    </div>
+{% endblock %} 
+
+{% block scripts %}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+      if ($("input[name=check_yes]").prop('checked') == true){
+        $("#total_camera").css('display','block');
+        $("#total_camera").prop('required',true);
+      }
+      $('select').addClass('form-control mt-3');
+
+      $('input:radio').removeClass('form-control').removeClass('form-radio').addClass('form-check-input');
+
+      var radios = $('input:radio');
+
+      var input_name = []
+
+      for (i = 0; i < radios.length; i++) {
+
+          radios[i].type = "checkbox";
+
+          if(jQuery.inArray(radios[i].name, input_name)==-1){
+
+              input_name.push(radios[i].name)
+
+             // $("input:checkbox[name='" + radios[i].name + "']").attr({"oninvalid":"this.setCustomValidity('Please select one of these options')"});
+
+              var x = $("[name='"+radios[i].name+"']")
+
+              if(x.is(":checked")== true){
+
+                x.removeAttr('required');
+              }
+            }
+      }
+      if($("#check_smtp").prop("checked")){
+          $("#smtp_div").css("display","block");
+      }
+      else {
+          $("#smtp_div").css("display","none");
+      }
+    });
+    
+    $("input:checkbox, input:radio").on('click', function() {
+
+      var $box = $(this);
+
+      if ($box.is(":checked")) {
+
+        var group = "input:checkbox[name='" + $box.attr("name") + "']";
+
+        $(group).prop("checked", false);
+
+        $(group).removeAttr('required');
+
+        $box.prop("checked", true);
+
+      } else {
+
+        $box.prop("checked", false);
+
+        $("input:checkbox[name='" + $box.attr("name") + "']").attr("required",false)
+
+      }
+    });
+
+    $('input#check').on('change', function() {
+    $('input#check').not(this).prop('checked', false);
+    });
+
+    $('input#schrank').on('change', function() {
+    $('input#schrank').not(this).prop('checked', false);
+    });
+
+    $('input#t_light').on('change', function() {
+    $('input#t_light').not(this).prop('checked', false);
+    });
+
+    $('input#p_grp').on('change', function() {
+    $('input#p_grp').not(this).prop('checked', false);
+    });
+
+    $('input#contr').on('change', function() {
+    $('input#contr').not(this).prop('checked', false);
+    });
+
+    save_cache_smtp_cred = () =>{
+       let cached_input  =  $("#cache_smtp_creds");
+       let smtp_form_input = $("#smtp_creds");
+       if(smtp_form_input.attr("value") != ""){
+           cached_input.attr("value",smtp_form_input.attr("value"))
+       }
+    }
+
+    get_cache_smtp_cred = () =>{
+        let cached_input  =  $("#cache_smtp_creds");
+        let smtp_form_input = $("#smtp_creds");
+        if(cached_input.attr("value") != ""){
+           smtp_form_input.attr("value",cached_input.attr("value"))
+       }
+    }
+
+    $('input#check_smtp').on('change', function() {
+        $('input#check_smtp').not(this).prop('checked', false);
+        if($('input[name="check_smtp_yes"]').is(":checked")){
+            $("#smtp_div").css("display","block");
+            $("#smtp_supp_hidden").prop("checked","true");
+            get_cache_smtp_cred()
+        }
+        else {
+            $("#smtp_div").css("display","none");
+            $("#smtp_supp_hidden").prop("checked",false);
+            save_cache_smtp_cred();
+            $("#smtp_creds").attr("value","")
+        }
+    });
+
+    const postTestSMTP = async (form_data) =>{
+        let url = "/test_smtp/";
+        form_data = {'csrfmiddlewaretoken': '{{ csrf_token }}',...form_data}
+        delete form_data["name"];
+        delete form_data["value"]
+        let response = await $.ajax({
+                type: "POST",
+                url:url,
+                data: form_data
+            }
+        );
+        return response
+    }
+
+    const postSaveSMTP = async (form_data) =>{
+        let url = "/save_smtp/";
+        form_data = {'csrfmiddlewaretoken': '{{ csrf_token }}',...form_data}
+        delete form_data["name"];
+        delete form_data["value"]
+        let response = await $.ajax({
+                type: "POST",
+                url:url,
+                data: form_data
+            }
+        );
+        return response
+    }
+
+    $("#test_smtp").on('click', (e) =>{
+        $("#smtp_form").validate().destroy();
+        $("#smtp_form").validate({
+            rules:{
+                host: "required",
+                port: "required",
+                user: "required",
+                pass: "required",
+                sender_address:"required"
+            },
+            messages:{
+                host:"Host Required"
+            },
+            submitHandler: function (form,event) {
+                {#var data =Object.fromEntries(new FormData(form))#}
+                event.preventDefault();
+                let data = $(form).serializeArray().reduce((o,p) => ({...o, [p.name]: p.value}))
+                postTestSMTP(data).then(response =>{
+                    alert("Email Successfully sent to User")
+                }).catch(err=>{
+                    alert(err.responseText)
+                });
+                return false;
+            }
+        });
+    });
+
+    $("#save_smtp").on('click', (e) =>{
+        $("#smtp_form").validate().destroy();
+        $("#smtp_form").validate({
+            rules:{
+                host: "required",
+                port: "required",
+                user: "required",
+                pass: "required",
+                sender_address:"required"
+            },
+            messages:{
+                host:"Host Required"
+            },
+            submitHandler: async function (form,event) {
+                {#var data =Object.fromEntries(new FormData(form))#}
+                event.preventDefault();
+                let data = $(form).serializeArray().reduce((o,p) => ({...o, [p.name]: p.value}))
+                await postSaveSMTP(data).then(response => {
+                    alert("SMTP Credentials Successfully created.");
+                    $("#smtp_creds").attr("value",response.id);
+                });
+                return false;
+            }
+        });
+    });
+
+    $("#save_heading").click(function(){
+      head = $("#heading").val();
+      if (head === ''){
+        if (!confirm("Do you want to clear Heading!!")){
+          return false;
+        }
+      }
+    })
+
+    $('#customFile').change(function () {
+    $("#labelCustomFile").text(this.value);
+  });
+
+  $('input').change(function(){
+    if ($("[name=check_yes]").prop('checked') == true){
+      $("#total_camera").css('display','block');
+      $("#total_camera").prop('required',true);
+    } else {
+      $("#total_camera").css('display','none');
+      $("#total_camera").prop('required',false);
+    }
+
+    // if ($("input[name=schrank_yes").prop('checked') == true){
+    //   $("#total_shrank").css('display','block');
+    //   $("#total_shrank").prop('required','true');
+    // } else {
+    //   $("#total_shrank").css('display','none');
+    //   $("#total_shrank").prop('required','false');
+    // }
+
+
+  })
+  
+
+</script>
+
+{% endblock %}
+

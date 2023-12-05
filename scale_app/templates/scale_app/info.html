@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Scale View</title>
+		{%block head%}
+			{%load static%}
+		{%endblock%}
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% comment %} <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> {% endcomment %}
+
+		<link rel="stylesheet" href="{% static 'scale_app/css/bootstrap.min.css'%}">
+        <link rel="stylesheet" href="{% static 'scale_app/css/custom.css'%}">
+		<link rel="stylesheet" href="{% static 'display/css/main-style.css'%}">
+
+		<script src="{% static 'scale_app/js/jquery.min.js'%}"></script>
+		<script src="{% static 'scale_app/js/bootstrap.min.js'%}"></script>
+	</head>
+	<style>
+		.container-custom{
+			background-color: #ece9e9;
+		}
+		body{
+			background-color: #ece9e9;
+		}
+		.row1{
+			background-color: #000;
+			color:white;
+		}
+		.f1{
+			font-size: 20pt;
+		}
+		.f2{
+			font-size: 15pt;
+		}
+		.row2{
+			background-color: #f1a456eb;
+		}
+		.bdr-top{
+			border-top: 1px solid black;
+		}
+		.f5{
+			font-size: 100pt;
+		}
+		.btn-row{
+			padding:10px; 
+		}
+		.btn-sqr{
+			width: 50px !important;
+			height: 50px !important;
+			font-size: 10px;
+			margin: 5px;
+		}
+		.f-black{
+			color:black;
+		}
+		.btn-warning{
+			background-color: 	#aa4224;
+		}
+	</style>
+	<body>
+		<div id="container" class="container container-custom">
+			<div class="row">&nbsp;</div>
+			<div class="panel panel-default">
+				<div class="panel-heading flexHead">
+					Edit Device 
+					<div>
+						<a href="/devices">
+							<button class="pull-right Btn_Link">Back</button>
+						</a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="hidden" name="id" id="id" value="{{idd}}">
+					
+					<div class="row deviceInfoRow">
+						<div class="col-md-6 col-xl-6 col-xs-12 col-sm-6 col-lg-6">
+							<div class="row form-group">
+								<div class="col-md-4 col-lg-4 col-xl-4 col-sm-4 col-xs-4">
+								<label class="label">{{form.name.label}}</label>
+								</div>
+								<div class="col-md-8 col-lg-8 col-xl-8 col-sm-8 col-xs-8">
+								{{ form.name}}
+								{{ form.name.errors}}
+								</div> 
+							</div>       				
+						</div>
+						<div class="col-md-6 col-xl-6 col-xs-12 col-sm-6 col-lg-6">
+							<div class="row form-group">
+								<div class="col-md-4 col-lg-4 col-xl-4 col-sm-4 col-xs-4">
+									<label class="label">{{form.ip_addr.label}}</label>
+								</div>
+								<div class="col-md-8 col-lg-8 col-xl-8 col-sm-8 col-xs-8">
+								{{ form.ip_addr}}
+								{{ form.ip_addr.errors}}
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-xl-6 col-xs-12 col-sm-6 col-lg-6">
+							<div class="row form-group">
+								<div class="col-md-4 col-lg-4 col-xl-4 col-sm-4 col-xs-4">
+								<label class="label">{{form.serial_num.label}}</label>
+								</div>
+								<div class="col-md-8 col-lg-8 col-xl-8 col-sm-8 col-xs-8">
+								{{ form.serial_num}}
+								{{ form.serial_num.errors}}
+								</div>
+							</div>        				
+						</div>
+						<div class="col-md-6 col-xl-6 col-xs-12 col-sm-6 col-lg-6">
+							<div class="row form-group">
+								<div class="col-md-4 col-lg-4 col-xl-4 col-sm-4 col-xs-4">
+								<label class="label">{{form.port.label}}</label>
+								</div>
+								<div class="col-md-8 col-lg-8 col-xl-8 col-sm-8 col-xs-8">
+								{{ form.port}}
+								{{ form.port.errors}}
+								</div>    
+							</div>    				
+						</div>
+						
+						<div class="col-md-6 col-xl-6 col-xs-12 col-sm-6 col-lg-6">
+							<div class="row form-group">
+								<div class="col-md-4 col-lg-4 col-xl-4 col-sm-4 col-xs-4">
+								<label class="label">{{form.certi_num.label}}</label>
+								</div>
+								<div class="col-md-8 col-lg-8 col-xl-8 col-sm-8 col-xs-8">
+								{{ form.certi_num}}
+								{{ form.certi_num.errors}}
+								</div>
+							</div>				
+						</div>
+						<div class="col-md-6 col-xl-6 col-xs-12 col-sm-6 col-lg-6">
+							<div class="row form-group">
+								<div class="col-md-4 col-lg-4 col-xl-4 col-sm-4 col-xs-4">
+								<label class="label">{{form.mac_addr.label}}</label>
+								</div>
+								<div class="col-md-8 col-lg-8 col-xl-8 col-sm-8 col-xs-8">
+								{{ form.mac_addr}}
+								{{ form.mac_addr.errors}}
+								</div>
+							</div>	
+						</div>
+						<!--<div class="col-md-6 col-xl-6 col-xs-12 col-sm-6 col-lg-6">
+							<div class="row form-group">
+								<div class="col-md-4 col-lg-4 col-xl-4">
+								<label class="label">{{form.port.label}}</label>
+								</div>
+								<div class="col-md-8 col-lg-8 col-xl-8">
+								{{ form.port}}
+								{{ form.port.errors}}
+								</div>        				
+							</div>        				
+						</div> -->
+						
+						<div class="col-md-6 col-xl-6 col-xs-12 col-sm-6 col-lg-6">
+							<div class="row form-group">
+								<div class="col-md-4 col-lg-4 col-xl-4 col-sm-4 col-xs-4">
+								<label class="label">{{form.max_weight.label}}</label>
+								</div>
+								<div class="col-md-8 col-lg-8 col-xl-8 col-sm-8 col-xs-8">
+								{{ form.max_weight}}
+								{{ form.max_weight.errors}}
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-xl-6 col-xs-12 col-sm-6 col-lg-6">
+							<div class="row form-group">
+								<div class="col-md-4 col-lg-4 col-xl-4 col-sm-4 col-xs-4">
+								<label class="label">{{form.min_weight.label}}</label>
+								</div>
+								<div class="col-md-8 col-lg-8 col-xl-8 col-sm-8 col-xs-8">
+								{{ form.min_weight}}
+								{{ form.min_weight.errors}}
+								</div> 
+							</div>       				
+						</div>
+					</div>
+
+					<br> 
+
+					<div class="row">
+						<div class="col-sm-12 col-xs-6 checkCol_">
+						{{ form.wx_btn}} <label>{{form.wx_btn.label}}</label>
+						</div>
+						<div class="col-sm-12 col-xs-6 checkCol_">
+						{{ form.zero_btn}} <label>{{form.zero_btn.label}}</label> 
+						</div>
+						<div class="col-sm-12 col-xs-6 checkCol_">
+						{{form.x10_btn}} <label>  {{ form.x10_btn.label}} </label> 
+						</div>        				
+						<div class="col-sm-12 col-xs-6 checkCol_">
+						{{ form.tara_btn}} <label>{{form.tara_btn.label}}</label> 
+						</div>        				
+						<div class="col-sm-12 col-xs-6 checkCol_">
+						{{ form.man_tara_btn}} <label>{{form.man_tara_btn.label}}</label>
+						</div>
+						<!--<div class="col-md-3 col-lg-3 col-xl-3 col-sm-3 col-xs-3">
+						<label>{{form.active.label}}</label> 
+						<input type="checkbox" name="active" id="id_active" {%if form.active.value %} checked {%endif%} disabled>
+						</div>  -->
+					</div> 
+					<br>
+					<div class="row">
+						<div class="col-md-10 col-xl-10 col-xs-12 col-sm-10 col-lg-10" style="padding-bottom: 10px;">
+							<button type="submit" class="btn btn-primary">Save</button>
+						</div>
+					</div>
+					</form>
+					<!-- {{form}} -->
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+	});
+
+	</script>
+</html>

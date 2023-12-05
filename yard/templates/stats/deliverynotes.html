@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% block head %}
+{%load static%}
+   <link rel="stylesheet" href="{% static 'stats/css/custom.css'%}">
+{% endblock %}
+{% block content %}
+<script src="{% static 'stats/js/stats_custom.js'%}"></script>
+<style>
+ #id_vehicle,#id_customer,#id_article,#id_first_weight,#id_second_weight,#id_net_weight,#id_supplier,#id_secondw_alibi_nr{
+  height: 26px !important;
+    width: inherit !important;
+}
+</style>
+<div class="row">
+  <div class="col-md-10 col-lg-10 col-xl-10 stat-scroll">
+    <div style="width: 600px;">
+      <form method="POST" enctype="multipart/form-data"  id="form_date_selection">
+        {% csrf_token %}
+    <label><b>Date</b></label>
+	<input type="date" id='del_from_date' name="fromdate" class="cus-input"> TO <input type="date" id="del_to_date" name="todate">
+      <button id="btn_date_selection" name="date_selection" class="cus-button-1" >Filter</button>
+      </form>
+    </div>
+      <table class="table table-sm table-striped table-bordered aclist" style="">
+      <thead class="thead-dark">
+        <tr>
+          <th>Lfd Nr</th>
+          <th>{{form.vehicle.label}}</th>
+          <th>{{form.article.label}}</th>
+          <th>{{form.customer.label}}</th>
+          <th>{{form.supplier.label}}</th>
+          <th>{{form.first_weight.label}}</th>
+          <th>{{form.second_weight.label}}</th>
+          <th>{{form.net_weight.label}}</th>
+          <th>Alibi Nr</th>
+          <th>Updated on</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      {% for data in dataset %}
+      <tbody>
+        <tr>
+          <td>{{ data.id }}</td>
+          <td>{{ data.vehicle }}</td>
+          <td>{{ data.article }}</td>
+          <td>{{ data.customer }}</td>
+          <td>{{ data.supplier }}</td>
+          <td>{{ data.first_weight }}</td>
+          <td>{{ data.second_weight }}</td>
+          <td>{{ data.net_weight }}</td>
+          <td>{{ data.secondw_alibi_nr }}</td>
+          <td>{{ data.updated_date_time }}</td>
+          <td><a href="javascript:loadDeliveryNoteDetails('{{ data.id }}')">Edit</a></td>
+        </tr>
+      </tbody>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+<div class="row">
+  <br/>
+  <br/>
+</div>
+<div class="row">
+  <div id="div_delivery" class="col-md-10 col-lg-10 col-xl-10 edit-form" hidden>
+    <div class="accordion active">
+     Transactions
+    </div>
+    <div class="panel panel-default" style="max-height: 550px;">
+        <form method="POST" enctype="multipart/form-data"  id="form_delivery_note">
+        {% csrf_token %}
+          <input type="hidden" name="id" id="id">
+          <input type="hidden" name="firstw_alibi_nr" id="id_firstw_alibi_nr">
+          <input type="hidden" name="firstw_date_time" id="id_firstw_date_time">
+          <input type="hidden" name="secondw_date_time" id="id_secondw_date_time">
+          <input type="hidden" name="vehicle_weight_flag" id="id_vehicle_weight_flag">
+          <input id="trans-flag" type="hidden" name="trans_flag">
+
+          <div class="col-md-6 col-lg-6 col-xl-6">
+            <div class="row ipt1">
+              <div class="col-md-4 col-lg-4 col-xl-4">
+                <label>{{form.vehicle.label}}</label>
+              </div>
+              <div class="col-md-8 col-lg-8 col-xl-8">
+                {{ form.vehicle}}
+                {{ form.vehicle.errors}}
+              </div>
+            </div>
+            <div class="row ipt1">
+              <div class="col-md-4 col-lg-4 col-xl-4">
+                <label>{{form.customer.label}}</label>
+              </div>
+              <div class="col-md-8 col-lg-8 col-xl-8">
+                {{ form.customer}}
+                {{ form.customer.errors}}
+              </div>
+            </div>
+            <div class="row ipt1">
+              <div class="col-md-4 col-lg-4 col-xl-4">
+                <label>{{form.first_weight.label}}</label>
+              </div>
+              <div class="col-md-8 col-lg-8 col-xl-8">
+                {{ form.first_weight}}
+                {{ form.first_weight.errors}}
+              </div>
+            </div>
+            <div class="row ipt1">
+              <div class="col-md-4 col-lg-4 col-xl-4">
+                <label>{{form.second_weight.label}}</label>
+              </div>
+              <div class="col-md-8 col-lg-8 col-xl-8">
+                {{ form.second_weight}}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-6 col-xl-6">
+            <div class="row ipt1">
+              <div class="col-md-4 col-lg-4 col-xl-4">
+                <label>{{form.article.label}}</label>
+              </div>
+              <div class="col-md-8 col-lg-8 col-xl-8">
+                {{ form.article}}{{ form.article.errors}}
+              </div>
+            </div>
+            <div class="row ipt1">
+              <div class="col-md-4 col-lg-4 col-xl-4">
+                <label>{{form.supplier.label}}</label>
+              </div>
+              <div class="col-md-8 col-lg-8 col-xl-8">
+                {{ form.supplier}}{{ form.supplier.errors}}
+              </div>
+            </div>
+            <div class="row ipt1">
+              <div class="col-md-4 col-lg-4 col-xl-4">
+                <label>{{form.net_weight.label}}</label>
+              </div>
+              <div class="col-md-8 col-lg-8 col-xl-8">
+                {{ form.net_weight}}{{ form.net_weight.errors}}
+              </div>
+            </div>
+            <div class="row ipt1">
+              <div class="col-md-4 col-lg-4 col-xl-4">
+                <label>Alibi Nr.</label>
+              </div>
+              <div class="col-md-8 col-lg-8 col-xl-8">
+                <input type="text" name="secondw_alibi_nr" id="id_secondw_alibi_nr" readonly>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <br>
+          </div>
+            <div class="row ipt1">
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <button id="save_delivery_note"  class="cus-button-1" >Save</button>
+                    <button id="print_delivery_note"  class="cus-button-1" name="print_button" >Print</button>
+                    <button id="cancel_delivery_note"  class="cus-button-1" >Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

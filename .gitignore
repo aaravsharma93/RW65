@@ -1,0 +1,101 @@
+.idea/*
+db.sqlite3
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+yardman/__pycache__/
+media/
+# C extensions
+*.so
+*.pyc
+
+# Distribution / packaging
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Django stuff:
+*.log
+*.pot
+
+# Sphinx documentation
+docs/_build/
+.idea/*
+
+.vs/slnx.sqlite
+.vs/YardGit/config/applicationhost.config
+get-pip.py
+env/pyvenv.cfg
+env/Scripts/activate
+env/Scripts/activate.bat
+env/Scripts/Activate.ps1
+env/Scripts/csv2ods
+env/Scripts/deactivate.bat
+env/Scripts/django-admin.exe
+env/Scripts/django-admin.py
+env/Scripts/easy_install.exe
+env/Scripts/easy_install-3.9.exe
+env/Scripts/futurize.exe
+env/Scripts/futurize-script.py
+env/Scripts/iptest.exe
+env/Scripts/iptest3.exe
+env/Scripts/ipython.exe
+env/Scripts/ipython3.exe
+env/Scripts/mailodf
+env/Scripts/odf2mht
+env/Scripts/odf2xhtml
+env/Scripts/odf2xml
+env/Scripts/odfimgimport
+env/Scripts/odflint
+env/Scripts/odfmeta
+env/Scripts/odfoutline
+env/Scripts/odfuserfield
+env/Scripts/pasteurize.exe
+env/Scripts/pasteurize-script.py
+env/Scripts/pip.exe
+env/Scripts/pip3.9.exe
+env/Scripts/pip3.exe
+env/Scripts/pisa.exe
+env/Scripts/pisa-script.py
+env/Scripts/pybidi.exe
+env/Scripts/pygmentize.exe
+env/Scripts/python.exe
+env/Scripts/pythonw.exe
+env/Scripts/runxlrd.py
+env/Scripts/sqlformat.exe
+env/Scripts/xhtml2pdf.exe
+env/Scripts/xhtml2pdf-script.py
+env/Scripts/xml2odf
+env/share/man/man1/ipython.1.gz
+
+# Environments
+myenv/

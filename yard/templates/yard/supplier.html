@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row">
+  <div class="col-md-10 col-lg-10 col-xl-10">
+    <table class="table table-sm table-striped table-bordered aclist" >
+      <thead class="thead-dark">
+        <tr>
+          <th>{{form.short_name.label}}</th>
+          <th>{{form.supplier_name.label}}</th>
+          <th>{{form.name.label}}</th>
+          <th>{{form.street.label}}</th>
+          <th>{{form.pin.label}}</th>
+          <th>{{form.telephone.label}}</th>
+          <th>{{form.place.label}}</th>
+          <th>{{form.infotext.label}}</th>
+          <th>{{form.area.label}}</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      {% for data in dataset %}
+      <tbody>
+        <tr>
+          <td>{{ data.short_name }}</td>
+          <td>{{ data.supplier_name }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.street }}</td>
+          <td>{{ data.pin }}</td>
+          <td>{{ data.telephone }}</td>
+          <td>{{ data.place }}</td>
+          <td>{{ data.infotext }}</td>
+          <td>{{ data.area }}</td>
+          <td><a href="javascript:loadSupplierDetails('{{ data.id }}')">Edit</a> <a class="confirmdelete" href="{% url 'supplier_delete' identifier=data.id  %}">Delete</a></td>  
+        </tr>
+      </tbody>
+      {% endfor %} 
+    </table>
+  </div>
+</div>
+<div class="row">
+  <br/>
+  <br/>
+</div>
+<div class="row">
+  <div class="col-md-6 col-lg-6 col-xl-6 edit-form">
+    <div class="accordion active">
+      {%if request.session.supplier %}{{ request.session.supplier }} {%else%}Supplier{%endif%} 
+<!--       <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="vechicle" placeholder="Nummer"> -->
+    </div>
+    <div class="panel panel-default" style="max-height: 358px;">
+        <form method="POST" enctype="multipart/form-data">  
+        {% csrf_token %} 
+            <input type="hidden" name="id" id="id">
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.short_name.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.short_name}}{{ form.short_name.errors}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.supplier_name.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.supplier_name}}{{ form.supplier_name.errors}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.name.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.name}}{{ form.name.errors}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.street.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.street }}{{ form.street.errors }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.pin.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.pin }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.telephone.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.telephone}}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.place.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.place }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.infotext.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.infotext }}
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{{form.area.label}}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-11" type="text" placeholder=""> -->{{ form.area }}
+            </div>
+          </div>
+            <div class="row ipt1">
+                <div class="col-md-4 col-lg-4 col-xs-4">
+                    <button id="submit" type="submit" class="cus-button-1" >Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

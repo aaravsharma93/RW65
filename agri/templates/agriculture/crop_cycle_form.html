@@ -1,0 +1,303 @@
+{% extends 'base2.html' %}
+{% load custom_template_filters %}
+{% load i18n %}
+{% load widget_tweaks %}
+{%block head%}
+{% load static %}
+{%endblock%}
+
+
+{% block content %}
+<div class="container" style="">
+    <div class="row">
+            <div class="col-md-4">
+                <h4 class="font-weight-bold">{{head_name}} Crop Cycle</h4>
+            </div>
+            <div class="col-md-2 ml-auto" style="float: right">
+                <button type="submit" id="btn_save_crop" class="btn btn-success btn-block">Save</button>
+            </div>
+    </div>
+    <form id="crop_cycle_form" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id" id="id">
+        <div class="row">
+            <div class="col-md-11 mx-auto bg-white mt-3 p-3 rounded shadow border">
+                <div class="row">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="title">{{ form.title.label }}</label>
+                                {{ form.title }}
+                              <!-- <small id="title_msg" class="color-danger">This field is reqired</small> -->
+                            </div>
+
+                            <div class="form-group">
+                              <label for="title">{{ form.crop.label }}</label>
+                                <select class="form-control" data-live-search="true" id="crop" name="crop">
+                                    {% for name in crops %}
+                                      <option value="{{name.id}}">{{name}}</option>
+                                    {% endfor %}
+                              </select>
+                            </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+  
+                        <label class="input-group-addon control-label" id="">Location</label>
+                      {% render_field form.locations type="" class="form-control" placeholder="" %}
+                          
+                      </div>
+
+                      <div class="form-group">
+                        <button type="button" id="location_button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg">Add New Location</i></button>
+                    </div>
+                    <div class="form-group">
+                              <label for="title">{{ form.start_date.label }}</label>
+                              <input type='date' class="form-control" id='start_date_field' name="start_date" value="{{crop_cycle.start_date}}" />
+                    </div>
+                      
+                   
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="row">
+            <div class="col-md-11 mx-auto bg-white mt-3 p-3 rounded shadow border">
+                <div class="row">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="crop_spacing">{{ form.crop_spacing.label }}</label>
+                                {{ form.crop_spacing }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="row_spacing">{{ form.row_spacing.label }}</label>
+                                {{ form.row_spacing }}
+                              </div>
+                    </div>
+
+                    <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="crop_spacing_uom">{{ form.crop_spacing_uom.label }}</label>
+                              <!-- <input type="text" class="form-control" > -->
+                              <select class="selectpicker form-control uom" data-live-search="true" id="crop_spacing_uom" name="crop_spacing_uom">
+                                  {% for name in uom %}
+                                    <option value="{{name.id}}">{{name}}</option>
+                                  {% endfor %}
+                                <!-- <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+                                <option data-tokens="mustard">Burger, Shake and a Smile</option>
+                                <option data-tokens="frosting">Sugar, Spice and all things nice</option> -->
+                            </select>
+                            </div>
+
+
+
+
+                            <div class="form-group">
+                                <label for="row_spacing_uom">{{ form.row_spacing_uom.label }}</label>
+                                <!-- <input type="text" class="form-control" > -->
+                                <select class="selectpicker form-control uom" data-live-search="true" id="row_spacing_uom" name="row_spacing_uom">
+                                    {% for name in uom %}
+                                      <option value="{{name.id}}">{{name}}</option>
+                                    {% endfor %}
+                              </select>
+                              </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+                <div class="col-md-11 mx-auto bg-white mt-3 p-3 rounded shadow border">
+                    <div class="row">
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="iso_8601">{{ form.iso_8601.label }}</label>
+                                    {% render_field form.iso_8601 type="" class="form-control" placeholder="" %}
+                                  <!-- <small id="title_msg" class="color-danger">This field is reqired</small> -->
+                                </div>
+                        </div>
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="iso_8601">{{ form.cycle_type.label }}</label>
+                                    {% render_field form.cycle_type type="" class="form-control" placeholder="" %}
+                                  <!-- <small id="title_msg" class="color-danger">This field is reqired</small> -->
+                                </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    </form>
+</div>
+
+<!-- Location Model -->
+
+<div id="location_model" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New Location</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-10 mx-auto">
+                <form id="location_form" action="/crop_location_add/" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" id="id">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">{{ location_form.name.label }}</label>
+                                <div class="">
+                                    {{ location_form.name }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">{{ location_form.area.label }} (Hectares)</label>
+                                <div class="">
+                                    {{ location_form.area }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" value="{{ form.long_lat.value }}" name="long_lat" id="long_lat">
+                </form>
+                  <div id="us3" class="mx-auto shodow border" style="width: 100%; height: 400px;"></div>
+        </div>
+      </div>
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="save_location_btn" data-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    $("#btn_save_crop").click(() =>{
+        $("#crop_cycle_form").submit();
+    });
+    $("#save_location_btn").click(() =>{
+        $("#location_form").submit();
+    })
+
+  function create_uom(input, callback,ele){
+      let url = "/add_uom/";
+      form_data = {'csrfmiddlewaretoken': '{{ csrf_token }}',name: input}
+      $.ajax({
+          url:url,
+          type: "POST",
+          data: form_data,
+          success: function (event) {
+              if (event){
+                  if(ele === 'crop_spacing_uom'){
+                    let selectize = $(document.getElementsByName("row_spacing_uom"))[0].selectize;
+                    selectize.addOption({value: event.id, text :input});
+                  }
+                  else {
+                      let selectize = $(document.getElementsByName("crop_spacing_uom"))[0].selectize;
+                      selectize.addOption({value: event.id, text :input});
+                  }
+                  callback({value: event.id, text :input})
+              }
+          }
+      })
+  }
+
+  $("#crop_cycle_form").submit((event) => {
+      $.ajax({
+          url:$(event.target).attr('action'),
+          type: 'POST',
+          data: $(event.target).serialize(),
+          success: function (){
+              window.location.href = "/crop_cycle/";
+          }
+      });
+      event.preventDefault();
+      return false;
+  });
+
+  $("#location_form").submit((event) =>{
+      $.ajax({
+          url:$(event.target).attr('action'),
+          type: 'POST',
+          data: $(event.target).serialize(),
+          success: function (response){
+              
+              let selectize = $("#id_locations")[0].selectize;
+              selectize.addOption({value: response.id, text :response.name});
+              $("#location_model").modal("toggle");
+              $("#id_name").val("");
+              $("#id_area").val("");
+            drawnItems.clearLayers();
+            drawControlEditOnly.remove(my_map);
+            drawControlFull.addTo(my_map);
+
+            $("#long_lat").attr("value","")
+          }
+      });
+      event.preventDefault();
+      return false;
+  })
+
+  $(document).ready(() =>{
+      getLocation();
+
+      if($("#long_lat").attr("value") !== ""){
+        
+          drawShape(JSON.parse($("#long_lat").attr("value")));
+      }
+
+      $("#id_locations").selectize({
+        maxItems: 100,
+      });
+
+      $('#crop_table').DataTable( {
+                    paging:   false,
+                    ordering: false,
+                    info:     false,
+                    searching: false,
+                    scrollY:  "100px",
+                    scrollCollapse: true,
+                    // columnDefs: [
+                    // { "width": "2", "targets": 1 }
+                    // ],
+                    // fixedColumns: true,
+                    // responsive: true,
+                    scrollX: false,
+
+                } );
+    $(document.getElementsByName("crop_spacing_uom")).selectize({
+          create: (input, callback) => create_uom(input, callback,"crop_spacing_uom"),
+          // sortField: "text",
+        });
+    $(document.getElementsByName("row_spacing_uom")).selectize({
+          create: (input, callback) => create_uom(input, callback,"row_spacing_uom"),
+          // sortField: "text",
+        });
+  });
+
+  $( "#location_model" ).on('shown.bs.modal', function(){
+    my_map.invalidateSize();
+  });
+  $("#location_model").on('hidden.bs.modal',() =>{
+      $("#locations")[0].selectize.enable();
+  });
+
+
+
+ </script>
+
+<script src="{% static 'agri/js/map_control.js'%}"></script>
+{% endblock %}

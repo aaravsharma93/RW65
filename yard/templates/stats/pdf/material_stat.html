@@ -1,0 +1,259 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {%block head%}
+    {%load static%}
+    {%load custom_template_filters%}
+    {%endblock%}
+    {%load custom_template_filters%}
+    <meta charset="utf-8">
+    <title>Statitics</title>
+    <style>
+      table { -pdf-keep-with-next: false; }
+      p { margin: 0; -pdf-keep-with-next: true; }
+      p.separator { -pdf-keep-with-next: false; font-size: 6pt; }
+      table { page-break-inside:auto }
+    </style>
+  </head>
+  <body>
+    <div class="a4_sheet">
+      <img src="{{absolute_url}}/static/yard/images/operator_logo.png" style="width:200px;height:100px;" align="right"><br><br>
+      <div></div>
+      <div>&nbsp;</div>
+      <div style="width:100%;">
+        <div style="width:50%;padding-right: 10px;padding-left: 10px;">
+          <label style="text-align: right;padding-right:10px;">
+          {% translate 'Date' %}:&nbsp;&nbsp;{{date|date:"d.m.Y"}}</label>
+          <div><br></div>
+        </div>
+        <div style="text-align: center;">
+        <label style="text-align: center;font-size:12pt;">
+        {%if stat_type == 'material'%}
+          {{head_m}}-Statistik
+        {%elif stat_type == 'vehicle'%}
+          {{head_s}}-{% translate 'Vehicle' %}
+        {%elif stat_type == 'customer'%}
+          {{head_c}}
+        {%elif stat_type == 'supplier'%}
+          {{head_s}}
+            {% elif stat_type == 'supplier-vehicle' %}
+            {{head_s}}-{% translate 'Vehicle' %}
+            {% comment %} {% translate 'Supplier-Vehicle' %} {% endcomment %}
+        {% elif stat_type == 'yield-per-area' %}
+            {% translate 'Yield Statistics' %}
+        {%endif%}
+      </label>
+      </div>
+          <div><br></div>
+      
+        <div style="width:50%;padding-right: 10px;padding-left: 10px;">
+          {% translate 'From' %}:&nbsp;&nbsp;{{from|date:"d.m.Y"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {% translate 'To' %}:&nbsp;&nbsp;{{to|date:"d.m.Y"}}
+        </div>
+      </div>
+      
+{#      <div><br></div>#}
+      <div style="width:100%;">
+        {%if stat_type == 'vehicle'%}
+        <table style="width:100%;border-collapse: collapse;text-align: center;">
+          <tr style="border-bottom: dotted;border-color: black;padding-top: 10px">
+            <td><b>{% translate 'Vehicle.Nr' %}</b></td>
+            <td><b>{% translate 'Date / Time' %}</b></td>
+            <td><b>{{head_m}}</b></td>
+            <td><b>{{vehicle}} {% translate 'Weight' %}</b></td>
+            <td><b>{% translate 'Weight' %} [kg]</b></td>
+          </tr>
+         {%for i in data.transactions%}
+          <tr style="padding-top: 10px">
+            <td>{{i.vehicle.pk}}</td>
+            <td style="text-align: center;">{{i.created_date_time|date:"d.m.y/H:s"}}</td>
+            <td>{{i.article.name}}</td>
+            <td>{{i.vehicle.vehicle_weight}}</td>
+            <td>{{i.net_weight}}</td>
+          </tr>
+          {%endfor%}
+          <tr >
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="padding-top: 10px;padding-top: 10px"><b>SUM:</b></td>
+            <td style="text-align: center;padding-top: 10px;padding-top: 10px"><b>{{summ}}&nbsp;Kg</b></td>
+          </tr>
+        </table>
+            <div style="text-align: center; padding-top: 80px">
+                <label style="text-align: center;font-size:12pt;">
+                    {% translate "Top 10 gewogene Fahrzeug" %}
+                 </label>
+            </div>
+            <table style="width:100%;text-align: center;">
+                <tr style="border-bottom: dotted;border-color: black;padding-top: 10px">
+                    <td><b>{% translate 'Vehicle.Nr' %}</b></td>
+                    <td><b>{% translate 'Driver' %}</b></td>
+                    <td><b>{{head_m}}</b></td>
+                    <td><b>{% translate 'Weight' %} [kg]</b></td>
+                </tr>
+                {% for top_10 in data.top_articles %}
+                    <tr style="padding-top: 10px">
+                    <td>{{top_10.vehicle__id}}</td>
+                        <td>{{ top_10.vehicle__driver_name }}</td>
+                        <td>{{ top_10.article__name }}</td>
+                    <td>{{ top_10.material_weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% for key,values in data.top_vehicle_material.items %}
+                <div style="text-align: center; padding-top: 80px">
+                <label style="text-align: center;font-size:12pt;">
+                    {% translate "Weight For" %} {{ key }}
+                 </label>
+            </div>
+            <table style="width:100%;text-align: center;">
+                <tr style="border-bottom: dotted;border-color: black;padding-top: 10px">
+                    <td><b>{% translate 'Vehicle' %}</b></td>
+                    <td><b>{% translate 'Weight' %} [kg]</b></td>
+                </tr>
+                {% for item in values %}
+                    <tr style="padding-top: 10px">
+                    <td>{{item.vehicle__id}}</td>
+                    <td>{{ item.material_weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% endfor %}
+        {%elif stat_type == 'customer'%}
+        <table style="width:100%;border-collapse: collapse;text-align: center;">
+          <tr style="border-bottom: dotted;border-color: black;padding-top: 10px">
+            <td><b>{% translate 'Customer Nr.' %}</b></td>
+            <td><b>{% translate 'Date / Time' %}</b></td>
+            <td><b>{% translate 'Name' %}</b></td>
+            <td><b>{{head_m}}</b></td>
+            <td><b>{% translate 'Weight' %} [kg]</b></td>
+          </tr>
+         {%for i in data.transactions%}
+          <tr style="padding-top: 10px">
+            <td>{{i.customer.pk}}</td>
+            <td style="text-align: center;">{{i.created_date_time|date:"d.m.y/H:s"}}</td>
+            <td>{{i.customer.name}}</td>
+            <td>{{i.article.name}}</td>
+            <td>{{i.net_weight}}</td>
+          </tr>
+          {%endfor%}
+          <tr >
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="padding-top: 10px"><b>SUM:</b></td>
+            <td style="text-align: center;padding-top: 10px"><b>{{summ}}&nbsp;Kg</b></td>
+          </tr>
+        </table>
+            <div style="text-align: center; padding-top: 80px">
+                <label style="text-align: center;font-size:12pt;">
+                    {% translate "Top 10 Kunden" %}
+                 </label>
+            </div>
+            <table style="width:100%;text-align: center;">
+                <tr style="border-bottom: dotted;border-color: black;padding-top: 10px">
+                    <td><b>{% translate 'Vehicle Nr.' %}</b></td>
+                    <td><b>{{head_m}}</b></td>
+                    <td><b>{% translate 'Weight' %} [kg]</b></td>
+                </tr>
+                {% for top_10 in data.top_customer %}
+                    <tr style="padding-top: 10px">
+                    <td>{{top_10.customer__name}}</td>
+                        <td>{{ top_10.article__name }}</td>
+                    <td>{{ top_10.material_weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% for key,values in data.top_customer_material.items %}
+                <div style="text-align: center; padding-top: 80px">
+                <label style="text-align: center;font-size:12pt;">
+                    {% translate "Weight For" %} {{ key }}
+                 </label>
+            </div>
+            <table style="width:100%;text-align: center;">
+                <tr style="border-bottom: dotted;border-color: black;padding-top: 10px">
+                    <td><b>{{head_c}}</b></td>
+                    <td><b>{% translate 'Weight' %} [kg]</b></td>
+                </tr>
+                {% for item in values %}
+                    <tr style="padding-top: 10px">
+                    <td>{{item.customer__name}}</td>
+                    <td>{{ item.material_weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% endfor %}
+        {%elif stat_type == 'supplier'%}
+        <table style="width:100%;border-collapse: collapse;text-align: center;">
+          <tr style="border-bottom: dotted;border-color: black;padding-top: 10px">
+            <td><b>{% translate 'Supplier.Nr' %}</b></td>
+            <td><b>{% translate 'Date / Time' %}</b></td>
+            <td><b>{{head_s}} {% translate 'Name' %}</b></td>
+            <td><b>{% translate 'SUM Kg' %}</b></td>
+          </tr>
+         {%for i in data.transactions%}
+          <tr style="padding-top: 10px">
+            <td>{{i.supplier.pk}}</td>
+            <td style="text-align: center;">{{i.created_date_time|date:"d.m.y/H:s"}}</td>
+            <td>{{i.supplier.supplier_name}}</td>
+            <td>{{i.net_weight}}</td>
+          </tr>
+          {%endfor%}
+          <tr >
+            <td></td>
+            <td></td>
+            <td style="padding-top: 10px"><b>SUM:</b></td>
+            <td style="text-align: center;padding-top: 10px"><b>{{summ}}&nbsp;Kg</b></td>
+          </tr>
+        </table>
+        {%else%}
+{#            Material Statistics #}
+        <table style="width:100%;text-align: center;">
+          <tr style="border-bottom: dotted;border-color: black;padding-top: 10px">
+            <td><b>{% translate 'Artikel Nr.' %}</b></td>
+            <td><b>{% translate 'Date / Time' %}</b></td>
+            <td><b>{{head_m}}</b></td>
+            <td><b>{% translate 'Price' %}</b></td>
+            <td><b>{% translate 'weight' %} [kg]</b></td>
+          </tr>
+         {%for i in data.transactions%}
+          <tr style="padding-top: 10px">
+            <td>{{i.article.pk}}</td>
+            <td style="text-align: center;">{{i.created_date_time|date:"d.m.y/H:s"}}</td>
+            <td>{{i.article.name}}</td>
+            <td>{{i.article.price1}}</td>
+            <td>{{i.net_weight}}</td>
+          </tr>
+          {%endfor%}
+          <tr >
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="padding-top: 10px"><b>SUM:</b></td>
+            <td style="text-align: center; padding-top: 10px"><b>{{summ}}&nbsp;Kg</b></td>
+          </tr>
+        </table>
+            <div style="text-align: center; padding-top: 80px">
+                <label style="text-align: center;font-size:12pt;">
+                    {% translate "Top 10 gewogene Artikel" %}
+                 </label>
+            </div>
+            <table style="width:100%;text-align: center;">
+                <tr style="border-bottom: dotted;border-color: black;padding-top: 10px">
+                    <td><b>{{head_m}}</b></td>
+                    <td><b>{% translate 'Weight' %} [kg]</b></td>
+                </tr>
+                {% for top_10 in data.top_articles %}
+                    <tr style="padding-top: 10px">
+                    <td>{{top_10.article__name}}</td>
+                    <td>{{ top_10.material_weight }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {%endif%}
+        <br>
+      </div>
+    </div>
+  </body>
+</html>

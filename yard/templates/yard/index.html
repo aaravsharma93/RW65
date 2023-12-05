@@ -1,0 +1,532 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{%block head%}
+  {%load static%}
+{%endblock%}
+{% block content %}
+<script src="{% static 'yard/js/index.js'%}"></script>
+<!-- Modal Popup -->
+  <div id="MyPopup" class="modal fade modal-custom" role="dialog">
+      <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+              <div class="modal-header modal-header-custom">
+                  <button type="button" class="close" data-dismiss="modal">
+                      &times;</button>
+                  <h4 class="modal-title">
+                  </h4>
+              </div>
+              <div class="modal-body">
+              </div>
+              <div class="modal-footer">
+                  <input type="button" id="btnClosePopup" value="Close" class="cus-button-1" />
+              </div>
+          </div>
+      </div>
+  </div>
+
+<form method="POST" id="form_home" target="_blank" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="container nav-margin">
+    <div class="row">
+      <!-- <button class="cus-button-1"><span class="glyphicon glyphicon-search"></span>Transkation</button> -->
+      <!--    <button class="cus-button-1"><span class="glyphicon glyphicon-plus-sign"></span> New Transkation</button>-->
+      <!--    ID: <input type="text" placeholder="Enter the ID" name="ident" id="ident">-->
+      <div class="col-md-5 col-lg-5 col-xl-5 " >
+        <button class="cus-button-1" id="clear_ident"><span class="glyphicon glyphicon-remove"></span>Clear</button>
+        <input type="hidden" name="ident" id="id_selected_combi">
+        <input type="hidden" name="trans_id" id="trans_id" value="">
+        <select name="id" id='id_ident' class="" onchange="populateCombinationDetails($(this).val())">
+          <option value='0'>{% trans "Select ID or Enter New ID" %}</option>
+          {%for i in combination_list%}
+          <option value={{i.pk}}>{{i.fields.ident}}</option>
+          {%endfor%}
+        </select>
+      </div>
+    </div>
+  </div>
+  <div style="pading:10px;"></div>
+  <div class="row">
+    <div class="col-md-5 aclist">
+      <div class="row">
+        <div class="accordion active">
+          {%if request.session.customer %}{% trans request.session.customer %} {%else%}{% trans "Customer" %}{%endif%}
+        </div>
+        <div class="panel panel-default" style="max-height: 185px;">
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8 " >
+             <input type="button" id="customerPopup" class=" cus-button-1 pull-right" data-toggle="modal" value="{% trans 'Advanced Search' %}" >
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Name" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8 " >
+              <select id='id_customer' class="col-md-10 col-lg-10 col-xl-10" onchange="populateCustomerDetails($(this).val())" name="customer_name">
+                <option value='0'>Select {%if request.session.customer %}{% trans request.session.customer %} {%else%}Customer{%endif%}</option>
+                {%for i in customer_list%}
+                <option value={{i.pk}}>{{i.fields.name}}</option>
+                {%endfor%}
+              </select>
+              <button class="col-md-1 cus-button-1" id="clear_customer"><span class="glyphicon glyphicon-remove"></span></button>
+              <!-- <input class="col-md-9 col-lg-9 col-xl-9" type="text" placeholder="Name" id="id_customer_name" onkeyup="autocompleteSearch(this.id, 'customer_list','kunden')"> -->
+              <!-- <button class="col-md-1"><span class="glyphicon glyphicon-search"></span></button> -->
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "First Name" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input type="hidden" name="customer" id="customer_id" value="" class="kunden">
+              <input class="col-md-11 col-lg-11 col-xl-11 kunden" type="text" id="customer_firstname" placeholder="{% trans 'Firstname' %}" name="customer_firstname">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Description" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11 kunden" type="text" placeholder="{% trans 'Description' %}" id="customer_description" name="customer_description">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Telephone" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11 kunden" type="number" placeholder="{% trans 'telephone' %}" id="customer_telephone" name="customer_telephone">
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if request.session.show_article %}
+      <div class="row">
+        <div class="accordion active">{%if request.session.article %}{{ request.session.article }} {%else%}Material{%endif%}
+          <!-- <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="vechicle" placeholder="Nummer"> -->
+        </div>
+        <div class="panel panel-default" style="max-height: 185px;">
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8 " >
+             <input type="button" id="materialPopup" class=" cus-button-1 pull-right" data-toggle="modal" value="{% trans 'Advanced Search' %}" >
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Description" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <!-- <input class="col-md-9 col-lg-9 col-xl-9" type="text" placeholder="" id="id_artikel" onkeyup="autocompleteSearch(this.id, 'artikel_list','artikel')"> -->
+
+              <select id="id_article" class="col-md-10 col-lg-10 col-xl-10" onchange="populateArticleDetails($(this).val())" name="article">
+                <option value='0'>Select {%if request.session.article %}{{ request.session.article }} {%else%}Material{%endif%}</option>
+                {%for i in article_list%}
+                <option value={{i.pk}}>{{i.fields.description}}</option>
+
+                {%endfor%}
+              </select>
+              <!-- <button class="col-md-1"><span class="glyphicon glyphicon-search"></span></button> -->
+              <button class="col-md-1 cus-button-1" id="clear_article"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Short Name" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input type="hidden" name="article" id="article_id" class="artikel">
+              <input class="col-md-11 col-lg-11 col-xl-11 artikel" type="text" placeholder="" id="article_short_name" name="article_short_name">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Vat" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11 artikel" type="number" placeholder="" id="article_vat" name="article_vat" step="any" required >
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Remaining Weight" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11 artikel" type="number" placeholder="" id="article_balance_weight" name="article_balance_weight" step="any" required>
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endif%}
+      {% if request.session.show_yard %}
+      <div class="row">
+        <div class="accordion">Yard</div>
+        <div class="panel panel-default" style="">
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>Name</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-9 col-lg-9 col-xl-9" type="text" placeholder="">
+              <button class="col-md-1"><span class="glyphicon glyphicon-search"></span></button>
+              <button class="col-md-1"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>Lisence Plate</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11" type="text" placeholder="">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>Vehicle weight</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11" type="text" placeholder="">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>Vehicle Weight id</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11" type="text" placeholder="">
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endif%}
+      {% if request.session.show_storage %}
+      <div class="row">
+        <div class="accordion">Storage Locations</div>
+        <div class="panel panel-default" style="">
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>Storage</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <select name="proc_type" id="proc_type" style="width:95%">
+                <option value="1">None</option>
+                <option value="2">list2</option>
+                <option value="3">list3</option>
+                <option value="4">list4</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endif%}
+      {% if request.session.show_forwarders %}
+      <div class="row">
+        <div class="accordion">
+          {% trans "Fowarders" %}
+          <!-- <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="vechicle" placeholder="Nummer"> -->
+        </div>
+        <div class="panel panel-default" >
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>Name</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-9 col-lg-9 col-xl-9" type="text" placeholder="Name">
+              <button class="col-md-1"><span class="glyphicon glyphicon-search"></span></button>
+              <button class="col-md-1"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Short Name" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11" type="text" placeholder="">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Street" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11" type="text" placeholder="">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Pin" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11" type="text" placeholder="">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Place" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11" type="text" placeholder="">
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endif%}
+      {% if request.session.show_building_site %}
+      <div class="row">
+        <div class="accordion">
+          Building Site
+          <!-- <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="delivery" placeholder="Nummer"> -->
+        </div>
+        <div class="panel panel-default" style="">
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>Name</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-9 col-lg-9 col-xl-9" type="text" placeholder="Name">
+              <button class="col-md-1"><span class="glyphicon glyphicon-search"></span></button>
+              <button class="col-md-1"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Short Name" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11" type="text" placeholder="">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Street" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11" type="text" placeholder="">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Pin" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11" type="text" placeholder="">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Place" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11" type="text" placeholder="">
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endif%}
+    </div>
+    <!-- second column -->
+    <div class="col-md-5 aclist">
+      <div class="row">
+        <div class="accordion active" id="acc_fahr">
+           {% trans "Vehicle" %}
+          <!-- <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="vahrzeuge" placeholder="Nummer"> -->
+        </div>
+        <div class="panel panel-default" id="fahr_panel" style="max-height: 160px;">
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8 " >
+             <input type="button" id="vehiclePopup" class=" cus-button-1 pull-right" data-toggle="modal" value="{% trans 'Advanced Search' %}" >
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "License Plate" %}</label>           
+
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <select id="id_vehicle" class="col-md-10 col-lg-10 col-xl-10" onchange="populateVehicleDetails($(this).val())" >
+                <option value='0'>{% trans "Select Vehicle" %}</option>
+                {%for i in vehicle_list%}
+                <option value={{i.pk}}>{{i.fields.license_plate}}</option>
+                {%endfor%}
+              </select>
+              <!-- <input class="col-md-9 col-lg-9 col-xl-9" type="text" placeholder="Kennung" id="id_kennung" onkeyup="autocompleteSearch(this.id, 'fahrzeuge_list','fahrzeuge')"> -->
+              <!-- <button class="col-md-1"><span class="glyphicon glyphicon-search"></span></button> -->
+              <button class="col-md-1 col-lg-1 col-xl-1 cus-button-1" id='clear_vehicle'><span class="glyphicon glyphicon-remove"></span></button>
+              <span> <button class="col-md-1 col-lg-1 col-xl-1 cus-button-1 pull-right" id="read_camera">Get</button></span>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Forwarders" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input type="hidden"  id="vehicle_id" class="fahrzeuge" name="vehicle">
+              <input class="col-md-11 col-lg-11 col-xl-11 fahrzeuge" type="text" placeholder="" id="vehicle_forwarder" name="vehicle_forwarder">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Vehicle Weight" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11 fahrzeuge" type="number" placeholder="" id="vehicle_weight" name="vehicle_weight" step="any" required>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if request.session.show_supplier %}
+      <div class="row">
+        <div class="accordion active">
+          {%if request.session.supplier %}{{ request.session.supplier }} {%else%}Supplier{%endif%}
+          <!-- <button class="glyphicon glyphicon-search pull-right pan_search_btn"></button><input class="pan_search pull-right" type="" name="vechicle" placeholder="Nummer"> -->
+        </div>
+        <div class="panel panel-default" style="max-height: 220px;">
+           <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8 " >
+             <input type="button" id="supplierPopup" class=" cus-button-1 pull-right" data-toggle="modal" value="{% trans 'Advanced Search' %}" >
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{%if request.session.supplier %}{{ request.session.supplier }} {%else%}{% trans "Supplier" %}{%endif%} {% trans "Name" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <select id="id_supplier" class="col-md-10 col-lg-10 col-xl-10" onchange="populateSupplierDetails($(this).val())">
+                <option value='0'>Select {%if request.session.supplier %}{{ request.session.supplier }} {%else%}{% trans "Supplier" %}{%endif%}</option>
+                {%for i in supplier_list%}
+                <option value={{i.pk}}>{{i.fields.supplier_name}}</option>
+                {%endfor%}
+              </select>
+              <!-- <input class="col-md-9 col-lg-9 col-xl-9" type="text" placeholder="Lieferanten" id="id_supplier" onkeyup="autocompleteSearch(this.id, 'supplier_list','lieferanten')"> -->
+              <!-- <button class="col-md-1"><span class="glyphicon glyphicon-search"></span></button> -->
+              <button class="col-md-1 cus-button-1" id="clear_supplier"><span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Short Name" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input type="hidden"  name="supplier" id="supplier_id" class="lieferanten">
+              <input class="col-md-11 col-lg-11 col-xl-11 lieferanten" type="text" placeholder="" id="supplier_short_name" name="supplier_short_name">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Street" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11 lieferanten" type="text" placeholder="" id="supplier_street" name="supplier_street">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Pin" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11 lieferanten" type="text" placeholder="" id="supplier_pin" name="supplier_pin">
+            </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-4 col-lg-4 col-xl-4">
+              <label>{% trans "Place" %}</label>
+            </div>
+            <div class="col-md-8 col-lg-8 col-xl-8">
+              <input class="col-md-11 col-lg-11 col-xl-11 lieferanten" type="text" placeholder="" id="supplier_place" name="supplier_place">
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endif%}
+      <div class="row">
+        <div class="accordion active">{% trans "Weight" %}</div>
+        <div class="panel panel-default" style="max-height: 300px;">
+          <div class="row ipt1">
+            <div class="col-md-2 col-lg-2 col-xl-2"></div>
+            <div class="col-md-8 col-lg-8 col-xl-8 ">
+              <label class="weigh_scale_label">{% trans "Scale 1" %}</label>
+               <input type="radio" id="scale1" name="scale" value="scale1" checked>
+               <div class="col-md-3 col-lg-3 col-xl-3"></div>
+              <label class="weigh_scale_label">{% trans "Scale 2" %}</label>
+               <input type="radio" id="scale2" name="scale" value="scale2">
+              </div>
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-2 col-lg-2 col-xl-2"></div>
+            <!-- <div class="col-md-4 col-lg-4 col-xl-4"> -->
+              <!-- <label class="center">Scale Weight:</label> -->
+            <!-- </div> -->
+
+            <div class="col-md-8 col-lg-8 col-xl-8 ">
+              <label class="weigh_scale_label"></label>
+              <label id="id_weight" class="weigh_scale">0000</label><b>KG</b>
+              <input id="id_date"  type='hidden'>
+              <input id="id_time" type='hidden'>
+              <input id="id_alibi_num" type='hidden'>
+            </div>  
+            <div class="col-md-2 col-lg-2 col-xl-2"></div>
+
+          </div>
+          <div class="row ipt1">
+            <div class="col-md-2 col-lg-2 col-xl-2"></div>
+
+            <div class="col-md-8 col-lg-8 col-xl-8" style="align-self: center center;">
+            <table class="weig-table" border="2">
+              <tr>
+                <td style="color:red" class='tab-btn-padding'>
+                  <button class="cus-button-1" id="btn-firstweight" name="btn_firstweight" style="width: 100%;"> <span class="glyphicon glyphicon-scale"> </span>&nbsp {% trans "First Weighing" %}</button>
+                </td>
+                <td  class="tab-col" style="color:red">
+                  <input id="trans-flag" type="hidden" name="trans_flag">
+                  <input id="datetime_firstw" type="hidden"  name="firstw_date_time">
+                  <input id="alibi_firstw" type="hidden"  name="firstw_alibi_nr">
+                  <input id="stat_vehicle_weight" type="hidden" value = false name="vehicle_weight_flag">
+                  <input id="firstweight" class="tab-input" type="text" value="0000" name="first_weight" readonly required="required">Kg
+                </td>
+              </tr>
+              <tr>
+                <td style="color:blue" class='tab-btn-padding'>
+                  <button class="cus-button-1" id="btn-secondweight" style="width: 100%;"> <span class="glyphicon glyphicon-scale"> </span>{% trans "Second Weighing" %}</button>
+                </td>
+                <td  class="tab-col" style="color:blue" >
+                  <input id="datetime_secondw" type="hidden"  name="secondw_date_time">
+                  <input id="alibi_secondw" type="hidden"  name="secondw_alibi_nr">
+                  <input id="secondweight" class="tab-input" type="text" value="0000" name="second_weight" readonly>Kg
+                </td>
+              </tr>
+              <tr>
+                <td class='tab-btn-padding'>
+                  <button class="cus-button-1" id="btn-netweight" style="width: 100%;"> <span class="glyphicon glyphicon-scale"></span>&nbsp{% trans "Net Weight" %}<!-- Nettogewicht --></button>
+                </td>
+                <td  class="tab-col">
+                  <input id="netweight" class="tab-input" type="text" value="0000" name="net_weight" readonly>Kg
+                </td>
+              </tr>
+            </table>
+          </div>
+            <div class="col-md-2 col-lg-2 col-xl-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- button group -->
+    <div class="row">
+      <div class="col-md-12 aclist">
+        <button class="cus-button-1" name="save_button" id="btn-index-save"><span class="glyphicon glyphicon-floppy-disk"></span>{% trans "Save" %}</button>
+        <button class="cus-button-1" id="btn-print" name="print_button"><span class="glyphicon glyphicon-print"></span>{% trans "Print" %}</button>
+        <button class="cus-button-1" name="image_capture_button" id="btn-image-capture"><span class="glyphicon glyphicon-floppy-disk"></span>{% trans "Capture Image" %}</button>
+        <!-- <button class="cus-button-1"><span class="glyphicon glyphicon-ok"></span>Print Recipt</button> -->
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

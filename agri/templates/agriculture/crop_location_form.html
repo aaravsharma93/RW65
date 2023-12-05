@@ -1,0 +1,88 @@
+{% extends 'base2.html' %}
+{% load custom_template_filters %}
+{% load i18n %}
+{%block head%}
+{% load static %}
+{%endblock%}
+
+{% block content %}
+<div class="form-horizontal container" style="">
+    <div class="row">
+            <div class="col-md-4">
+                <h4 class="font-weight-bold">New Location</h4>
+            </div>
+            <div class="col-md-2 ml-auto" style="float: right">
+                <button type="submit" id="btn_save_crop"class="btn btn-success btn-block">Save</button>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <form id="location_form" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="id" id="id">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">{{ form.name.label }}</label>
+                            <div class="">
+                                {{ form.name }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">{{ form.area.label }} (Hectares)</label>
+                            <div class="">
+                                {{ form.area }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <input type="hidden" value="{{ form.long_lat.value }}" name="long_lat" id="long_lat">
+            </form>
+            <div id="us3" class="mx-auto shodow border" style="width: 100%; height: 400px;"></div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'agri/js/map_control.js'%}"></script>
+      <script>
+
+      $("#btn_save_crop").click(() =>{
+          $("#location_form").submit();
+      });
+
+    //   $("#location_form").submit((event)=>{
+    //           $.ajax({
+    //               url:$(event.target).attr('action'),
+    //               type: 'POST',
+    //               data: $(event.target).serialize(),
+    //               success: function (){
+    //                   window.location.href = "/crop_location/";
+    //               }
+    //           });
+    //           event.preventDefault();
+    //           return false;
+    //   });
+
+   
+      $(document).ready(() =>{
+          getLocation();
+            
+          if($("#long_lat").attr("value") !== ""){
+              drawShape(JSON.parse($("#long_lat").attr("value")))
+          }
+      });
+
+
+      
+      </script>
+
+    
+  {% endblock %}

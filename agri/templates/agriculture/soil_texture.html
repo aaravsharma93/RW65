@@ -1,0 +1,84 @@
+{% extends 'base2.html' %}
+{% load i18n %}
+{%block head%}
+{% load static %}
+{% load replace_func %}
+{%endblock%}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <h4 class="font-weight-bold">Soil Texture</h4>
+            </div>
+            <div class="col-md-2 ml-auto">
+                <button onclick="location.href = '/soil_texture_add';" class="btn btn-primary btn-block">Add</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-11 mx-auto bg-white mt-3 p-3 rounded-lg shadow border" style="height: 550px;">
+                <table id="crop_table" class="nowrap display" style="width: 100%;" cellspacing="0">
+                    <thead>
+                        <tr>
+                            
+                            <th>Name</th>
+                            <th>Result Datetime</th>
+                            <th>Created</th>
+                            <th></th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in soil_texture %}
+                        <tr id="st{{i.id}}" ondblclick="window.location.href ='/soil_texture_edit/{{i.id}}'">
+                            <td>{{i.name}}</td>
+                            <td>{{i.result_datetime | replace_func:"T| "}}</td>
+                            <td>{{i.created_on}}</td>
+                            
+                            <td>
+                                <button type="button" class="btn btn-danger" onclick="delete_st('{{i.id}}')"><i class="far fa-trash-alt"></i></button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    
+                       
+                    </tbody>
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% block scripts %}
+        <script>
+
+            $(document).ready(function() {
+                $('#crop_table').DataTable( {
+                    destroy:true,
+                    paging:   false,
+                    ordering: true,
+                    info:     false,
+                    scrollY:  "400px",
+                    scrollCollapse: true,
+                    // columnDefs: [
+                    // { "width": "2", "targets": 1 }
+                    // ],
+                    // fixedColumns: true,
+                    // responsive: true,
+                    scrollX: false,
+
+                } );
+            } );
+
+
+
+            function delete_st(st_id){
+                if(confirm("Do you want to remove Soil Texture?")){
+
+                    window.location.href ='/soil_texture_delete?id='+st_id
+                }
+            }
+
+        </script>
+    {% endblock %}
+{% endblock %}

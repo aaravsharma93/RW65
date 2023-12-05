@@ -1,0 +1,354 @@
+{% extends 'base2.html' %}
+{% load crispy_forms_tags %}
+{%load i18n%}
+{% block content %}
+<div class="container">
+  <button type="button" id="sidebarCollapse" class="btn btn-primary ml-auto">
+  <i class="fas fa-align-justify"></i>
+  </button>
+  <div class="row  border border-top-0 border-left-0 border-right-0 mb-3">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+      <div class="content_text">
+        <p class="mb-0">{% translate 'OVERVIEW' %}</p>
+      </div>
+      <div class="heding">
+        <p>{% if request.session.supplier%} {{ request.session.supplier}}e {% else %} {% translate 'Supplier' %} {% endif%}</p>
+      </div>
+    </div>
+  </div>
+  <!--table strat-->
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" >
+      <label>{% translate "Show entries" %}:</label>
+      <select class="form-control w-30" id="showentries">
+        <option>10</option>
+        <option>25</option>
+        <option>50</option>
+        <option>100</option>
+        entries
+      </select>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+      <label>{% translate "Search" %}:</label>
+      <input class="form-control mr-sm-2" type="text" placeholder="{% translate 'Search' %}" aria-label="Search" id="mysearch">
+    </div>
+  </div>
+  <div class="slider_2">
+  <div class="row">
+    <table class="table table-striped table-hover table-bordered ml-4 mt-4 building_site" width="100%" id="supplierTable">
+      <thead>
+        <tr> {% if request.user.is_superuser %}
+           <th width="5%">{% translate "Action" %}</th> {% endif %}
+          <th width="7%">{{form.supplier_name.label}}</th>
+          <th width="7%">{{form.first_name.label}}</th>
+          <th width="7%">{{form.name.label}}</th>
+          <th width="5%">{{form.street.label}}</th>
+          <th width="5%">{{form.pin.label}}</th>
+          {% comment %} <th width="5%">{{form.post_office_box.label}}</th> {% endcomment %}
+          <th width="5%">{{form.place.label}}</th>
+          <th width="5%">{{form.country.label}}</th>
+          <th width="5%">{{form.fax.label}}</th>
+          <th width="5%">{{form.contact_person1_phone.label}}</th>
+          <th width="5%">{{form.contact_person2_phone.label}}</th>
+          <th width="5%">{{form.contact_person3_phone.label}}</th>
+          <th width="5%">{{form.contact_person1_email.label}}</th>
+          <th width="5%">{{form.contact_person2_email.label}}</th>
+          <th width="5%">{{form.contact_person3_email.label}}</th>
+          <th width="5%">{{form.website.label}}</th>
+          <th width="5%">{{form.warehouse.label}}</th>
+          <th width="5%">{{form.cost_centre.label}}</th>
+          <th width="5%">{{form.creditor_number.label}}</th>
+          <th width="5%">{{form.addition1.label}}</th>
+          <th width="5%">{{form.addition2.label}}</th>
+          <th width="5%">{{form.addition3.label}}</th>
+
+        </tr>
+      </thead>
+      <tbody class="mt-4">
+        {% for data in dataset %}
+        <tr> <input type="hidden" value={{data.id}} id="value">
+         {% if request.user.is_superuser %}
+          <td><a class="load" href="javascript:loadSupplierDetails('{{ data.id }}')" ><i class="fas fa-pencil-alt text-primary  ml-4"></i></a><a class="confirmdelete"  href="{% url 'supplier_delete' identifier=data.id  %}" ><i class="fas fa-trash-alt ml-2 text-danger"></i></a></td>
+          {% endif %}
+          <td>{{ data.supplier_name }}</td>
+          <td>{{ data.first_name }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.street }}</td>
+          <td>{{ data.pin }}</td>
+          {% comment %} <td>{{ data.post_office_box }}</td>           {% endcomment %}
+          <td>{{ data.place }}</td>
+          <td>{{ data.country }}</td>
+          <td>{{ data.fax }}</td>
+          <td>{{ data.contact_person1_phone }}</td>
+          <td>{{ data.contact_person2_phone }}</td>
+          <td>{{ data.contact_person3_phone }}</td>
+          <td>{{ data.contact_person1_email }}</td>
+          <td>{{ data.contact_person2_email }}</td>
+          <td>{{ data.contact_person3_email }}</td>
+          <td>{{ data.website }}</td>
+          <td>{{ data.warehouse }}</td>
+          <td>{{ data.cost_centre }}</td>
+          <td>{{ data.creditor_number }}</td>
+          <td>{{ data.addition1 }}</td>
+          <td>{{ data.addition2 }}</td>
+          <td>{{ data.addition3 }}</td>
+          </tr>
+        {% endfor %}
+<!--      <tfoot hidden>-->
+<!--        <tr>-->
+<!--          <th rowspan="1" colspan="1">-->
+<!--            <input type="text" class="form-control">-->
+<!--          </th>-->
+<!--          <th rowspan="1" colspan="1">-->
+<!--            <input type="text"class="form-control">-->
+<!--          </th>-->
+<!--          <th rowspan="1" colspan="1">-->
+<!--            <input type="text" class="form-control">-->
+<!--          </th>-->
+<!--          <th rowspan="1" colspan="1">-->
+<!--            <input type="text" class="form-control">-->
+<!--          </th>-->
+<!--          <th rowspan="1" colspan="1">-->
+<!--            <input type="text"class="form-control">-->
+<!--          </th>-->
+<!--          <th rowspan="1" colspan="1">-->
+<!--            <input type="text" class="form-control">-->
+<!--          </th>-->
+<!--          <th rowspan="1" colspan="1">-->
+<!--            <input type="text" class="form-control">-->
+<!--          </th>-->
+<!--          <th rowspan="1" colspan="1">-->
+<!--            <input type="text"class="form-control">-->
+<!--          </th>-->
+<!--          <th rowspan="1" colspan="1">-->
+<!--            <input type="text" class="form-control">-->
+<!--          </th>-->
+<!--          <th rowspan="1" colspan="1">-->
+<!--            <input type="text" class="form-control">-->
+<!--          </th>-->
+<!--        </tr>-->
+<!--      </tfoot>-->
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--table end-->
+<div class="container">
+  <div class="row mb-5">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+      <!-- Material form login -->
+      <div class="card p-3 mt-4">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <h5 class="card-header info-color white-text py-3">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse_18">
+                    <div class="row">
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="display: flex;">
+                        <p class="mb-0 pt-2 mr-4 text-color text_color float-left">{% if request.session.supplier%} {{ request.session.supplier}} {% else %} {% translate 'Supplier' %} {% endif%}</p>
+                        <button type="button" id="new_entry" class="btn btn-blue btn-blue-fill" style="float:right;">Neue Eingabe</button>
+                      </div>
+                    </div>
+                  </a>
+                </h4>
+              </div>
+            </h5>
+          </div>
+        </div>
+        <div id="collapse_18" class="collapse" >
+          <div class="panel-body">
+            <form class="form-group" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <input type="hidden" name="id" id="id">
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 text-left mt-4">
+                    <div >
+                    <label>{{form.supplier_name.label}}</label>
+                    {{ form.supplier_name}}{{ form.supplier_name.errors}}
+                  </div>
+                  <div >
+                    <label>{{form.salutation.label}}</label>
+                    {{ form.salutation}}{{ form.salutation.errors}}
+                  </div>
+
+                  <div >
+                    <label>{{form.first_name.label}}</label>
+                    {{ form.first_name}}{{ form.first_name.errors}}
+                  </div>
+                  <div>
+                    <label>{{form.name.label}}</label>
+                    {{ form.name}}{{ form.name.errors}}
+                  </div>
+                  <div>
+                    <label>{{form.street.label}}</label>
+                    {{ form.street }}{{ form.street.errors }}
+                  </div>
+                  <div>
+                    <label>{{form.pin.label}}</label>
+                    {{ form.pin }}{{ form.pin.errors }}
+                  </div>
+                  <div>
+                    <label>{{form.place.label}}</label>
+                    {{ form.place }}{{ form.place.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.country.label}}</label>
+                    {{ form.country }}{{ form.country.errors }}
+                  </div>
+                    <div >
+                    <label>{{form.contact_person1_phone.label}}</label>
+                    {{ form.contact_person1_phone }}{{ form.contact_person1_phone.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.contact_person2_phone.label}}</label>
+                    {{ form.contact_person2_phone }}{{ form.contact_person2_phone.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.contact_person3_phone.label}}</label>
+                    {{ form.contact_person3_phone }}{{ form.contact_person3_phone.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.creditor_number.label}}</label>
+                    {{ form.creditor_number }}{{ form.creditor_number.errors }}
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 text-left mt-4">
+
+                  <div >
+                    <label>{{form.fax.label}}</label>
+                    {{ form.fax}}{{ form.fax.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.addition1.label}}</label>
+                    {{ form.addition1}}{{ form.addition1.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.addition2.label}}</label>
+                    {{ form.addition2 }}{{ form.addition2.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.addition3.label}}</label>
+                    {{ form.addition3 }}{{ form.addition3.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.post_office_box.label}}</label>
+                    {{ form.post_office_box}}{{ form.post_office_box.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.website.label}}</label>
+                    {{ form.website }}{{ form.website.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.cost_centre.label}}</label>
+                    {{ form.cost_centre }}{{ form.cost_centre.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.warehouse.label}}</label>
+                    {{ form.warehouse }}{{ form.warehouse.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.contact_person1_email.label}}</label>
+                    {{ form.contact_person1_email }}{{ form.contact_person1_email.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.contact_person2_email.label}}</label>
+                    {{ form.contact_person2_email }}{{ form.contact_person2_email.errors }}
+                  </div>
+                  <div >
+                    <label>{{form.contact_person3_email.label}}</label>
+                    {{ form.contact_person3_email }}{{ form.contact_person3_email.errors }}
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12"><br>
+                  <button type="submit" class="btn btn-primary ml-1"><i class="fas fa-save ml-2"></i> {% translate "Save" %}</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="MyPopup" class="modal fade modal-custom bd-example-modal-lg" role="dialog">
+   <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content p-4">
+         <div class="modal-header modal-header-custom">
+            <h4 class="modal-title">
+            </h4>
+            <button type="button" class="close" data-dismiss="modal">
+            &times;</button>
+         </div>
+         <div class="modal-body">
+         </div>
+         <div class="modal-footer">
+            <input type="button" id="btnClosePopup" value="Schließen" class="btn btn-secondary" />
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  // DataTable
+  $(document).ready(function() {
+    var table = $('#supplierTable').DataTable(
+       {
+          "bLengthChange": false,
+         initComplete: function () {
+             // Apply the search
+             this.api().columns().every( function () {
+                 var that = this;
+                 console.log(that)
+                 $( 'input', this.footer() ).on( 'keyup change clear', function () {
+                     if ( that.search() !== this.value ) {
+                         that.search( this.value ).draw();
+                     }
+                 } );
+             } );
+         }
+        });
+  
+    $("#supplierTable_filter").hide()
+  
+    // custom search filter
+    $('#mysearch').on( 'keyup', function () {
+        table.search( this.value ).draw();
+    } );
+  
+    //  custom show entries
+    $('#showentries').change(function() {
+        table.page.len(this.value).draw();
+    } );
+  
+  });
+
+  $(".load").click(function(){
+    $("#collapse_18").addClass('show')
+  })
+
+   $("#new_entry").click(function(e){
+     $("#collapse_18").addClass('show')
+    //e.preventDefault();
+    //$('input').val('');
+    //$('select').val('');
+    return false;
+  })
+  
+  $("tr").click(function(){
+  id = this.children[0].value
+  var title = "Wählen Sie die Kamera für die automatische Aufnahme";
+  // var body = "Material list";
+  $("#MyPopup .modal-title").html(title);
+ 
+  $("#btnClosePopup").click(function () {
+      $("#MyPopup").modal("hide");
+  });
+   $("#MyPopup .modal-body").load("/schlag_detail/"+id+"/");
+$("#MyPopup").modal();
+});
+
+</script>
+{% endblock %}

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Scale View</title>
+		{%block head%}
+			{%load static%}
+		{%endblock%}
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% comment %} <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		 {% endcomment %}
+		<link rel="stylesheet" href="{% static 'scale_app/css/bootstrap.min.css'%}">
+        <link rel="stylesheet" href="{% static 'scale_app/css/custom.css'%}">
+        <link rel="stylesheet" href="{% static 'display/css/main-style.css'%}">
+
+		<script src="{% static 'scale_app/js/jquery.min.js'%}"></script>
+		<script src="{% static 'scale_app/js/bootstrap.min.js'%}"></script>
+	</head>
+	<style>
+		.container-custom{
+			background-color: #ece9e9;
+			margin-left:0px;
+		}
+
+		body{
+			background-color: #f9fbfd;
+		}
+
+		.row1{
+			background-color: #000;
+			color:white;
+		}
+
+		.f1{
+			font-size: 2vw;
+			padding-left: 0px;
+			padding-right:0px;
+		}
+
+		.row {
+    			 margin-right: 0px !important;
+    			margin-left: 0px !important;	
+			}
+		.f3{
+			overflow-wrap: break-word;
+			font-size: 1.5vw;
+		}
+
+		.f2{
+			font-size: 2vw;
+		}
+
+		.row2{
+			background-color: #f1a456eb;
+		}
+
+		.bdr-top{
+			border-top: 1px solid black;
+		}
+
+		.f5{
+			font-size: 10vw;
+		}
+
+		.btn-row{
+			padding:2.5rem; 
+		}
+
+		.btn-sqr{
+			width:95px !important;
+			height:25px !important;
+			font-size:13px;
+			margin:0px;
+			padding:0;
+			color:black;
+
+		}
+
+        .panelBodyMB{
+			margin-bottom:0; 
+        }
+		
+		.f-black{
+			color:black;
+		}
+
+		.btn-warning{
+			background-color: 	#aa4224;
+		}
+
+		.large-font{
+			font-size: 	x-large;
+		}
+
+		.wrap-text{
+			overflow-wrap: 	break-word;	
+		}
+		.wb_body {
+  text-align: center;
+  padding: 10px 15px !important;
+}
+.totalWightCount {
+  display: inline-flex;
+  background-color: #009cdb;
+  border-radius: 15px;
+  align-items: center;
+  padding: 12px 15px;
+  margin: 10px 0px;
+  font-size: 34px;
+  color: #fff;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.container.container-custom {width: 100%  !important;}
+	</style>
+	<body onload="OnLoadF()" >
+
+		<div id="container" class="container container-custom" style="padding-left: 0px;    padding-right: 0px;">
+			{% csrf_token %}
+			<div class="row"></div>
+			<div class="panel panel-default panelBodyMB">
+			<div class="row row1 wightCount_Head">
+				<div class="col-md-12 col-lg-12 col-sm-12 col-xl-12 f1">
+					<div class="col-md-2 col-sm-2 col-xl-2 col-xs-2 pl__15px">
+						<label>W1</label>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-2">
+						<label>Max: {{data.max_weight}} kg</label>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-2">
+						<label>Min: {{data.min_weight}} kg</label>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-2">
+						<label class="wrap-text">e=d={{data.e_d}} kg</label>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-2">
+						<small><label>S/N: <span id="sn_num">{{data.serial_num}}</span></label></small>
+					</div>
+					<div class="col-md-2 col-sm-2 col-xs-2">
+						<small><label>Cert: {{data.certi_num}}</label></small>
+					</div>
+				</div>
+			</div>
+
+			<div class="row row2 f1 bgLightBlue">
+				
+			</div>
+
+			<div class="row row2 f1 bgLightBlue">
+				<div class="col-xs-6 pt_5px">
+					<label class="font_12">W1</label>  
+					<img id="motion" src="{% static 'scale_app/images/try.png'%}" style="height: 4vw; width: 4vw;" alt="try" class="ml-2" hidden>
+				</div>
+				<div class="col-xs-6 pt_5px">
+					<label class="pull-right font_12">&nbsp; kg Tara</label>
+					<label id="tara" class="pull-right">{%if request.session.tara1 %}{{ request.session.tara1 }} {%else%}0{%endif%}</label>
+				</div>
+			</div>
+			
+			<div class="row row2 f5 bdr-top bgLightBlue">
+				<div clsss="col-md-12 wb_body text-center" style="padding: 0px 10px;">
+					<label class="totalWightCount pull-right">
+						<span id="weigh"></span> 
+						<span id="unit">kg</span>
+						<!--sub id="unit">kg</sub-->
+					</label>
+				</div>
+			</div>
+			<div class="row row1 btnRowColrChng  ">
+				<div class="col-md-2 col-lg-2 col-sm-2 col-xl-2 col-xs-2">
+					<button class="btn btn-sqr btn-warning " id="trans_add" onclick="AddTrans();"><b class="">Wx</b></button>
+				</div>
+				<div class="col-md-2 col-lg-2 col-sm-2 col-xl-2 col-xs-2 ">
+					<button class="btn btn-sqr btn-warning " onclick="SetZeroTara()"><b class="">Zero</b></button>
+				</div>
+				<div class="col-md-2 col-lg-2 col-sm-2 col-xl-2 col-xs-2 ">
+					<button class="btn btn-sqr btn-warning " onclick="SetTara()"><b class="">Tara</b></button>
+				</div>
+				<div class="col-md-2 col-lg-2 col-sm-2 col-xl-2 col-xs-2 ">
+					<button class="btn btn-sqr btn-warning "><b>Man Tara</b></button>
+				</div>
+				<div class="col-md-2 col-lg-2 col-sm-2 col-xl-2 col-xs-2 ">
+					<button class="btn btn-sqr btn-warning " id="x10_btn" onclick="x10()"><b class="">x 10</b></button>
+				</div>
+				<div class="col-md-2 col-lg-2 col-sm-2 col-xl-2 col-xs-2 ">
+					<a href="/devices/"><button class="btn btn-sqr btn-warning "><b class="">Info</b></button></a>
+				</div>
+			</div>
+					
+			 Date:<label id="date"></label> Time:<label id="time"></label>
+			</div>
+		</div>
+			<form type="hidden" id="trans_form" method="post" >
+			 {% csrf_token %}
+				<input id="tara_val" name="tara_val" hidden>
+				<input id="load" name="load" type="text" hidden>
+				<input id="dev_id" name="dev_id" hidden="True" value="{{data.id}}">
+			</form>
+                <h1 hidden>WEBSOCKETS</h1>
+      
+                <p hidden>Weigh: <span id="weight"></span></p>
+	</body>
+	<script type="text/javascript">
+	
+        var field1;
+        var web_socket;
+        var timeout = 1000;
+		
+
+        {#function sendRequest() {#}
+        {#     //web_socket.send('GET PLATE');#}
+        {#      web_socket.send('GET WEIGHT');#}
+	    {#  setTimeout(function(){ sendRequest(); }, timeout);#}
+        {##}
+        {#     }#}
+
+    function sendRequest() {
+			   var x10 = 0;
+			   var weigh = $("#weigh").text();
+				if ($("#x10_btn").hasClass('active')){
+					x10 = 1
+				}
+			 weight = $("#tara").text()
+			 $.ajax({
+                 type: "GET",
+                 url: "/scale_data/?tara=" + weight + "&x10=" + x10,
+                 success: function (result) {
+
+                     $("#weigh").text(result.weight);
+                     $("#time").text(result.time);
+                     $("#date").text(result.date);
+                     $("#unit").text(result.unit);
+                     $("#tara").text(result.tara);
+                     $("#sn_num").text(result.sn_num);
+                     $("#tara_val").val(weight)
+                     $("#load").val(result.weight)
+                     if (weigh == result.weight) {
+                         $("#motion").show()
+
+                     } else {
+                         $("#motion").hide()
+                     }
+                 },
+                 complete: function () {
+                     setTimeout(function () {
+                         sendRequest();
+                     }, 1000);
+                 }
+        })
+    }
+    function OnLoadF() {
+          field1 = document.getElementById("weight");
+          sendRequest();
+          {#setInterval(function () {#}
+          {#               sendRequest();#}
+          {#           }, 1000);#}
+      {#    web_socket = new WebSocket('ws://127.0.0.1:9001/');#}
+      {##}
+      {#     web_socket.onopen = function(event){#}
+	  {#setTimeout(function(){ sendRequest(); }, timeout);#}
+      {#    }#}
+      {##}
+      {#  web_socket.onmessage = function(event) {#}
+	  {#  //field1.innerHTML =obj["weight"];#}
+	  {#  //field1.innerHTML = weight_obj.license_plate;#}
+	  {#  //field1.innerHTML = weight_obj.weight;#}
+	  {#  //field1.innerHTML = event.data;#}
+	  {# var obj = JSON.parse(event.data);#}
+	  {# field1.innerHTML =obj["weight"];#}
+	  {# document.getElementById("weigh").innerHTML = obj.weight;#}
+	  {# document.getElementById("date").innerHTML = obj.date;#}
+	  {# document.getElementById("time").innerHTML = obj.time;#}
+      {##}
+      {#     };#}
+
+      }	
+
+
+       //  function SetTara(){
+	//	tara1 = $("#weigh").text()
+	//	$.ajax({
+	//	      type: "GET",
+	//	      url: "/set_tara/?tara1="+tara1,
+	//	      success: function (result) {
+	//	      		$("#tara").text(result.tara1);
+     	//	},
+
+	//	    })
+	//	}
+	//function SetZeroTara(){
+	//	tara1 = 0
+	//	$.ajax({
+	//	      type: "GET",
+	//	      url: "/set_tara/?tara1="+tara1,
+	//	      success: function (result) {
+	//	      		$("#tara").text(result.tara1);
+     	//	},
+
+	//	    })
+	//	}
+	//function x10(){
+	//	if ($("#x10_btn").hasClass('active')){
+	//		$("#x10_btn").removeClass('active')
+	//	}
+	//	else{
+	//		$("#x10_btn").addClass('active')
+
+	//	}
+	//	}
+
+//function AddTrans() {
+//	var form = $("#trans_form");
+ // $.ajax({
+   // type: "POST",
+   // url: "",
+    //data: form.serialize(),
+
+    //success: function (data) {
+      //  console.log("success",data);
+   // }
+
+ // })
+//}
+	// function websocketStart() {
+	//     console.log("start")
+
+	//     // if (selected_scale =="scale1"){
+
+	//     // }else{
+
+	//     // web_socket = new WebSocket('ws://localhost:9003/');
+	//     // }
+
+	//     web_socket.onopen = function(event) {
+	//         setTimeout(function(){ sendRequest(); }, timeout);
+	//         console.log("open")
+	//         sendRequest('<RM>');
+	//     }
+	//     web_socket.onmessage = function(event) {
+	//         retval = JSON.parse(event.data);
+	//         console.log("message")
+	//         alert("dddddddd",retval)
+
+	//     };
+	// }
+
+	</script>
+</html>
